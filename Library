@@ -1069,6 +1069,7 @@ function Chloex:Window(GuiConfig)
 
     DropPageLayout.EasingDirection = Enum.EasingDirection.InOut
     DropPageLayout.EasingStyle = Enum.EasingStyle.Quad
+    DropPageLayout.FillDirection = Enum.FillDirection.Vertical
     DropPageLayout.TweenTime = 0.009999999776482582
     DropPageLayout.SortOrder = Enum.SortOrder.LayoutOrder
     DropPageLayout.Archivable = false
@@ -2446,10 +2447,11 @@ function Chloex:Window(GuiConfig)
 
                             if isSelected then
                                 local textSizeY = optText.TextBounds.Y
+                                local textX = optText.Position.X.Offset
 
                                 TweenService:Create(Drop.ChooseFrame, TweenInfo.new(0.2), {
                                     Size = UDim2.new(0, 3, 0, textSizeY),
-                                    Position = UDim2.new(0, 0, 0.5, -textSizeY / 2),
+                                    Position = UDim2.new(0, textX - 4, 0.5, -textSizeY / 2),
                                     BackgroundColor3 = GuiConfig.Color
                                 }):Play()
                                 TweenService:Create(Drop.ChooseFrame.UIStroke, TweenInfo.new(0.2), { Transparency = 0 })
