@@ -2426,36 +2426,43 @@ function Chloex:Window(GuiConfig)
                     if DropdownConfig.Multi then
                         DropdownFunc.Value = type(Value) == "table" and Value or {}
                     else
-                        DropdownFunc.Value = { Value }
+                        DropdownFunc.Value = type(Value) == "string" and Value or (Value[1] or "")
                     end
 
                     ConfigData[configKey] = DropdownFunc.Value
                     SaveConfig()
 
-                    local texts = {}
                     for _, Drop in ScrollSelect:GetChildren() do
                         if Drop.Name == "Option" and Drop:FindFirstChild("OptionText") then
                             local optText = Drop.OptionText
-                            local isSelected = DropdownConfig.Multi
-                                and table.find(DropdownFunc.Value, optText.Text)
-                                or DropdownFunc.Value == optText.Text
+                            local realVal = Drop:GetAttribute("RealValue")
+
+                            local isSelected = false
+                            if DropdownConfig.Multi then
+                                isSelected = table.find(DropdownFunc.Value, realVal) ~= nil
+                            else
+                                isSelected = DropdownFunc.Value == realVal
+                            end
 
                             if isSelected then
-                                TweenService:Create(Drop.ChooseFrame, TweenInfo.new(0.2),
-                                    { Size = UDim2.new(0, 1, 0, 12) }):Play()
-                                TweenService:Create(Drop.ChooseFrame.UIStroke, TweenInfo.new(0.2),
-                                    { Transparency = 0 }):Play()
-                                TweenService:Create(Drop, TweenInfo.new(0.2),
-                                    { BackgroundTransparency = 0.935 }):Play()
+                                TweenService:Create(Drop.ChooseFrame, TweenInfo.new(0.2), {
+                                    Size = UDim2.new(0, 3, 1, -6),
+                                    BackgroundColor3 = GuiConfig.Color
+                                }):Play()
+                                TweenService:Create(Drop.ChooseFrame.UIStroke, TweenInfo.new(0.2), { Transparency = 0 })
+                                    :Play()
+                                TweenService:Create(Drop, TweenInfo.new(0.2), { BackgroundTransparency = 0.935 }):Play()
+
                                 optText.TextColor3 = GuiConfig.Color
                                 optText.TextTransparency = 0
                             else
-                                TweenService:Create(Drop.ChooseFrame, TweenInfo.new(0.1),
-                                    { Size = UDim2.new(0, 0, 0, 0) }):Play()
+                                TweenService:Create(Drop.ChooseFrame, TweenInfo.new(0.1), {
+                                    Size = UDim2.new(0, 0, 0, 0),
+                                    BackgroundColor3 = Color3.fromRGB(200, 200, 200)
+                                }):Play()
                                 TweenService:Create(Drop.ChooseFrame.UIStroke, TweenInfo.new(0.1),
                                     { Transparency = 0.999 }):Play()
-                                TweenService:Create(Drop, TweenInfo.new(0.1),
-                                    { BackgroundTransparency = 0.999 }):Play()
+                                TweenService:Create(Drop, TweenInfo.new(0.1), { BackgroundTransparency = 0.999 }):Play()
 
                                 optText.TextColor3 = Color3.fromRGB(200, 200, 200)
                                 optText.TextTransparency = 0.4
@@ -2463,15 +2470,15 @@ function Chloex:Window(GuiConfig)
                         end
                     end
 
-                    OptionSelecting.Text = (#texts == 0) and
-                        (DropdownConfig.Multi and "Select Options" or "Select Option") or table.concat(texts, ", ")
+                    if DropdownConfig.Multi then
+                        local text = table.concat(DropdownFunc.Value, ", ")
+                        OptionSelecting.Text = text == "" and "Select Options" or text
+                    else
+                        OptionSelecting.Text = DropdownFunc.Value == "" and "Select Option" or DropdownFunc.Value
+                    end
 
-                    if DropdownConfig.Callback then
-                        if DropdownConfig.Multi then
-                            DropdownConfig.Callback(DropdownFunc.Value)
-                        else
-                            DropdownConfig.Callback(DropdownFunc.Value[1])
-                        end
+                    if DropdownConfig.Callback and typeof(DropdownConfig.Callback) == "function" then
+                        DropdownConfig.Callback(DropdownFunc.Value)
                     end
                 end
 
