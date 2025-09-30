@@ -1012,17 +1012,6 @@ function Chloex:Window(GuiConfig)
     local DropdownFolder = Instance.new("Folder");
     local DropPageLayout = Instance.new("UIPageLayout");
 
-    DropdownSelect.AnchorPoint = Vector2.new(1, 0.5)
-    DropdownSelect.BackgroundColor3 = Color3.fromRGB(30.00000011175871, 30.00000011175871, 30.00000011175871)
-    DropdownSelect.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    DropdownSelect.BorderSizePixel = 0
-    DropdownSelect.LayoutOrder = 1
-    DropdownSelect.Position = UDim2.new(1, 172, 0.5, 0)
-    DropdownSelect.Size = UDim2.new(0, 160, 1, -16)
-    DropdownSelect.Name = "DropdownSelect"
-    DropdownSelect.ClipsDescendants = true
-    DropdownSelect.Parent = MoreBlur
-
     ConnectButton.Activated:Connect(function()
         if MoreBlur.Visible then
             TweenService:Create(MoreBlur, TweenInfo.new(0.3), { BackgroundTransparency = 0.999 }):Play()
@@ -1040,13 +1029,13 @@ function Chloex:Window(GuiConfig)
     UIStroke14.Parent = DropdownSelect
 
     DropdownSelectReal.AnchorPoint = Vector2.new(0.5, 0.5)
-    DropdownSelectReal.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-    DropdownSelectReal.BackgroundTransparency = 0.9990000128746033
+    DropdownSelectReal.BackgroundColor3 = Color3.fromRGB(0, 42, 153)
+    DropdownSelectReal.BackgroundTransparency = 0.5
     DropdownSelectReal.BorderColor3 = Color3.fromRGB(0, 0, 0)
     DropdownSelectReal.BorderSizePixel = 0
     DropdownSelectReal.LayoutOrder = 1
     DropdownSelectReal.Position = UDim2.new(0.5, 0, 0.5, 0)
-    DropdownSelectReal.Size = UDim2.new(1, -10, 1, -10)
+    DropdownSelectReal.Size = UDim2.new(1, 1, 1, 1)
     DropdownSelectReal.Name = "DropdownSelectReal"
     DropdownSelectReal.Parent = DropdownSelect
 
@@ -2268,7 +2257,7 @@ function Chloex:Window(GuiConfig)
                 SearchBox.TextSize = 12
                 SearchBox.TextColor3 = Color3.fromRGB(255, 255, 255)
                 SearchBox.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-                SearchBox.BackgroundTransparency = 0.2
+                SearchBox.BackgroundTransparency = 0.9
                 SearchBox.BorderSizePixel = 0
                 SearchBox.Size = UDim2.new(1, 0, 0, 25)
                 SearchBox.Position = UDim2.new(0, 0, 0, 0)
