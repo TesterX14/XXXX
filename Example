@@ -1,0 +1,47 @@
+local Chloex = loadstring(game:HttpGet("https://github.com/TesterX14/XXXX/blob/main/Library"))()
+
+local Window = Chloex:Window({
+    Title   = "Chloe X |",
+    Footer  = "Example",
+    Image   = "132435516080103",
+    Color   = Color3.fromRGB(0,208,255),
+    Theme   = 9542022979,
+    Version = 2,
+})
+
+if Window then
+    chloex("Window loaded!")
+end
+
+-- Single tab
+local ExampleTab = Window:AddTab({
+    Name = "Example",
+    Icon = "rbxassetid://132435516080103"
+})
+
+-- Bikin section
+local Example = ExampleTab:AddSection("Section Example")
+
+-- Bikin paragraph
+local MyParagraph = Example:AddParagraph({
+    Title = "Hellooooooo from Chloeeeeee:3",
+    Content = "You can refresh this with button/toggles"
+})
+
+-- Button untuk refresh paragraph
+Example:AddButton({
+    Title = "Refresh Button Paragraph",
+    Content = "Click this for update", -- Sub Title
+    Callback = function()
+        MyParagraph:SetContent("Chloeee Uwuuuuuuu")
+    end
+})
+
+-- Button untuk notifikasi
+Example:AddButton({
+    Title = "Notification Test",
+    Callback = function()
+        chloex("Hello from chloeeeeeee :3")
+    end
+})
+

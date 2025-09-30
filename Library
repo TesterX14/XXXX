@@ -2428,14 +2428,22 @@ function Chloex:Window(GuiConfig)
                                 and table.find(DropdownFunc.Value, v)
                                 or DropdownFunc.Value[1] == v
 
+                            local optText = Drop:FindFirstChild("OptionText")
+                            local chooseBar = Drop:FindFirstChild("ChooseFrame")
+
                             if selected then
-                                table.insert(texts, Drop.OptionText.Text)
+                                table.insert(texts, optText.Text)
+
+                                optText.TextColor3 = Color3.fromRGB(255, 255, 255)
+                                chooseBar.Size = UDim2.new(0, 3, 1, -6)
+                            else
+                                optText.TextColor3 = Color3.fromRGB(230, 230, 230)
+                                chooseBar.Size = UDim2.new(0, 0, 0, 0)
                             end
                         end
                     end
-
                     OptionSelecting.Text = (#texts == 0) and
-                    (DropdownConfig.Multi and "Select Options" or "Select Option") or table.concat(texts, ", ")
+                        (DropdownConfig.Multi and "Select Options" or "Select Option") or table.concat(texts, ", ")
 
                     if DropdownConfig.Callback then
                         if DropdownConfig.Multi then
