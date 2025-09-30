@@ -2270,7 +2270,6 @@ function Chloex:Window(GuiConfig)
                 OptionImg.Name = "OptionImg"
                 OptionImg.Parent = SelectOptionsFrame
 
-                --== Container & Search ==--
                 local DropdownContainer = Instance.new("Frame")
                 DropdownContainer.Size = UDim2.new(1, 0, 1, 0)
                 DropdownContainer.BackgroundTransparency = 1
@@ -2322,7 +2321,6 @@ function Chloex:Window(GuiConfig)
                     ScrollSelect.CanvasSize = UDim2.new(0, 0, 0, UIListLayout4.AbsoluteContentSize.Y)
                 end)
 
-                --== Dropdown Functions ==--
                 local DropCount = 0
 
                 function DropdownFunc:Clear()
@@ -2380,7 +2378,6 @@ function Chloex:Window(GuiConfig)
                     OptionText.Name = "OptionText"
                     OptionText.Parent = Option
 
-                    -- simpan Value asli ke Attribute
                     Option:SetAttribute("RealValue", value)
 
                     ChooseFrame.AnchorPoint = Vector2.new(0, 0.5)
@@ -2425,7 +2422,6 @@ function Chloex:Window(GuiConfig)
                     ConfigData[configKey] = DropdownFunc.Value
                     SaveConfig()
 
-                    -- tampilkan Label sesuai Value
                     local texts = {}
                     for _, Drop in ScrollSelect:GetChildren() do
                         if Drop.Name == "Option" and Drop:FindFirstChild("OptionText") then
@@ -2435,7 +2431,18 @@ function Chloex:Window(GuiConfig)
                                 or DropdownFunc.Value[1] == v
 
                             if selected then
+                                TweenService:Create(Drop.ChooseFrame, TweenInfo.new(0.2),
+                                    { Size = UDim2.new(0, 1, 0, 12) }):Play()
+                                TweenService:Create(Drop.ChooseFrame.UIStroke, TweenInfo.new(0.2), { Transparency = 0 })
+                                    :Play()
+                                TweenService:Create(Drop, TweenInfo.new(0.2), { BackgroundTransparency = 0.935 }):Play()
                                 table.insert(texts, Drop.OptionText.Text)
+                            else
+                                TweenService:Create(Drop.ChooseFrame, TweenInfo.new(0.1),
+                                    { Size = UDim2.new(0, 0, 0, 0) }):Play()
+                                TweenService:Create(Drop.ChooseFrame.UIStroke, TweenInfo.new(0.1),
+                                    { Transparency = 0.999 }):Play()
+                                TweenService:Create(Drop, TweenInfo.new(0.1), { BackgroundTransparency = 0.999 }):Play()
                             end
                         end
                     end
