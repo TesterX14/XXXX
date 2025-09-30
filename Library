@@ -2435,25 +2435,30 @@ function Chloex:Window(GuiConfig)
                     local texts = {}
                     for _, Drop in ScrollSelect:GetChildren() do
                         if Drop.Name == "Option" and Drop:FindFirstChild("OptionText") then
-                            local v = Drop:GetAttribute("RealValue")
-                            local selected = DropdownConfig.Multi
-                                and table.find(DropdownFunc.Value, v)
-                                or DropdownFunc.Value[1] == v
+                            local optText = Drop.OptionText
+                            local isSelected = DropdownConfig.Multi
+                                and table.find(DropdownFunc.Value, optText.Text)
+                                or DropdownFunc.Value == optText.Text
 
-                            local optText = Drop:FindFirstChild("OptionText")
-                            local chooseBar = Drop:FindFirstChild("ChooseFrame")
-
-                            if selected then
-                                table.insert(texts, optText.Text)
-
+                            if isSelected then
+                                TweenService:Create(Drop.ChooseFrame, TweenInfo.new(0.2),
+                                    { Size = UDim2.new(0, 1, 0, 12) }):Play()
+                                TweenService:Create(Drop.ChooseFrame.UIStroke, TweenInfo.new(0.2),
+                                    { Transparency = 0 }):Play()
+                                TweenService:Create(Drop, TweenInfo.new(0.2),
+                                    { BackgroundTransparency = 0.935 }):Play()
                                 optText.TextColor3 = GuiConfig.Color
                                 optText.TextTransparency = 0
-                                chooseBar.BackgroundColor3 = GuiConfig.Color
-                                chooseBar.Size = UDim2.new(0, 3, 1, -6)
                             else
-                                optText.TextColor3 = Color3.fromRGB(230, 230, 230)
-                                optText.TextTransparency = 0.3
-                                chooseBar.Size = UDim2.new(0, 0, 0, 0)
+                                TweenService:Create(Drop.ChooseFrame, TweenInfo.new(0.1),
+                                    { Size = UDim2.new(0, 0, 0, 0) }):Play()
+                                TweenService:Create(Drop.ChooseFrame.UIStroke, TweenInfo.new(0.1),
+                                    { Transparency = 0.999 }):Play()
+                                TweenService:Create(Drop, TweenInfo.new(0.1),
+                                    { BackgroundTransparency = 0.999 }):Play()
+
+                                optText.TextColor3 = Color3.fromRGB(200, 200, 200)
+                                optText.TextTransparency = 0.4
                             end
                         end
                     end
