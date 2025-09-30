@@ -1071,6 +1071,7 @@ function Chloex:Window(GuiConfig)
     DropPageLayout.EasingStyle = Enum.EasingStyle.Quad
     DropPageLayout.TweenTime = 0.009999999776482582
     DropPageLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    DropPageLayout.FillDirection = Enum.FillDirection.Vertical
     DropPageLayout.Archivable = false
     DropPageLayout.Name = "DropPageLayout"
     DropPageLayout.Parent = DropdownFolder
