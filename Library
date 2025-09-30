@@ -283,7 +283,7 @@ function Chloex:MakeNotify(NotifyConfig)
         local ImageLabel = Instance.new("ImageLabel");
         local TextLabel2 = Instance.new("TextLabel");
 
-        NotifyFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+        NotifyFrame.BackgroundColor3 = Color3.fromRGB(0, 42, 153)
         NotifyFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
         NotifyFrame.BorderSizePixel = 0
         NotifyFrame.Size = UDim2.new(1, 0, 0, 150)
@@ -293,7 +293,7 @@ function Chloex:MakeNotify(NotifyConfig)
         NotifyFrame.AnchorPoint = Vector2.new(0, 1)
         NotifyFrame.Position = UDim2.new(0, 0, 1, -(NotifyPosHeigh))
 
-        NotifyFrameReal.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+        NotifyFrameReal.BackgroundColor3 = Color3.fromRGB(0, 42, 153)
         NotifyFrameReal.BorderColor3 = Color3.fromRGB(0, 0, 0)
         NotifyFrameReal.BorderSizePixel = 0
         NotifyFrameReal.Position = UDim2.new(0, 400, 0, 0)
