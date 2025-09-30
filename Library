@@ -2159,6 +2159,8 @@ function Chloex:Window(GuiConfig)
                 return InputFunc
             end
 
+            local OpenedDropdown = nil
+
             function Items:AddDropdown(DropdownConfig)
                 local DropdownConfig = DropdownConfig or {}
                 DropdownConfig.Title = DropdownConfig.Title or "Title"
@@ -2238,14 +2240,24 @@ function Chloex:Window(GuiConfig)
                 UICorner11.Parent = SelectOptionsFrame
 
                 DropdownButton.Activated:Connect(function()
+                    if OpenedDropdown and OpenedDropdown ~= SelectOptionsFrame then
+                        OpenedDropdown.Visible = false
+                    end
+
                     if not MoreBlur.Visible then
+                        OpenedDropdown = SelectOptionsFrame
+
                         MoreBlur.Visible = true
                         DropPageLayout:JumpToIndex(SelectOptionsFrame.LayoutOrder)
                         TweenService:Create(MoreBlur, TweenInfo.new(0.3), { BackgroundTransparency = 0.7 }):Play()
                         TweenService:Create(DropdownSelect, TweenInfo.new(0.3), { Position = UDim2.new(1, -11, 0.5, 0) })
                             :Play()
+                    else
+                        OpenedDropdown = nil
+                        MoreBlur.Visible = false
                     end
                 end)
+
 
                 OptionSelecting.Font = Enum.Font.GothamBold
                 OptionSelecting.Text = ""
