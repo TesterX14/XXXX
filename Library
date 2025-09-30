@@ -283,7 +283,7 @@ function Chloex:MakeNotify(NotifyConfig)
         local ImageLabel = Instance.new("ImageLabel");
         local TextLabel2 = Instance.new("TextLabel");
 
-        NotifyFrame.BackgroundColor3 = Color3.fromRGB(0, 42, 153)
+        NotifyFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
         NotifyFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
         NotifyFrame.BorderSizePixel = 0
         NotifyFrame.Size = UDim2.new(1, 0, 0, 150)
@@ -293,7 +293,7 @@ function Chloex:MakeNotify(NotifyConfig)
         NotifyFrame.AnchorPoint = Vector2.new(0, 1)
         NotifyFrame.Position = UDim2.new(0, 0, 1, -(NotifyPosHeigh))
 
-        NotifyFrameReal.BackgroundColor3 = Color3.fromRGB(0, 42, 153)
+        NotifyFrameReal.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
         NotifyFrameReal.BorderColor3 = Color3.fromRGB(0, 0, 0)
         NotifyFrameReal.BorderSizePixel = 0
         NotifyFrameReal.Position = UDim2.new(0, 400, 0, 0)
@@ -1012,6 +1012,17 @@ function Chloex:Window(GuiConfig)
     local DropdownFolder = Instance.new("Folder");
     local DropPageLayout = Instance.new("UIPageLayout");
 
+    DropdownSelect.AnchorPoint = Vector2.new(1, 0.5)
+    DropdownSelect.BackgroundColor3 = Color3.fromRGB(30.00000011175871, 30.00000011175871, 30.00000011175871)
+    DropdownSelect.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    DropdownSelect.BorderSizePixel = 0
+    DropdownSelect.LayoutOrder = 1
+    DropdownSelect.Position = UDim2.new(1, 172, 0.5, 0)
+    DropdownSelect.Size = UDim2.new(0, 160, 1, -16)
+    DropdownSelect.Name = "DropdownSelect"
+    DropdownSelect.ClipsDescendants = true
+    DropdownSelect.Parent = MoreBlur
+
     ConnectButton.Activated:Connect(function()
         if MoreBlur.Visible then
             TweenService:Create(MoreBlur, TweenInfo.new(0.3), { BackgroundTransparency = 0.999 }):Play()
@@ -1027,7 +1038,7 @@ function Chloex:Window(GuiConfig)
     UIStroke14.Thickness = 2.5
     UIStroke14.Transparency = 0.8
     UIStroke14.Parent = DropdownSelect
-
+    
     DropdownSelectReal.AnchorPoint = Vector2.new(0.5, 0.5)
     DropdownSelectReal.BackgroundColor3 = Color3.fromRGB(0, 42, 153)
     DropdownSelectReal.BackgroundTransparency = 0.5
@@ -2257,7 +2268,7 @@ function Chloex:Window(GuiConfig)
                 SearchBox.TextSize = 12
                 SearchBox.TextColor3 = Color3.fromRGB(255, 255, 255)
                 SearchBox.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-                SearchBox.BackgroundTransparency = 0.9
+                SearchBox.BackgroundTransparency = 0.2
                 SearchBox.BorderSizePixel = 0
                 SearchBox.Size = UDim2.new(1, 0, 0, 25)
                 SearchBox.Position = UDim2.new(0, 0, 0, 0)
