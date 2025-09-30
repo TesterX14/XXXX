@@ -2445,8 +2445,11 @@ function Chloex:Window(GuiConfig)
                             end
 
                             if isSelected then
+                                local textSizeY = optText.TextBounds.Y
+
                                 TweenService:Create(Drop.ChooseFrame, TweenInfo.new(0.2), {
-                                    Size = UDim2.new(0, 3, 1, -6),
+                                    Size = UDim2.new(0, 3, 0, textSizeY),
+                                    Position = UDim2.new(0, 0, 0.5, -textSizeY / 2),
                                     BackgroundColor3 = GuiConfig.Color
                                 }):Play()
                                 TweenService:Create(Drop.ChooseFrame.UIStroke, TweenInfo.new(0.2), { Transparency = 0 })
@@ -2458,14 +2461,13 @@ function Chloex:Window(GuiConfig)
                             else
                                 TweenService:Create(Drop.ChooseFrame, TweenInfo.new(0.1), {
                                     Size = UDim2.new(0, 0, 0, 0),
-                                    BackgroundColor3 = Color3.fromRGB(200, 200, 200)
                                 }):Play()
-                                TweenService:Create(Drop.ChooseFrame.UIStroke, TweenInfo.new(0.1),
-                                    { Transparency = 0.999 }):Play()
-                                TweenService:Create(Drop, TweenInfo.new(0.1), { BackgroundTransparency = 0.999 }):Play()
+                                TweenService:Create(Drop.ChooseFrame.UIStroke, TweenInfo.new(0.1), { Transparency = 1 })
+                                    :Play()
+                                TweenService:Create(Drop, TweenInfo.new(0.1), { BackgroundTransparency = 1 }):Play()
 
-                                optText.TextColor3 = Color3.fromRGB(200, 200, 200)
-                                optText.TextTransparency = 0.4
+                                optText.TextColor3 = Color3.fromRGB(255, 255, 255)
+                                optText.TextTransparency = 0
                             end
                         end
                     end
