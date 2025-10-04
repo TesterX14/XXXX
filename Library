@@ -1965,6 +1965,7 @@ function Chloex:Window(GuiConfig)
                 SliderInput.AnchorPoint = Vector2.new(0, 0.5)
                 SliderInput.BackgroundColor3 = GuiConfig.Color
                 SliderInput.BorderColor3 = Color3.fromRGB(0, 0, 0)
+                SliderInput.BackgroundTransparency = 1
                 SliderInput.BorderSizePixel = 0
                 SliderInput.Position = UDim2.new(1, -155, 0.5, 0)
                 SliderInput.Size = UDim2.new(0, 28, 0, 20)
@@ -2050,13 +2051,17 @@ function Chloex:Window(GuiConfig)
                 SliderFrame.InputBegan:Connect(function(Input)
                     if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
                         Dragging = true
-
-                        -- Perbesar bulatan saat ditahan
                         TweenService:Create(
                             SliderCircle,
                             TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
-                            { Size = UDim2.new(0, 14, 0, 14) } -- dari 8x8 jadi 14x14
+                            { Size = UDim2.new(0, 14, 0, 14) }
                         ):Play()
+                        local SizeScale = math.clamp(
+                            (Input.Position.X - SliderFrame.AbsolutePosition.X) / SliderFrame.AbsoluteSize.X,
+                            0,
+                            1
+                        )
+                        SliderFunc:Set(SliderConfig.Min + ((SliderConfig.Max - SliderConfig.Min) * SizeScale))
                     end
                 end)
 
@@ -2064,8 +2069,6 @@ function Chloex:Window(GuiConfig)
                     if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
                         Dragging = false
                         SliderConfig.Callback(SliderFunc.Value)
-
-                        -- Balikin bulatan ke ukuran semula
                         TweenService:Create(
                             SliderCircle,
                             TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
@@ -2084,7 +2087,7 @@ function Chloex:Window(GuiConfig)
                         SliderFunc:Set(SliderConfig.Min + ((SliderConfig.Max - SliderConfig.Min) * SizeScale))
                     end
                 end)
-                
+
                 TextBox:GetPropertyChangedSignal("Text"):Connect(function()
                     local Valid = TextBox.Text:gsub("[^%d]", "")
                     if Valid ~= "" then
