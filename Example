@@ -16,16 +16,32 @@ end
 -- Tab
 local ExampleTab = Window:AddTab({
     Name = "Example",
-    Icon = "rbxassetid://132435516080103"
+    Icon = "player"
 })
 
 -- Section
-local Example = ExampleTab:AddSection("Section Example")
+local Example = ExampleTab:AddSection("Section Example", true)
 
 -- Paragraph
 local MyParagraph = Example:AddParagraph({
     Title = "Hellooooooo from Chloeeeeee:3",
-    Content = "You can refresh this with button/toggles"
+    Content = "You can refresh this with button/toggles",
+    Icon = "rbxassetid://84173963561612"
+})
+
+Example:AddParagraph({
+    Title = "CHLOEEE X",
+    Content = "You can refresh this with button/toggles",
+    Icon = "player",
+    ButtonText = "COPY LINK DISCORD",
+    ButtonCallback = function()
+        if setclipboard then
+            setclipboard("https://discord.gg/J5KdfSHD")
+            print("Link Discord dicopy ke clipboard!")
+        else
+            print("Executor kamu ga support setclipboard")
+        end
+    end
 })
 
 -- Button untuk refresh paragraph
@@ -44,6 +60,8 @@ Example:AddButton({
         chloex("Hello from chloeeeeeee :3")
     end
 })
+
+Example:AddDivider()
 
 -- Tambahan Toggle
 Example:AddToggle({
@@ -66,5 +84,17 @@ Example:AddDropdown({
     Default = "Apple",
     Callback = function(value)
         chloex("You selected: " .. value)
+    end
+})
+
+Example:AddSlider({
+    Title = "Volume",
+    Content = "Atur besar suara",
+    Min = 0,
+    Max = 100,
+    Default = 50,
+    Increment = 5,
+    Callback = function(value)
+        print("Volume diset ke:", value)
     end
 })

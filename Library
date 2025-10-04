@@ -72,6 +72,15 @@ local Icons = {
     stat      = "rbxassetid://12094445329",
     eyes      = "rbxassetid://14321059114",
     sword     = "rbxassetid://82472368671405",
+    discord   = "rbxassetid://94434236999817",
+    star      = "rbxassetid://107005941750079",
+    skeleton  = "rbxassetid://17313330026",
+    payment   = "rbxassetid://18747025078",
+    scan      = "rbxassetid://109869955247116",
+    alert     = "rbxassetid://73186275216515",
+    question  = "rbxassetid://17510196486",
+    idea      = "rbxassetid://16833255748",
+    strom     = "rbxassetid://13321880293",
 }
 
 local UserInputService = game:GetService("UserInputService")
