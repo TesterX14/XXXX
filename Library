@@ -132,7 +132,7 @@ local function MakeDraggable(topbarobject, object)
             defSizeX, defSizeY = 500, 300
         else
             minSizeX, minSizeY = 500, 300
-            defSizeX, defSizeY = 900, 500
+            defSizeX, defSizeY = 640, 400
         end
 
         object.Size = UDim2.new(0, defSizeX, 0, defSizeY)
@@ -495,7 +495,7 @@ function Chloex:Window(GuiConfig)
     if isMobile then
         DropShadowHolder.Size = safeSize(500, 300)
     else
-        DropShadowHolder.Size = safeSize(900, 500)
+        DropShadowHolder.Size = safeSize(640, 400)
     end
     DropShadowHolder.ZIndex = 0
     DropShadowHolder.Name = "DropShadowHolder"
