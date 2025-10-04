@@ -1407,24 +1407,33 @@ function Chloex:Window(GuiConfig)
                 end
             end
 
-            SectionButton.Activated:Connect(function()
-                CircleClick(SectionButton, Mouse.X, Mouse.Y)
-                if OpenSection then
-                    TweenService:Create(FeatureFrame, TweenInfo.new(0.5), { Rotation = 0 }):Play()
-                    TweenService:Create(Section, TweenInfo.new(0.5), { Size = UDim2.new(1, 1, 0, 30) }):Play()
-                    TweenService:Create(SectionDecideFrame, TweenInfo.new(0.5), { Size = UDim2.new(0, 0, 0, 2) }):Play()
-                    OpenSection = false
-                    task.wait(0.5)
-                    UpdateSizeScroll()
-                else
-                    OpenSection = true
-                    UpdateSizeSection()
-                end
-            end)
+            if AlwaysOpen then
+                SectionButton:Destroy()
+                FeatureFrame:Destroy()
+                OpenSection = true
+                UpdateSizeSection()
+            else
+                SectionButton.Activated:Connect(function()
+                    CircleClick(SectionButton, Mouse.X, Mouse.Y)
+                    if OpenSection then
+                        TweenService:Create(FeatureFrame, TweenInfo.new(0.5), { Rotation = 0 }):Play()
+                        TweenService:Create(Section, TweenInfo.new(0.5), { Size = UDim2.new(1, 1, 0, 30) }):Play()
+                        TweenService:Create(SectionDecideFrame, TweenInfo.new(0.5), { Size = UDim2.new(0, 0, 0, 2) })
+                            :Play()
+                        OpenSection = false
+                        task.wait(0.5)
+                        UpdateSizeScroll()
+                    else
+                        OpenSection = true
+                        UpdateSizeSection()
+                    end
+                end)
+            end
 
             SectionAdd.ChildAdded:Connect(UpdateSizeSection)
             SectionAdd.ChildRemoved:Connect(UpdateSizeSection)
             UpdateSizeScroll()
+
 
             if AlwaysOpen then
                 OpenSection = true
