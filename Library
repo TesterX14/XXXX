@@ -2050,21 +2050,41 @@ function Chloex:Window(GuiConfig)
                 SliderFrame.InputBegan:Connect(function(Input)
                     if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
                         Dragging = true
+
+                        -- Perbesar bulatan saat ditahan
+                        TweenService:Create(
+                            SliderCircle,
+                            TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+                            { Size = UDim2.new(0, 14, 0, 14) } -- dari 8x8 jadi 14x14
+                        ):Play()
                     end
                 end)
+
                 SliderFrame.InputEnded:Connect(function(Input)
                     if Input.UserInputType == Enum.UserInputType.MouseButton1 or Input.UserInputType == Enum.UserInputType.Touch then
                         Dragging = false
                         SliderConfig.Callback(SliderFunc.Value)
+
+                        -- Balikin bulatan ke ukuran semula
+                        TweenService:Create(
+                            SliderCircle,
+                            TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out),
+                            { Size = UDim2.new(0, 8, 0, 8) }
+                        ):Play()
                     end
                 end)
+
                 UserInputService.InputChanged:Connect(function(Input)
                     if Dragging and (Input.UserInputType == Enum.UserInputType.MouseMovement or Input.UserInputType == Enum.UserInputType.Touch) then
                         local SizeScale = math.clamp(
-                            (Input.Position.X - SliderFrame.AbsolutePosition.X) / SliderFrame.AbsoluteSize.X, 0, 1)
+                            (Input.Position.X - SliderFrame.AbsolutePosition.X) / SliderFrame.AbsoluteSize.X,
+                            0,
+                            1
+                        )
                         SliderFunc:Set(SliderConfig.Min + ((SliderConfig.Max - SliderConfig.Min) * SizeScale))
                     end
                 end)
+                
                 TextBox:GetPropertyChangedSignal("Text"):Connect(function()
                     local Valid = TextBox.Text:gsub("[^%d]", "")
                     if Valid ~= "" then
