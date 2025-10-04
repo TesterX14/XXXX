@@ -52,6 +52,28 @@ function LoadConfigElements()
     end
 end
 
+local Icons = {
+    player    = "rbxassetid://12120698352",
+    web       = "rbxassetid://137601480983962",
+    bag       = "rbxassetid://8601111810",
+    shop      = "rbxassetid://4985385964",
+    cart      = "rbxassetid://128874923961846",
+    plug      = "rbxassetid://137601480983962",
+    settings  = "rbxassetid://70386228443175",
+    loop      = "rbxassetid://122032243989747",
+    gps       = "rbxassetid://17824309485",
+    compas    = "rbxassetid://125300760963399",
+    gamepad   = "rbxassetid://84173963561612",
+    boss      = "rbxassetid://13132186360",
+    scroll    = "rbxassetid://114127804740858",
+    menu      = "rbxassetid://6340513838",
+    crosshair = "rbxassetid://12614416478",
+    user      = "rbxassetid://108483430622128",
+    stat      = "rbxassetid://12094445329",
+    eyes      = "rbxassetid://14321059114",
+    sword     = "rbxassetid://82472368671405",
+}
+
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local LocalPlayer = game:GetService("Players").LocalPlayer
@@ -1038,7 +1060,7 @@ function Chloex:Window(GuiConfig)
     UIStroke14.Thickness = 2.5
     UIStroke14.Transparency = 0.8
     UIStroke14.Parent = DropdownSelect
-    
+
     DropdownSelectReal.AnchorPoint = Vector2.new(0.5, 0.5)
     DropdownSelectReal.BackgroundColor3 = Color3.fromRGB(0, 42, 153)
     DropdownSelectReal.BackgroundTransparency = 0.5
@@ -1140,7 +1162,6 @@ function Chloex:Window(GuiConfig)
         TabName.Name = "TabName"
         TabName.Parent = Tab
 
-        FeatureImg.Image = TabConfig.Icon
         FeatureImg.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
         FeatureImg.BackgroundTransparency = 0.9990000128746033
         FeatureImg.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -1166,6 +1187,14 @@ function Chloex:Window(GuiConfig)
             UIStroke2.Parent = ChooseFrame
 
             UICorner4.Parent = ChooseFrame
+        end
+
+        if TabConfig.Icon ~= "" then
+            if Icons[TabConfig.Icon] then
+                FeatureImg.Image = Icons[TabConfig.Icon]
+            else
+                FeatureImg.Image = TabConfig.Icon
+            end
         end
 
         TabButton.Activated:Connect(function()
