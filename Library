@@ -129,10 +129,10 @@ local function MakeDraggable(topbarobject, object)
 
         if isMobile then
             minSizeX, minSizeY = 100, 100
-            defSizeX, defSizeY = 500, 300
+            defSizeX, defSizeY = 100, 100
         else
-            minSizeX, minSizeY = 500, 300
-            defSizeX, defSizeY = 900, 500
+            minSizeX, minSizeY = 470, 270
+            defSizeX, defSizeY = 640, 400
         end
 
         object.Size = UDim2.new(0, defSizeX, 0, defSizeY)
