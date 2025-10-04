@@ -129,9 +129,9 @@ local function MakeDraggable(topbarobject, object)
 
         if isMobile then
             minSizeX, minSizeY = 100, 100
-            defSizeX, defSizeY = 100, 100
+            defSizeX, defSizeY = 470, 270
         else
-            minSizeX, minSizeY = 470, 270
+            minSizeX, minSizeY = 100, 100
             defSizeX, defSizeY = 640, 400
         end
 
