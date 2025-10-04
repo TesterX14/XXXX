@@ -81,6 +81,7 @@ local Icons = {
     question  = "rbxassetid://17510196486",
     idea      = "rbxassetid://16833255748",
     strom     = "rbxassetid://13321880293",
+    water     = "rbxassetid://100076212630732",
 }
 
 local UserInputService = game:GetService("UserInputService")
