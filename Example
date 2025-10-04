@@ -13,16 +13,16 @@ if Window then
     chloex("Window loaded!")
 end
 
--- Single tab
+-- Tab
 local ExampleTab = Window:AddTab({
     Name = "Example",
     Icon = "rbxassetid://132435516080103"
 })
 
--- Bikin section
+-- Section
 local Example = ExampleTab:AddSection("Section Example")
 
--- Bikin paragraph
+-- Paragraph
 local MyParagraph = Example:AddParagraph({
     Title = "Hellooooooo from Chloeeeeee:3",
     Content = "You can refresh this with button/toggles"
@@ -31,7 +31,7 @@ local MyParagraph = Example:AddParagraph({
 -- Button untuk refresh paragraph
 Example:AddButton({
     Title = "Refresh Button Paragraph",
-    Content = "Click this for update", -- Sub Title
+    Content = "Click this for update",
     Callback = function()
         MyParagraph:SetContent("Chloeee Uwuuuuuuu")
     end
@@ -45,3 +45,26 @@ Example:AddButton({
     end
 })
 
+-- Tambahan Toggle
+Example:AddToggle({
+    Title = "God Mode",
+    Default = false,
+    Callback = function(state)
+        if state then
+            chloex("God Mode ON")
+        else
+            chloex("God Mode OFF")
+        end
+    end
+})
+
+-- Tambahan Dropdown
+Example:AddDropdown({
+    Title = "Select Fruit",
+    Content = "Pick one you like",
+    Options = {"Apple","Banana","Orange"},
+    Default = "Apple",
+    Callback = function(value)
+        chloex("You selected: " .. value)
+    end
+})
