@@ -1473,7 +1473,7 @@ function Chloex:Window(GuiConfig)
                 local ButtonConfig = ButtonConfig or {}
                 ButtonConfig.Title = ButtonConfig.Title or "Title"
                 ButtonConfig.Content = ButtonConfig.Content or ""
-                ButtonConfig.Icon = ButtonConfig.Icon or "rbxassetid://6436197688"
+                ButtonConfig.Icon = ButtonConfig.Icon or "rbxassetid://17887130324"
                 ButtonConfig.Callback = ButtonConfig.Callback or function() end
                 local ButtonFunc = {}
 
