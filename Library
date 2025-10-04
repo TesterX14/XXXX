@@ -1434,7 +1434,6 @@ function Chloex:Window(GuiConfig)
             SectionAdd.ChildRemoved:Connect(UpdateSizeSection)
             UpdateSizeScroll()
 
-
             if AlwaysOpen then
                 OpenSection = true
                 local SectionSizeYWitdh = 38
@@ -2602,14 +2601,15 @@ function Chloex:Window(GuiConfig)
                 local Divider = Instance.new("Frame")
                 Divider.Name = "Divider"
                 Divider.Parent = SectionAdd
+                Divider.AnchorPoint = Vector2.new(0.5, 0)
+                Divider.Position = UDim2.new(0.5, 0, 0, 0)
+                Divider.Size = UDim2.new(1, 0, 0, 2)
                 Divider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-                Divider.BackgroundTransparency = 1
+                Divider.BackgroundTransparency = 0
                 Divider.BorderSizePixel = 0
                 Divider.LayoutOrder = CountItem
-                Divider.Size = UDim2.new(1, 0, 0, 2)
-                Divider.Position = UDim2.new(0.5, 0, 0, 0)
-                Divider.AnchorPoint = Vector2.new(0.5, 0)
 
+                -- Gradient sama persis dengan Section
                 local UIGradient = Instance.new("UIGradient")
                 UIGradient.Color = ColorSequence.new {
                     ColorSequenceKeypoint.new(0, Color3.fromRGB(20, 20, 20)),
