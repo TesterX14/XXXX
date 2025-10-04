@@ -1,4 +1,4 @@
-local Chloex = loadstring(game:HttpGet("https://github.com/TesterX14/XXXX/blob/main/Library"))()
+local Chloex = loadstring(game:HttpGet("https://raw.githubusercontent.com/TesterX14/XXXX/refs/heads/main/Library"))()
 
 local Window = Chloex:Window({
     Title   = "Chloe X |",
