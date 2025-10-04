@@ -1482,7 +1482,6 @@ function Chloex:Window(GuiConfig)
                 ParagraphContent.Text = ParagraphConfig.Content
                 ParagraphContent.TextColor3 = Color3.fromRGB(255, 255, 255)
                 ParagraphContent.TextSize = 12
-                ParagraphContent.TextTransparency = 0
                 ParagraphContent.TextXAlignment = Enum.TextXAlignment.Left
                 ParagraphContent.TextYAlignment = Enum.TextYAlignment.Top
                 ParagraphContent.BackgroundTransparency = 1
@@ -1493,21 +1492,45 @@ function Chloex:Window(GuiConfig)
                 ParagraphContent.Parent = Paragraph
 
                 ParagraphContent.Size = UDim2.new(1, -16, 0, ParagraphContent.TextBounds.Y)
-                Paragraph.Size = UDim2.new(1, 0, 0, ParagraphContent.TextBounds.Y + 33)
 
-                ParagraphContent:GetPropertyChangedSignal("TextBounds"):Connect(function()
-                    ParagraphContent.Size = UDim2.new(1, -16, 0, ParagraphContent.TextBounds.Y)
-                    Paragraph.Size = UDim2.new(1, 0, 0, ParagraphContent.TextBounds.Y + 33)
-                    if typeof(UpdateSizeSection) == "function" then
-                        UpdateSizeSection()
+                local ParagraphButton
+                if ParagraphConfig.ButtonText then
+                    ParagraphButton = Instance.new("TextButton")
+                    ParagraphButton.Size = UDim2.new(1, -iconOffset - 10, 0, 28)
+                    ParagraphButton.Position = UDim2.new(0, iconOffset, 0,
+                        ParagraphContent.Position.Y.Offset + ParagraphContent.TextBounds.Y + 5)
+                    ParagraphButton.BackgroundColor3 = Color3.fromRGB(0, 208, 255)
+                    ParagraphButton.Font = Enum.Font.GothamBold
+                    ParagraphButton.TextSize = 14
+                    ParagraphButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+                    ParagraphButton.Text = ParagraphConfig.ButtonText
+                    ParagraphButton.Parent = Paragraph
+
+                    local btnCorner = Instance.new("UICorner")
+                    btnCorner.CornerRadius = UDim.new(0, 6)
+                    btnCorner.Parent = ParagraphButton
+
+                    if ParagraphConfig.ButtonCallback then
+                        ParagraphButton.MouseButton1Click:Connect(ParagraphConfig.ButtonCallback)
                     end
-                end)
+                end
+
+                local function UpdateSize()
+                    local totalHeight = ParagraphContent.TextBounds.Y + 33
+                    if ParagraphButton then
+                        totalHeight = totalHeight + ParagraphButton.Size.Y.Offset + 5
+                    end
+                    Paragraph.Size = UDim2.new(1, 0, 0, totalHeight)
+                end
+
+                UpdateSize()
+
+                ParagraphContent:GetPropertyChangedSignal("TextBounds"):Connect(UpdateSize)
 
                 function ParagraphFunc:SetContent(content)
                     content = content or "Content"
                     ParagraphContent.Text = content
-                    ParagraphContent.Size = UDim2.new(1, -16, 0, ParagraphContent.TextBounds.Y)
-                    Paragraph.Size = UDim2.new(1, 0, 0, ParagraphContent.TextBounds.Y + 33)
+                    UpdateSize()
                 end
 
                 CountItem = CountItem + 1
