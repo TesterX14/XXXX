@@ -1439,7 +1439,7 @@ function Chloex:Window(GuiConfig)
                 ParagraphContent.TextXAlignment = Enum.TextXAlignment.Left
                 ParagraphContent.TextYAlignment = Enum.TextYAlignment.Top
                 ParagraphContent.BackgroundTransparency = 1
-                ParagraphContent.Position = UDim2.new(0, 10, 0, 23)
+                ParagraphContent.Position = UDim2.new(0, 10, 0, 25)
                 ParagraphContent.Name = "ParagraphContent"
                 ParagraphContent.TextWrapped = false
                 ParagraphContent.RichText = true
