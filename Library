@@ -1423,13 +1423,16 @@ function Chloex:Window(GuiConfig)
             SectionAdd.ChildRemoved:Connect(UpdateSizeSection)
             UpdateSizeScroll()
 
+            local Icons = Icons or {}
             local Items = {}
             local CountItem = 0
 
             function Items:AddParagraph(ParagraphConfig)
-                local ParagraphConfig = ParagraphConfig or {}
+                ParagraphConfig = ParagraphConfig or {}
                 ParagraphConfig.Title = ParagraphConfig.Title or "Title"
                 ParagraphConfig.Content = ParagraphConfig.Content or "Content"
+                ParagraphConfig.Icon = ParagraphConfig.Icon or nil
+
                 local ParagraphFunc = {}
 
                 local Paragraph = Instance.new("Frame")
@@ -1448,6 +1451,22 @@ function Chloex:Window(GuiConfig)
                 UICorner14.CornerRadius = UDim.new(0, 4)
                 UICorner14.Parent = Paragraph
 
+                local IconImg
+                if ParagraphConfig.Icon then
+                    IconImg = Instance.new("ImageLabel")
+                    IconImg.BackgroundTransparency = 1
+                    IconImg.Size = UDim2.new(0, 16, 0, 16)
+                    IconImg.Position = UDim2.new(0, 10, 0, 10)
+                    IconImg.Name = "ParagraphIcon"
+                    IconImg.Parent = Paragraph
+
+                    if Icons[ParagraphConfig.Icon] then
+                        IconImg.Image = Icons[ParagraphConfig.Icon]
+                    else
+                        IconImg.Image = ParagraphConfig.Icon
+                    end
+                end
+
                 ParagraphTitle.Font = Enum.Font.GothamBold
                 ParagraphTitle.Text = ParagraphConfig.Title
                 ParagraphTitle.TextColor3 = Color3.fromRGB(231, 231, 231)
@@ -1455,7 +1474,9 @@ function Chloex:Window(GuiConfig)
                 ParagraphTitle.TextXAlignment = Enum.TextXAlignment.Left
                 ParagraphTitle.TextYAlignment = Enum.TextYAlignment.Top
                 ParagraphTitle.BackgroundTransparency = 1
-                ParagraphTitle.Position = UDim2.new(0, 10, 0, 10)
+                -- geser kalau ada icon
+                local titleOffset = IconImg and 30 or 10
+                ParagraphTitle.Position = UDim2.new(0, titleOffset, 0, 10)
                 ParagraphTitle.Size = UDim2.new(1, -16, 0, 13)
                 ParagraphTitle.Name = "ParagraphTitle"
                 ParagraphTitle.Parent = Paragraph
@@ -1464,13 +1485,11 @@ function Chloex:Window(GuiConfig)
                 ParagraphContent.Text = ParagraphConfig.Content
                 ParagraphContent.TextColor3 = Color3.fromRGB(255, 255, 255)
                 ParagraphContent.TextSize = 12
-                ParagraphContent.TextTransparency = 0
                 ParagraphContent.TextXAlignment = Enum.TextXAlignment.Left
                 ParagraphContent.TextYAlignment = Enum.TextYAlignment.Top
                 ParagraphContent.BackgroundTransparency = 1
-                ParagraphContent.Position = UDim2.new(0, 10, 0, 25)
+                ParagraphContent.Position = UDim2.new(0, titleOffset, 0, 25)
                 ParagraphContent.Name = "ParagraphContent"
-                ParagraphContent.TextWrapped = false
                 ParagraphContent.RichText = true
                 ParagraphContent.Parent = Paragraph
 
@@ -1487,9 +1506,7 @@ function Chloex:Window(GuiConfig)
 
                 function ParagraphFunc:SetContent(content)
                     content = content or "Content"
-
                     ParagraphContent.Text = content
-
                     ParagraphContent.Size = UDim2.new(1, -16, 0, ParagraphContent.TextBounds.Y)
                     Paragraph.Size = UDim2.new(1, 0, 0, ParagraphContent.TextBounds.Y + 33)
                 end
