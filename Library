@@ -601,10 +601,6 @@ function Chloex:Window(GuiConfig)
     TextLabel1.Position = UDim2.new(0, TextLabel.TextBounds.X + 15, 0, 0)
     TextLabel1.Parent = Top
 
-    UIStroke1.Color = GuiConfig.Color
-    UIStroke1.Thickness = 0.4000000059604645
-    UIStroke1.Parent = TextLabel1
-
     MaxRestore.Font = Enum.Font.SourceSans
     MaxRestore.Text = ""
     MaxRestore.TextColor3 = Color3.fromRGB(0, 0, 0)
