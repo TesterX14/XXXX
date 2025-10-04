@@ -505,7 +505,7 @@ function Chloex:Window(GuiConfig)
         (Chloeex.AbsoluteSize.Y // 2 - DropShadowHolder.Size.Y.Offset // 2))
     DropShadow.Image = "rbxassetid://6015897843"
     DropShadow.ImageColor3 = Color3.fromRGB(15, 15, 15)
-    DropShadow.ImageTransparency = 0.5
+    DropShadow.ImageTransparency = 1
     DropShadow.ScaleType = Enum.ScaleType.Slice
     DropShadow.SliceCenter = Rect.new(49, 49, 450, 450)
     DropShadow.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -979,7 +979,7 @@ function Chloex:Window(GuiConfig)
 
     DropShadow1.Image = "rbxassetid://6015897843"
     DropShadow1.ImageColor3 = Color3.fromRGB(0, 0, 0)
-    DropShadow1.ImageTransparency = 0.5
+    DropShadow1.ImageTransparency = 1
     DropShadow1.ScaleType = Enum.ScaleType.Slice
     DropShadow1.SliceCenter = Rect.new(49, 49, 450, 450)
     DropShadow1.AnchorPoint = Vector2.new(0.5, 0.5)
