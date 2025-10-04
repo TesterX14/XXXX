@@ -1451,8 +1451,8 @@ function Chloex:Window(GuiConfig)
                 local iconOffset = 10
                 if ParagraphConfig.Icon then
                     local IconImg = Instance.new("ImageLabel")
-                    IconImg.Size = UDim2.new(0, 16, 0, 16)
-                    IconImg.Position = UDim2.new(0, 8, 0, 8)
+                    IconImg.Size = UDim2.new(0, 18, 0, 18)
+                    IconImg.Position = UDim2.new(0, 8, 0, 12)
                     IconImg.BackgroundTransparency = 1
                     IconImg.Name = "ParagraphIcon"
                     IconImg.Parent = Paragraph
