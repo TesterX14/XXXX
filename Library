@@ -2609,7 +2609,6 @@ function Chloex:Window(GuiConfig)
                 Divider.BorderSizePixel = 0
                 Divider.LayoutOrder = CountItem
 
-                -- Gradient sama persis dengan Section
                 local UIGradient = Instance.new("UIGradient")
                 UIGradient.Color = ColorSequence.new {
                     ColorSequenceKeypoint.new(0, Color3.fromRGB(20, 20, 20)),
