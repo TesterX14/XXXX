@@ -1523,7 +1523,7 @@ function Chloex:Window(GuiConfig)
                 ButtonContent.BackgroundTransparency = 0.9990000128746033
                 ButtonContent.BorderColor3 = Color3.fromRGB(0, 0, 0)
                 ButtonContent.BorderSizePixel = 0
-                ButtonContent.Position = UDim2.new(0, 10, 0, 23)
+                ButtonContent.Position = UDim2.new(0, 10, 0, 25)
                 ButtonContent.Name = "ButtonContent"
                 ButtonContent.Parent = Button
                 ButtonContent.Size = UDim2.new(1, -100, 0, 12)
@@ -1653,7 +1653,7 @@ function Chloex:Window(GuiConfig)
                 ToggleTitle2.TextYAlignment = Enum.TextYAlignment.Top
                 ToggleTitle2.BackgroundTransparency = 1
                 ToggleTitle2.BorderSizePixel = 0
-                ToggleTitle2.Position = UDim2.new(0, 10, 0, 23)
+                ToggleTitle2.Position = UDim2.new(0, 10, 0, 25)
                 ToggleTitle2.Size = UDim2.new(1, -100, 0, 12)
                 ToggleTitle2.Name = "ToggleTitle2"
                 ToggleTitle2.Parent = Toggle
@@ -1679,7 +1679,7 @@ function Chloex:Window(GuiConfig)
                     ToggleTitle2.Visible = true
                 else
                     Toggle.Size = UDim2.new(1, 0, 0, 46)
-                    ToggleContent.Position = UDim2.new(0, 10, 0, 23)
+                    ToggleContent.Position = UDim2.new(0, 10, 0, 25)
                     ToggleTitle2.Visible = false
                 end
 
@@ -1879,7 +1879,7 @@ function Chloex:Window(GuiConfig)
                 SliderContent.BackgroundTransparency = 0.9990000128746033
                 SliderContent.BorderColor3 = Color3.fromRGB(0, 0, 0)
                 SliderContent.BorderSizePixel = 0
-                SliderContent.Position = UDim2.new(0, 10, 0, 23)
+                SliderContent.Position = UDim2.new(0, 10, 0, 25)
                 SliderContent.Size = UDim2.new(1, -180, 0, 12)
                 SliderContent.Name = "SliderContent"
                 SliderContent.Parent = Slider
@@ -2077,7 +2077,7 @@ function Chloex:Window(GuiConfig)
                 InputContent.BackgroundTransparency = 0.9990000128746033
                 InputContent.BorderColor3 = Color3.fromRGB(0, 0, 0)
                 InputContent.BorderSizePixel = 0
-                InputContent.Position = UDim2.new(0, 10, 0, 23)
+                InputContent.Position = UDim2.new(0, 10, 0, 25)
                 InputContent.Size = UDim2.new(1, -180, 0, 12)
                 InputContent.Name = "InputContent"
                 InputContent.Parent = Input
@@ -2208,7 +2208,7 @@ function Chloex:Window(GuiConfig)
                 DropdownContent.TextWrapped = true
                 DropdownContent.TextXAlignment = Enum.TextXAlignment.Left
                 DropdownContent.BackgroundTransparency = 1
-                DropdownContent.Position = UDim2.new(0, 10, 0, 23)
+                DropdownContent.Position = UDim2.new(0, 10, 0, 25)
                 DropdownContent.Size = UDim2.new(1, -180, 0, 12)
                 DropdownContent.Name = "DropdownContent"
                 DropdownContent.Parent = Dropdown
