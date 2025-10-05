@@ -939,7 +939,7 @@ function Chloex:Window(GuiConfig)
 
     DropShadowHolder.Size = UDim2.new(0, 115 + TextLabel.TextBounds.X + 1 + TextLabel1.TextBounds.X, 0, 350)
     MakeDraggable(Top, DropShadowHolder)
-    --// Blur
+
     local MoreBlur = Instance.new("Frame");
     local DropShadowHolder1 = Instance.new("Frame");
     local DropShadow1 = Instance.new("ImageLabel");
