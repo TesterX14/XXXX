@@ -1635,10 +1635,14 @@ function Chloex:Window(GuiConfig)
 
                 local InputBox = Instance.new("TextBox")
                 InputBox.PlaceholderText = PanelConfig.Placeholder
-                InputBox.Font = Enum.Font.Gotham
+                InputBox.Font = Enum.Font.GothamBold
                 InputBox.TextSize = 12
-                InputBox.TextColor3 = Color3.fromRGB(0, 0, 0)
+                InputBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+                InputBox.PlaceholderColor3 = Color3.fromRGB(120, 120, 120)
                 InputBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                InputBox.BackgroundTransparency = 0.999
+                InputBox.BorderSizePixel = 0
+                InputBox.TextXAlignment = Enum.TextXAlignment.Left
                 InputBox.Size = UDim2.new(1, -iconOffset - 10, 0, 26)
                 InputBox.Position = UDim2.new(0, iconOffset, 0, 45)
                 InputBox.Parent = Panel
@@ -1674,7 +1678,7 @@ function Chloex:Window(GuiConfig)
                 end)
 
                 if PanelConfig.SubButtonText then
-                    ButtonMain.Size = UDim2.new(0.5, -(iconOffset + 8), 0, 28)
+                    ButtonMain.Size = UDim2.new(0.5, -5, 0, 28)
 
                     local SubButton = Instance.new("TextButton")
                     SubButton.Font = Enum.Font.GothamBold
@@ -1682,8 +1686,8 @@ function Chloex:Window(GuiConfig)
                     SubButton.TextColor3 = Color3.fromRGB(255, 255, 255)
                     SubButton.BackgroundColor3 = Color3.fromRGB(0, 208, 255)
                     SubButton.Text = PanelConfig.SubButtonText
-                    SubButton.Size = UDim2.new(0.5, -(iconOffset + 8), 0, 28)
-                    SubButton.Position = UDim2.new(0.5, iconOffset - 2, 0, 76)
+                    SubButton.Size = UDim2.new(0.5, -5, 0, 28)
+                    SubButton.Position = UDim2.new(0.5, 5, 0, 76)
                     SubButton.Parent = Panel
                     local subCorner = Instance.new("UICorner")
                     subCorner.CornerRadius = UDim.new(0, 6)
