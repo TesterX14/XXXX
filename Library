@@ -1576,23 +1576,24 @@ function Chloex:Window(GuiConfig)
                 PanelConfig = PanelConfig or {}
                 PanelConfig.Title = PanelConfig.Title or "Title"
                 PanelConfig.Content = PanelConfig.Content or ""
-                PanelConfig.Placeholder = PanelConfig.Placeholder or "Type here..."
+                PanelConfig.Placeholder = PanelConfig.Placeholder or "Input Here"
                 PanelConfig.ButtonText = PanelConfig.ButtonText or "Confirm"
                 PanelConfig.SubButtonText = PanelConfig.SubButtonText or nil
-                PanelConfig.Callback = PanelConfig.Callback or function() end
+                PanelConfig.ButtonCallback = PanelConfig.ButtonCallback or function() end
+                PanelConfig.SubButtonCallback = PanelConfig.SubButtonCallback or function() end
+                PanelConfig.Default = PanelConfig.Default or ""
 
                 local configKey = "Panel_" .. PanelConfig.Title
                 if ConfigData[configKey] ~= nil then
                     PanelConfig.Default = ConfigData[configKey]
                 end
 
-                local PanelFunc = {}
+                local PanelFunc = { Value = PanelConfig.Default }
 
                 local Panel = Instance.new("Frame")
-                Panel.Name = "Panel"
                 Panel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
                 Panel.BackgroundTransparency = 0.935
-                Panel.Size = UDim2.new(1, 0, 0, (PanelConfig.SubButtonText and 110 or 90))
+                Panel.Size = UDim2.new(1, 0, 0, (PanelConfig.SubButtonText and 120 or 100))
                 Panel.LayoutOrder = CountItem
                 Panel.Parent = SectionAdd
 
@@ -1600,107 +1601,94 @@ function Chloex:Window(GuiConfig)
                 UICorner.CornerRadius = UDim.new(0, 4)
                 UICorner.Parent = Panel
 
-                local iconOffset = 10
-                if PanelConfig.Icon then
-                    local IconImg = Instance.new("ImageLabel")
-                    IconImg.Size = UDim2.new(0, 18, 0, 18)
-                    IconImg.Position = UDim2.new(0, 8, 0, 10)
-                    IconImg.BackgroundTransparency = 1
-                    IconImg.Image = PanelConfig.Icon
-                    IconImg.Parent = Panel
-                    iconOffset = 30
-                end
+                local Title = Instance.new("TextLabel")
+                Title.Font = Enum.Font.GothamBold
+                Title.Text = PanelConfig.Title
+                Title.TextSize = 13
+                Title.TextColor3 = Color3.fromRGB(231, 231, 231)
+                Title.TextXAlignment = Enum.TextXAlignment.Left
+                Title.BackgroundTransparency = 1
+                Title.Position = UDim2.new(0, 10, 0, 10)
+                Title.Size = UDim2.new(1, -20, 0, 13)
+                Title.Parent = Panel
 
-                local PanelTitle = Instance.new("TextLabel")
-                PanelTitle.Font = Enum.Font.GothamBold
-                PanelTitle.Text = PanelConfig.Title
-                PanelTitle.TextSize = 13
-                PanelTitle.TextColor3 = Color3.fromRGB(231, 231, 231)
-                PanelTitle.TextXAlignment = Enum.TextXAlignment.Left
-                PanelTitle.BackgroundTransparency = 1
-                PanelTitle.Position = UDim2.new(0, iconOffset, 0, 10)
-                PanelTitle.Size = UDim2.new(1, -16, 0, 13)
-                PanelTitle.Parent = Panel
+                local Content = Instance.new("TextLabel")
+                Content.Font = Enum.Font.Gotham
+                Content.Text = PanelConfig.Content
+                Content.TextSize = 12
+                Content.TextColor3 = Color3.fromRGB(255, 255, 255)
+                Content.TextTransparency = 0.6
+                Content.TextXAlignment = Enum.TextXAlignment.Left
+                Content.BackgroundTransparency = 1
+                Content.Position = UDim2.new(0, 10, 0, 28)
+                Content.Size = UDim2.new(1, -20, 0, 14)
+                Content.Parent = Panel
 
-                local PanelContent = Instance.new("TextLabel")
-                PanelContent.Font = Enum.Font.Gotham
-                PanelContent.Text = PanelConfig.Content
-                PanelContent.TextSize = 12
-                PanelContent.TextColor3 = Color3.fromRGB(255, 255, 255)
-                PanelContent.TextXAlignment = Enum.TextXAlignment.Left
-                PanelContent.BackgroundTransparency = 1
-                PanelContent.Position = UDim2.new(0, iconOffset, 0, 25)
-                PanelContent.Size = UDim2.new(1, -16, 0, 13)
-                PanelContent.Parent = Panel
-
-                local InputBox = Instance.new("TextBox")
-                InputBox.PlaceholderText = PanelConfig.Placeholder
-                InputBox.Font = Enum.Font.GothamBold
-                InputBox.TextSize = 12
-                InputBox.TextColor3 = Color3.fromRGB(255, 255, 255)
-                InputBox.PlaceholderColor3 = Color3.fromRGB(120, 120, 120)
-                InputBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-                InputBox.BackgroundTransparency = 0.999
-                InputBox.BorderSizePixel = 0
-                InputBox.TextXAlignment = Enum.TextXAlignment.Left
-                InputBox.Size = UDim2.new(1, -iconOffset - 10, 0, 26)
-                InputBox.Position = UDim2.new(0, iconOffset, 0, 45)
-                InputBox.Parent = Panel
+                local InputFrame = Instance.new("Frame")
+                InputFrame.AnchorPoint = Vector2.new(0.5, 0)
+                InputFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                InputFrame.BackgroundTransparency = 0.95
+                InputFrame.Position = UDim2.new(0.5, 0, 0, 48)
+                InputFrame.Size = UDim2.new(1, -20, 0, 30)
+                InputFrame.Parent = Panel
                 local inputCorner = Instance.new("UICorner")
                 inputCorner.CornerRadius = UDim.new(0, 4)
-                inputCorner.Parent = InputBox
+                inputCorner.Parent = InputFrame
 
-                if PanelConfig.Default then
-                    InputBox.Text = tostring(PanelConfig.Default)
-                end
-
-                InputBox.FocusLost:Connect(function()
-                    ConfigData[configKey] = InputBox.Text
-                    SaveConfig()
-                end)
+                local InputBox = Instance.new("TextBox")
+                InputBox.Font = Enum.Font.GothamBold
+                InputBox.PlaceholderText = PanelConfig.Placeholder
+                InputBox.PlaceholderColor3 = Color3.fromRGB(120, 120, 120)
+                InputBox.Text = PanelConfig.Default
+                InputBox.TextSize = 12
+                InputBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+                InputBox.BackgroundTransparency = 1
+                InputBox.TextXAlignment = Enum.TextXAlignment.Left
+                InputBox.Size = UDim2.new(1, -10, 1, -6)
+                InputBox.Position = UDim2.new(0, 5, 0, 3)
+                InputBox.Parent = InputFrame
 
                 local ButtonMain = Instance.new("TextButton")
                 ButtonMain.Font = Enum.Font.GothamBold
-                ButtonMain.TextSize = 14
-                ButtonMain.TextColor3 = Color3.fromRGB(255, 255, 255)
-                ButtonMain.BackgroundColor3 = Color3.fromRGB(0, 208, 255)
                 ButtonMain.Text = PanelConfig.ButtonText
-                ButtonMain.Position = UDim2.new(0, iconOffset, 0, 76)
+                ButtonMain.TextColor3 = Color3.fromRGB(255, 255, 255)
+                ButtonMain.TextSize = 14
+                ButtonMain.BackgroundColor3 = Color3.fromRGB(0, 208, 255)
+                ButtonMain.Size = PanelConfig.SubButtonText and UDim2.new(0.5, -12, 0, 30) or UDim2.new(1, -20, 0, 30)
+                ButtonMain.Position = PanelConfig.SubButtonText and UDim2.new(0, 10, 0, 82) or UDim2.new(0, 10, 0, 82)
                 ButtonMain.Parent = Panel
                 local btnCorner = Instance.new("UICorner")
                 btnCorner.CornerRadius = UDim.new(0, 6)
                 btnCorner.Parent = ButtonMain
 
                 ButtonMain.MouseButton1Click:Connect(function()
-                    if PanelConfig.ButtonCallback then
-                        PanelConfig.ButtonCallback(InputBox.Text)
-                    end
+                    PanelConfig.ButtonCallback(InputBox.Text)
                 end)
 
                 if PanelConfig.SubButtonText then
-                    ButtonMain.Size = UDim2.new(0.5, -5, 0, 28)
-
                     local SubButton = Instance.new("TextButton")
                     SubButton.Font = Enum.Font.GothamBold
-                    SubButton.TextSize = 14
-                    SubButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-                    SubButton.BackgroundColor3 = Color3.fromRGB(0, 208, 255)
                     SubButton.Text = PanelConfig.SubButtonText
-                    SubButton.Size = UDim2.new(0.5, -5, 0, 28)
-                    SubButton.Position = UDim2.new(0.5, 5, 0, 76)
+                    SubButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+                    SubButton.TextSize = 14
+                    SubButton.BackgroundColor3 = Color3.fromRGB(0, 208, 255)
+                    SubButton.Size = UDim2.new(0.5, -12, 0, 30)
+                    SubButton.Position = UDim2.new(0.5, 2, 0, 82)
                     SubButton.Parent = Panel
                     local subCorner = Instance.new("UICorner")
                     subCorner.CornerRadius = UDim.new(0, 6)
                     subCorner.Parent = SubButton
 
                     SubButton.MouseButton1Click:Connect(function()
-                        if PanelConfig.SubButtonCallback then
-                            PanelConfig.SubButtonCallback(InputBox.Text)
-                        end
+                        PanelConfig.SubButtonCallback(InputBox.Text)
                     end)
-                else
-                    ButtonMain.Size = UDim2.new(1, -iconOffset - 10, 0, 28)
                 end
+
+                InputBox.FocusLost:Connect(function()
+                    PanelFunc.Value = InputBox.Text
+                    ConfigData[configKey] = InputBox.Text
+                    SaveConfig()
+                end)
 
                 function PanelFunc:GetInput()
                     return InputBox.Text
