@@ -96,6 +96,7 @@ Example:AddButton({
     end
 })
 
+-- 1. Lengkap (Input + 2 Button)
 Example:AddPanel({
     Title = "JobID Server",
     Content = "Masukkan JobID target",
@@ -110,4 +111,47 @@ Example:AddPanel({
             setclipboard(text)
         end
     end
+})
+
+-- 2. Input + 1 Button
+Example:AddPanel({
+    Title = "Change Name",
+    Content = "Masukkan nama baru",
+    Placeholder = "Input nama",
+    ButtonText = "Save",
+    ButtonCallback = function(text)
+        print("Nama diganti jadi:", text)
+    end
+})
+
+-- 3. 2 Button aja (tanpa input)
+Example:AddPanel({
+    Title = "Server Control",
+    Content = "Pilih aksi server",
+    ButtonText = "Restart",
+    ButtonCallback = function()
+        print("Server di-restart")
+    end,
+    SubButtonText = "Shutdown",
+    SubButtonCallback = function()
+        print("Server dimatikan")
+    end
+})
+
+-- 4. 1 Button aja (tanpa input)
+Example:AddPanel({
+    Title = "Teleport",
+    Content = "Klik untuk teleport ke Lobby",
+    ButtonText = "Teleport",
+    ButtonCallback = function()
+        print("Teleport ke Lobby")
+    end
+})
+
+-- 5. Input aja (tanpa button)
+Example:AddPanel({
+    Title = "Note",
+    Content = "Catatan pribadi",
+    Placeholder = "Tulis sesuatu...",
+    Default = "Halo Chloe!"
 })
