@@ -839,7 +839,7 @@ function Chloex:Window(GuiConfig)
         local Yes = Instance.new("TextButton")
         Yes.Size = UDim2.new(0.45, -10, 0, 35)
         Yes.Position = UDim2.new(0.05, 0, 1, -55)
-        Yes.BackgroundColor3 = Color3.fromRGB(0, 4, 134)
+        Yes.BackgroundColor3 = GuiConfig.Color
         Yes.Text = "Yes"
         Yes.Font = Enum.Font.GothamBold
         Yes.TextSize = 16
@@ -851,7 +851,7 @@ function Chloex:Window(GuiConfig)
         local Cancel = Instance.new("TextButton")
         Cancel.Size = UDim2.new(0.45, -10, 0, 35)
         Cancel.Position = UDim2.new(0.5, 10, 1, -55)
-        Cancel.BackgroundColor3 = Color3.fromRGB(0, 4, 134)
+        Cancel.BackgroundColor3 = GuiConfig.Color
         Cancel.Text = "Cancel"
         Cancel.Font = Enum.Font.GothamBold
         Cancel.TextSize = 16
