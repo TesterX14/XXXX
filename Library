@@ -1588,12 +1588,13 @@ function Chloex:Window(GuiConfig)
                 local Content = Instance.new("TextLabel")
                 Content.Font = Enum.Font.Gotham
                 Content.Text = PanelConfig.Content
-                Content.TextSize = 12
+                Content.TextSize = 11
                 Content.TextColor3 = Color3.fromRGB(255, 255, 255)
                 Content.TextTransparency = 0
                 Content.TextXAlignment = Enum.TextXAlignment.Left
                 Content.BackgroundTransparency = 1
-                Content.Position = UDim2.new(0, 10, 0, 28)
+                Content.RichText = true
+                Content.Position = UDim2.new(0, 10, 0, 32)
                 Content.Size = UDim2.new(1, -20, 0, 14)
                 Content.Parent = Panel
 
