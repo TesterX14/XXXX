@@ -1572,7 +1572,7 @@ function Chloex:Window(GuiConfig)
                 return ParagraphFunc
             end
 
-                function Items:AddPanel(PanelConfig)
+            function Items:AddPanel(PanelConfig)
                 PanelConfig = PanelConfig or {}
                 PanelConfig.Title = PanelConfig.Title or "Title"
                 PanelConfig.Content = PanelConfig.Content or ""
@@ -1592,7 +1592,8 @@ function Chloex:Window(GuiConfig)
                 Panel.Name = "Panel"
                 Panel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
                 Panel.BackgroundTransparency = 0.935
-                Panel.Size = UDim2.new(1, 0, 0, 110)
+                Panel.Size = UDim2.new(1, 0, 0, (PanelConfig.SubButtonText and 110 or 90)) -- auto tinggi
+                Panel.LayoutOrder = CountItem
                 Panel.Parent = SectionAdd
 
                 local UICorner = Instance.new("UICorner")
@@ -1660,7 +1661,6 @@ function Chloex:Window(GuiConfig)
                 ButtonMain.TextColor3 = Color3.fromRGB(0, 0, 0)
                 ButtonMain.BackgroundColor3 = Color3.fromRGB(0, 208, 255)
                 ButtonMain.Text = PanelConfig.ButtonText
-                ButtonMain.Size = UDim2.new(1, -iconOffset - 10, 0, 28)
                 ButtonMain.Position = UDim2.new(0, iconOffset, 0, 76)
                 ButtonMain.Parent = Panel
                 local btnCorner = Instance.new("UICorner")
@@ -1674,7 +1674,7 @@ function Chloex:Window(GuiConfig)
                 end)
 
                 if PanelConfig.SubButtonText then
-                    ButtonMain.Size = UDim2.new(0.5, -6, 0, 28)
+                    ButtonMain.Size = UDim2.new(0.5, -(iconOffset + 8), 0, 28)
 
                     local SubButton = Instance.new("TextButton")
                     SubButton.Font = Enum.Font.GothamBold
@@ -1682,8 +1682,8 @@ function Chloex:Window(GuiConfig)
                     SubButton.TextColor3 = Color3.fromRGB(0, 0, 0)
                     SubButton.BackgroundColor3 = Color3.fromRGB(255, 170, 0)
                     SubButton.Text = PanelConfig.SubButtonText
-                    SubButton.Size = UDim2.new(0.5, -6, 0, 28)
-                    SubButton.Position = UDim2.new(0.5, iconOffset, 0, 76)
+                    SubButton.Size = UDim2.new(0.5, -(iconOffset + 8), 0, 28)
+                    SubButton.Position = UDim2.new(0.5, iconOffset - 2, 0, 76)
                     SubButton.Parent = Panel
                     local subCorner = Instance.new("UICorner")
                     subCorner.CornerRadius = UDim.new(0, 6)
@@ -1694,6 +1694,8 @@ function Chloex:Window(GuiConfig)
                             PanelConfig.SubButtonCallback(InputBox.Text)
                         end
                     end)
+                else
+                    ButtonMain.Size = UDim2.new(1, -iconOffset - 10, 0, 28)
                 end
 
                 function PanelFunc:GetInput()
@@ -1711,7 +1713,6 @@ function Chloex:Window(GuiConfig)
                 ButtonConfig.Icon = ButtonConfig.Icon or "rbxassetid://17887130324"
                 ButtonConfig.Callback = ButtonConfig.Callback or function() end
                 local ButtonFunc = {}
-
                 local Button = Instance.new("Frame");
                 local UICorner9 = Instance.new("UICorner");
                 local ButtonTitle = Instance.new("TextLabel");
