@@ -1439,11 +1439,7 @@ function Chloex:Window(GuiConfig)
                     end
                 end)
             end
-
-            SectionAdd.ChildAdded:Connect(UpdateSizeSection)
-            SectionAdd.ChildRemoved:Connect(UpdateSizeSection)
-            UpdateSizeScroll()
-
+            
             if AlwaysOpen then
                 OpenSection = true
                 local SectionSizeYWitdh = 38
