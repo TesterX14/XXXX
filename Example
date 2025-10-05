@@ -4,7 +4,7 @@ local Window = Chloex:Window({
     Title   = "Chloe X |",
     Footer  = "Example",
     Image   = "132435516080103",
-    Color   = Color3.fromRGB(0,208,255),
+    Color   = Color3.fromRGB(0, 208, 255),
     Theme   = 9542022979,
     Version = 2,
 })
@@ -16,85 +16,98 @@ end
 -- Tab
 local ExampleTab = Window:AddTab({
     Name = "Example",
-    Icon = "player"
+    Icon = "scan"
 })
 
 -- Section
 local Example = ExampleTab:AddSection("Section Example", true)
 
 -- Paragraph
-local MyParagraph = Example:AddParagraph({
-    Title = "Hellooooooo from Chloeeeeee:3",
-    Content = "You can refresh this with button/toggles",
-    Icon = "rbxassetid://84173963561612"
+Example:AddParagraph({
+    Title = "Chloe X Alert!",
+    Content = [[
+This script is still under development!
+There is a possibility it may get detected if used in public servers!
+If you have suggestions or found bugs, please report them to <font color="rgb(0,170,255)">Discord Chloe X</font>!<br/>
+<b>Use at your own risk!</b>
+]],
+    Icon = "water"
 })
 
+
 Example:AddParagraph({
-    Title = "CHLOEEE X",
-    Content = "You can refresh this with button/toggles",
-    Icon = "player",
+    Title = "CHLOE X Discord",
+    Content = "Official link discord Chloe X!",
+    Icon = "discord",
     ButtonText = "COPY LINK DISCORD",
     ButtonCallback = function()
         if setclipboard then
             setclipboard("https://discord.gg/J5KdfSHD")
-            print("Link Discord dicopy ke clipboard!")
-        else
-            print("Executor kamu ga support setclipboard")
+            chloex("Succesfully copied link!")
         end
-    end
-})
-
--- Button untuk refresh paragraph
-Example:AddButton({
-    Title = "Refresh Button Paragraph",
-    Content = "Click this for update",
-    Callback = function()
-        MyParagraph:SetContent("Chloeee Uwuuuuuuu")
-    end
-})
-
--- Button untuk notifikasi
-Example:AddButton({
-    Title = "Notification Test",
-    Callback = function()
-        chloex("Hello from chloeeeeeee :3")
     end
 })
 
 Example:AddDivider()
 
--- Tambahan Toggle
-Example:AddToggle({
-    Title = "God Mode",
-    Default = false,
-    Callback = function(state)
-        if state then
-            chloex("God Mode ON")
-        else
-            chloex("God Mode OFF")
+local Players = game:GetService("Players")
+local TeleportService = game:GetService("TeleportService")
+local LocalPlayer = Players.LocalPlayer
+
+local thumb, _ = Players:GetUserThumbnailAsync(
+    LocalPlayer.UserId,
+    Enum.ThumbnailType.HeadShot,
+    Enum.ThumbnailSize.Size100x100
+)
+
+local currentJobId = "CHX-" .. tostring(game.JobId)
+
+Example:AddParagraph({
+    Title = "JobID Server",
+    Content = currentJobId,
+    Icon = thumb,
+    ButtonText = "Copy JobID",
+    ButtonCallback = function()
+        if setclipboard then
+            setclipboard(currentJobId)
+            chloex("Succesfully Copied!")
         end
     end
 })
 
--- Tambahan Dropdown
-Example:AddDropdown({
-    Title = "Select Fruit",
-    Content = "Pick one you like",
-    Options = {"Apple","Banana","Orange"},
-    Default = "Apple",
+local InputJobId = ""
+Example:AddInput({
+    Title = "Input JobID",
+    Default = "",
     Callback = function(value)
-        chloex("You selected: " .. value)
+        InputJobId = value
     end
 })
 
-Example:AddSlider({
-    Title = "Volume",
-    Content = "Atur besar suara",
-    Min = 0,
-    Max = 100,
-    Default = 50,
-    Increment = 5,
-    Callback = function(value)
-        print("Volume diset ke:", value)
+Example:AddButton({
+    Title = "Join JobID",
+    Callback = function()
+        if InputJobId ~= "" then
+            local realJobId = InputJobId:gsub("^CHX%-", "")
+            TeleportService:TeleportToPlaceInstance(game.PlaceId, realJobId, LocalPlayer)
+        else
+            chloex("Input Job Id!")
+        end
+    end
+})
+
+Example:AddPanel({
+    Title = "JobID Server",
+    Content = "Masukkan JobID target",
+    Placeholder = "Input JobID",
+    ButtonText = "Join JobID",
+    ButtonCallback = function(text)
+        print("Join ke:", text)
+    end,
+    SubButtonText = "Copy JobID",
+    SubButtonCallback = function(text)
+        if setclipboard then
+            setclipboard(text)
+        end
     end
 })

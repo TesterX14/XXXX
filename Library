@@ -1592,7 +1592,7 @@ function Chloex:Window(GuiConfig)
                 Panel.Name = "Panel"
                 Panel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
                 Panel.BackgroundTransparency = 0.935
-                Panel.Size = UDim2.new(1, 0, 0, (PanelConfig.SubButtonText and 110 or 90)) -- auto tinggi
+                Panel.Size = UDim2.new(1, 0, 0, (PanelConfig.SubButtonText and 110 or 90))
                 Panel.LayoutOrder = CountItem
                 Panel.Parent = SectionAdd
 
@@ -1658,7 +1658,7 @@ function Chloex:Window(GuiConfig)
                 local ButtonMain = Instance.new("TextButton")
                 ButtonMain.Font = Enum.Font.GothamBold
                 ButtonMain.TextSize = 14
-                ButtonMain.TextColor3 = Color3.fromRGB(0, 0, 0)
+                ButtonMain.TextColor3 = Color3.fromRGB(255, 255, 255)
                 ButtonMain.BackgroundColor3 = Color3.fromRGB(0, 208, 255)
                 ButtonMain.Text = PanelConfig.ButtonText
                 ButtonMain.Position = UDim2.new(0, iconOffset, 0, 76)
@@ -1679,8 +1679,8 @@ function Chloex:Window(GuiConfig)
                     local SubButton = Instance.new("TextButton")
                     SubButton.Font = Enum.Font.GothamBold
                     SubButton.TextSize = 14
-                    SubButton.TextColor3 = Color3.fromRGB(0, 0, 0)
-                    SubButton.BackgroundColor3 = Color3.fromRGB(255, 170, 0)
+                    SubButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+                    SubButton.BackgroundColor3 = Color3.fromRGB(0, 208, 255)
                     SubButton.Text = PanelConfig.SubButtonText
                     SubButton.Size = UDim2.new(0.5, -(iconOffset + 8), 0, 28)
                     SubButton.Position = UDim2.new(0.5, iconOffset - 2, 0, 76)
