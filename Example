@@ -101,17 +101,30 @@ Example:AddPanel({
     Title = "JobID Server",
     Content = "Masukkan JobID target",
     Placeholder = "Input JobID",
-    ButtonText = "Join JobID",
-    ButtonCallback = function(text)
-        print("Join ke:", text)
-    end,
-    SubButtonText = "Copy JobID",
-    SubButtonCallback = function(text)
+    Button = "Copy JobID", -- tombol kiri
+    Callback = function(text)
         if setclipboard then
             setclipboard(text)
+            print("JobID dicopy:", text)
+        else
+            warn("Clipboard tidak tersedia")
+        end
+    end,
+    SubButton = "Join JobID", -- tombol kanan
+    SubCallback = function(text)
+        if text and text ~= "" then
+            local TeleportService = game:GetService("TeleportService")
+            local Players = game:GetService("Players")
+            local PlaceId = game.PlaceId
+
+            print("Mencoba join ke JobID:", text)
+            TeleportService:TeleportToPlaceInstance(PlaceId, text, Players.LocalPlayer)
+        else
+            warn("JobID kosong, tidak bisa join")
         end
     end
 })
+
 
 -- 2. Input + 1 Button
 Example:AddPanel({
@@ -153,5 +166,5 @@ Example:AddPanel({
     Title = "Note",
     Content = "Catatan pribadi",
     Placeholder = "Tulis sesuatu...",
-    Default = "Halo Chloe!"
+    Default = ""
 })
