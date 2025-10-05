@@ -1537,7 +1537,7 @@ function Chloex:Window(GuiConfig)
                     ParagraphButton.BackgroundColor3 = Color3.fromRGB(0, 208, 255)
                     ParagraphButton.Font = Enum.Font.GothamBold
                     ParagraphButton.TextSize = 14
-                    ParagraphButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+                    ParagraphButton.TextColor3 = Color3.fromRGB(255, 255, 255)
                     ParagraphButton.Text = ParagraphConfig.ButtonText
                     ParagraphButton.Parent = Paragraph
 
@@ -1617,7 +1617,7 @@ function Chloex:Window(GuiConfig)
                 Content.Text = PanelConfig.Content
                 Content.TextSize = 12
                 Content.TextColor3 = Color3.fromRGB(255, 255, 255)
-                Content.TextTransparency = 0.6
+                Content.TextTransparency = 0
                 Content.TextXAlignment = Enum.TextXAlignment.Left
                 Content.BackgroundTransparency = 1
                 Content.Position = UDim2.new(0, 10, 0, 28)
