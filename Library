@@ -91,6 +91,23 @@ local Mouse = LocalPlayer:GetMouse()
 local CoreGui = game:GetService("CoreGui")
 local viewport = workspace.CurrentCamera.ViewportSize
 
+local Connections = {}
+
+local function AddConnection(signal, func)
+    local conn = signal:Connect(func)
+    table.insert(Connections, conn)
+    return conn
+end
+
+local function Cleanup()
+    for _, c in ipairs(Connections) do
+        if c.Connected then
+            c:Disconnect()
+        end
+    end
+    Connections = {}
+end
+
 local function isMobileDevice()
     return UserInputService.TouchEnabled
         and not UserInputService.KeyboardEnabled
@@ -127,12 +144,13 @@ local function MakeDraggable(topbarobject, object)
             Tween:Play()
         end
 
-        topbarobject.InputBegan:Connect(function(input)
+        AddConnection(topbarobject.InputBegan, function(input)
             if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
                 Dragging = true
                 DragStart = input.Position
                 StartPosition = object.Position
-                input.Changed:Connect(function()
+
+                AddConnection(input.Changed, function()
                     if input.UserInputState == Enum.UserInputState.End then
                         Dragging = false
                     end
@@ -140,13 +158,13 @@ local function MakeDraggable(topbarobject, object)
             end
         end)
 
-        topbarobject.InputChanged:Connect(function(input)
+        AddConnection(topbarobject.InputChanged, function(input)
             if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
                 DragInput = input
             end
         end)
 
-        UserInputService.InputChanged:Connect(function(input)
+        AddConnection(UserInputService.InputChanged, function(input)
             if input == DragInput and Dragging then
                 UpdatePos(input)
             end
@@ -189,12 +207,13 @@ local function MakeDraggable(topbarobject, object)
             Tween:Play()
         end
 
-        changesizeobject.InputBegan:Connect(function(input)
+        AddConnection(changesizeobject.InputBegan, function(input)
             if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
                 Dragging = true
                 DragStart = input.Position
                 StartSize = object.Size
-                input.Changed:Connect(function()
+
+                AddConnection(input.Changed, function()
                     if input.UserInputState == Enum.UserInputState.End then
                         Dragging = false
                     end
@@ -202,13 +221,13 @@ local function MakeDraggable(topbarobject, object)
             end
         end)
 
-        changesizeobject.InputChanged:Connect(function(input)
+        AddConnection(changesizeobject.InputChanged, function(input)
             if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
                 DragInput = input
             end
         end)
 
-        UserInputService.InputChanged:Connect(function(input)
+        AddConnection(UserInputService.InputChanged, function(input)
             if input == DragInput and Dragging then
                 UpdateSize(input)
             end
@@ -514,6 +533,8 @@ function Chloex:Window(GuiConfig)
     local LayersReal = Instance.new("Frame");
     local LayersFolder = Instance.new("Folder");
     local LayersPageLayout = Instance.new("UIPageLayout");
+
+    Chloeex.Destroying:Connect(Cleanup)
 
     Chloeex.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
     Chloeex.Name = "Chloeex"
@@ -955,24 +976,47 @@ function Chloex:Window(GuiConfig)
             )
         end
 
-        Button.InputBegan:Connect(function(input)
-            if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        AddConnection(Button.MouseButton1Click:Connect(function()
+            if DropShadowHolder then
+                DropShadowHolder.Visible = not DropShadowHolder.Visible
+            end
+        end))
+
+        local dragging = false
+        local dragStart, startPos
+
+        local function update(input)
+            local delta = input.Position - dragStart
+            MainButton.Position = UDim2.new(
+                startPos.X.Scale,
+                startPos.X.Offset + delta.X,
+                startPos.Y.Scale,
+                startPos.Y.Offset + delta.Y
+            )
+        end
+
+        AddConnection(Button.InputBegan:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1
+                or input.UserInputType == Enum.UserInputType.Touch then
                 dragging = true
                 dragStart = input.Position
                 startPos = MainButton.Position
-                input.Changed:Connect(function()
-                    if input.UserInputState == Enum.UserInputState.End then
-                        dragging = false
-                    end
-                end)
             end
-        end)
+        end))
 
-        game:GetService("UserInputService").InputChanged:Connect(function(input)
-            if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+        AddConnection(Button.InputEnded:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1
+                or input.UserInputType == Enum.UserInputType.Touch then
+                dragging = false
+            end
+        end))
+
+        AddConnection(UserInputService.InputChanged:Connect(function(input)
+            if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement
+                    or input.UserInputType == Enum.UserInputType.Touch) then
                 update(input)
             end
-        end)
+        end))
     end
 
     GuiFunc:ToggleUI()
@@ -1439,7 +1483,7 @@ function Chloex:Window(GuiConfig)
                     end
                 end)
             end
-            
+
             if AlwaysOpen then
                 OpenSection = true
                 local SectionSizeYWitdh = 38
@@ -1460,7 +1504,6 @@ function Chloex:Window(GuiConfig)
 
             local Items = {}
             local CountItem = 0
-
             function Items:AddParagraph(ParagraphConfig)
                 local ParagraphConfig = ParagraphConfig or {}
                 ParagraphConfig.Title = ParagraphConfig.Title or "Title"
@@ -1570,6 +1613,138 @@ function Chloex:Window(GuiConfig)
 
                 CountItem = CountItem + 1
                 return ParagraphFunc
+            end
+
+            function Items:AddPanel(PanelConfig)
+                PanelConfig = PanelConfig or {}
+                PanelConfig.Title = PanelConfig.Title or "Title"
+                PanelConfig.Content = PanelConfig.Content or ""
+                PanelConfig.Placeholder = PanelConfig.Placeholder or "Type here..."
+                PanelConfig.ButtonText = PanelConfig.ButtonText or "Confirm"
+                PanelConfig.SubButtonText = PanelConfig.SubButtonText or nil
+                PanelConfig.Callback = PanelConfig.Callback or function() end
+
+                local configKey = "Panel_" .. PanelConfig.Title
+                if ConfigData[configKey] ~= nil then
+                    PanelConfig.Default = ConfigData[configKey]
+                end
+
+                local PanelFunc = {}
+
+                local Panel = Instance.new("Frame")
+                Panel.Name = "Panel"
+                Panel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                Panel.BackgroundTransparency = 0.935
+                Panel.Size = UDim2.new(1, 0, 0, 110)
+                Panel.Parent = SectionAdd
+
+                local UICorner = Instance.new("UICorner")
+                UICorner.CornerRadius = UDim.new(0, 4)
+                UICorner.Parent = Panel
+
+                local iconOffset = 10
+                if PanelConfig.Icon then
+                    local IconImg = Instance.new("ImageLabel")
+                    IconImg.Size = UDim2.new(0, 18, 0, 18)
+                    IconImg.Position = UDim2.new(0, 8, 0, 10)
+                    IconImg.BackgroundTransparency = 1
+                    IconImg.Image = PanelConfig.Icon
+                    IconImg.Parent = Panel
+                    iconOffset = 30
+                end
+
+                local PanelTitle = Instance.new("TextLabel")
+                PanelTitle.Font = Enum.Font.GothamBold
+                PanelTitle.Text = PanelConfig.Title
+                PanelTitle.TextSize = 13
+                PanelTitle.TextColor3 = Color3.fromRGB(231, 231, 231)
+                PanelTitle.TextXAlignment = Enum.TextXAlignment.Left
+                PanelTitle.BackgroundTransparency = 1
+                PanelTitle.Position = UDim2.new(0, iconOffset, 0, 10)
+                PanelTitle.Size = UDim2.new(1, -16, 0, 13)
+                PanelTitle.Parent = Panel
+
+                local PanelContent = Instance.new("TextLabel")
+                PanelContent.Font = Enum.Font.Gotham
+                PanelContent.Text = PanelConfig.Content
+                PanelContent.TextSize = 12
+                PanelContent.TextColor3 = Color3.fromRGB(255, 255, 255)
+                PanelContent.TextXAlignment = Enum.TextXAlignment.Left
+                PanelContent.BackgroundTransparency = 1
+                PanelContent.Position = UDim2.new(0, iconOffset, 0, 25)
+                PanelContent.Size = UDim2.new(1, -16, 0, 13)
+                PanelContent.Parent = Panel
+
+                local InputBox = Instance.new("TextBox")
+                InputBox.PlaceholderText = PanelConfig.Placeholder
+                InputBox.Font = Enum.Font.Gotham
+                InputBox.TextSize = 12
+                InputBox.TextColor3 = Color3.fromRGB(0, 0, 0)
+                InputBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                InputBox.Size = UDim2.new(1, -iconOffset - 10, 0, 26)
+                InputBox.Position = UDim2.new(0, iconOffset, 0, 45)
+                InputBox.Parent = Panel
+                local inputCorner = Instance.new("UICorner")
+                inputCorner.CornerRadius = UDim.new(0, 4)
+                inputCorner.Parent = InputBox
+
+                if PanelConfig.Default then
+                    InputBox.Text = tostring(PanelConfig.Default)
+                end
+
+                InputBox.FocusLost:Connect(function()
+                    ConfigData[configKey] = InputBox.Text
+                    SaveConfig()
+                end)
+
+                local ButtonMain = Instance.new("TextButton")
+                ButtonMain.Font = Enum.Font.GothamBold
+                ButtonMain.TextSize = 14
+                ButtonMain.TextColor3 = Color3.fromRGB(0, 0, 0)
+                ButtonMain.BackgroundColor3 = Color3.fromRGB(0, 208, 255)
+                ButtonMain.Text = PanelConfig.ButtonText
+                ButtonMain.Size = UDim2.new(1, -iconOffset - 10, 0, 28)
+                ButtonMain.Position = UDim2.new(0, iconOffset, 0, 76)
+                ButtonMain.Parent = Panel
+                local btnCorner = Instance.new("UICorner")
+                btnCorner.CornerRadius = UDim.new(0, 6)
+                btnCorner.Parent = ButtonMain
+
+                ButtonMain.MouseButton1Click:Connect(function()
+                    if PanelConfig.ButtonCallback then
+                        PanelConfig.ButtonCallback(InputBox.Text)
+                    end
+                end)
+
+                if PanelConfig.SubButtonText then
+                    ButtonMain.Size = UDim2.new(0.5, -6, 0, 28)
+
+                    local SubButton = Instance.new("TextButton")
+                    SubButton.Font = Enum.Font.GothamBold
+                    SubButton.TextSize = 14
+                    SubButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+                    SubButton.BackgroundColor3 = Color3.fromRGB(255, 170, 0)
+                    SubButton.Text = PanelConfig.SubButtonText
+                    SubButton.Size = UDim2.new(0.5, -6, 0, 28)
+                    SubButton.Position = UDim2.new(0.5, iconOffset, 0, 76)
+                    SubButton.Parent = Panel
+                    local subCorner = Instance.new("UICorner")
+                    subCorner.CornerRadius = UDim.new(0, 6)
+                    subCorner.Parent = SubButton
+
+                    SubButton.MouseButton1Click:Connect(function()
+                        if PanelConfig.SubButtonCallback then
+                            PanelConfig.SubButtonCallback(InputBox.Text)
+                        end
+                    end)
+                end
+
+                function PanelFunc:GetInput()
+                    return InputBox.Text
+                end
+
+                CountItem = CountItem + 1
+                return PanelFunc
             end
 
             function Items:AddButton(ButtonConfig)
