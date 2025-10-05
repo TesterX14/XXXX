@@ -498,7 +498,6 @@ function Chloex:Window(GuiConfig)
     local UICorner1 = Instance.new("UICorner");
     local TextLabel1 = Instance.new("TextLabel");
     local UIStroke1 = Instance.new("UIStroke");
-    local ImageLabel = Instance.new("ImageLabel");
     local Close = Instance.new("TextButton");
     local ImageLabel1 = Instance.new("ImageLabel");
     local Min = Instance.new("TextButton");
@@ -610,16 +609,6 @@ function Chloex:Window(GuiConfig)
     TextLabel1.Position = UDim2.new(0, TextLabel.TextBounds.X + 15, 0, 0)
     TextLabel1.Parent = Top
 
-    ImageLabel.Image = "rbxassetid://9886659406"
-    ImageLabel.AnchorPoint = Vector2.new(0.5, 0.5)
-    ImageLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    ImageLabel.BackgroundTransparency = 0.9990000128746033
-    ImageLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    ImageLabel.BorderSizePixel = 0
-    ImageLabel.Position = UDim2.new(0.5, 0, 0.5, 0)
-    ImageLabel.Size = UDim2.new(1, -8, 1, -8)
-    ImageLabel.Parent = MaxRestore
-
     Close.Font = Enum.Font.SourceSans
     Close.Text = ""
     Close.TextColor3 = Color3.fromRGB(0, 0, 0)
@@ -629,7 +618,7 @@ function Chloex:Window(GuiConfig)
     Close.BackgroundTransparency = 0.9990000128746033
     Close.BorderColor3 = Color3.fromRGB(0, 0, 0)
     Close.BorderSizePixel = 0
-    Close.Position = UDim2.new(1, -42, 0.5, 0)
+    Close.Position = UDim2.new(1, -8, 0.5, 0)
     Close.Size = UDim2.new(0, 25, 0, 25)
     Close.Name = "Close"
     Close.Parent = Top
@@ -737,7 +726,7 @@ function Chloex:Window(GuiConfig)
     LayersPageLayout.TweenTime = 0.5
     LayersPageLayout.EasingDirection = Enum.EasingDirection.InOut
     LayersPageLayout.EasingStyle = Enum.EasingStyle.Quad
-    --// Layer Tabs
+
     local ScrollTab = Instance.new("ScrollingFrame");
     local UIListLayout = Instance.new("UIListLayout");
 
@@ -775,22 +764,6 @@ function Chloex:Window(GuiConfig)
         end
     end
 
-    local OldPos = DropShadowHolder.Position
-    local OldSize = DropShadowHolder.Size
-    MaxRestore.Activated:Connect(function()
-        CircleClick(MaxRestore, Mouse.X, Mouse.Y)
-        if ImageLabel.Image == "rbxassetid://9886659406" then
-            ImageLabel.Image = "rbxassetid://9886659001"
-            OldPos = DropShadowHolder.Position
-            OldSize = DropShadowHolder.Size
-            TweenService:Create(DropShadowHolder, TweenInfo.new(0.3), { Position = UDim2.new(0, 0, 0, 0) }):Play()
-            TweenService:Create(DropShadowHolder, TweenInfo.new(0.3), { Size = UDim2.new(1, 0, 1, 0) }):Play()
-        else
-            ImageLabel.Image = "rbxassetid://9886659406"
-            TweenService:Create(DropShadowHolder, TweenInfo.new(0.3), { Position = OldPos }):Play()
-            TweenService:Create(DropShadowHolder, TweenInfo.new(0.3), { Size = OldSize }):Play()
-        end
-    end)
     Min.Activated:Connect(function()
         CircleClick(Min, Mouse.X, Mouse.Y)
         DropShadowHolder.Visible = false
