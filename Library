@@ -1618,7 +1618,7 @@ function Chloex:Window(GuiConfig)
                 Title.Font = Enum.Font.GothamBold
                 Title.Text = PanelConfig.Title
                 Title.TextSize = 13
-                Title.TextColor3 = Color3.fromRGB(231, 231, 231)
+                Title.TextColor3 = Color3.fromRGB(255, 255, 255)
                 Title.TextXAlignment = Enum.TextXAlignment.Left
                 Title.BackgroundTransparency = 1
                 Title.Position = UDim2.new(0, 10, 0, 10)
@@ -1630,7 +1630,7 @@ function Chloex:Window(GuiConfig)
                 Content.Text = PanelConfig.Content
                 Content.TextSize = 12
                 Content.TextColor3 = Color3.fromRGB(255, 255, 255)
-                Content.TextTransparency = 0.6
+                Content.TextTransparency = 0
                 Content.TextXAlignment = Enum.TextXAlignment.Left
                 Content.BackgroundTransparency = 1
                 Content.Position = UDim2.new(0, 10, 0, 28)
