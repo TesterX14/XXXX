@@ -498,7 +498,6 @@ function Chloex:Window(GuiConfig)
     local UICorner1 = Instance.new("UICorner");
     local TextLabel1 = Instance.new("TextLabel");
     local UIStroke1 = Instance.new("UIStroke");
-    local MaxRestore = Instance.new("TextButton");
     local ImageLabel = Instance.new("ImageLabel");
     local Close = Instance.new("TextButton");
     local ImageLabel1 = Instance.new("ImageLabel");
@@ -611,20 +610,6 @@ function Chloex:Window(GuiConfig)
     TextLabel1.Position = UDim2.new(0, TextLabel.TextBounds.X + 15, 0, 0)
     TextLabel1.Parent = Top
 
-    MaxRestore.Font = Enum.Font.SourceSans
-    MaxRestore.Text = ""
-    MaxRestore.TextColor3 = Color3.fromRGB(0, 0, 0)
-    MaxRestore.TextSize = 14
-    MaxRestore.AnchorPoint = Vector2.new(1, 0.5)
-    MaxRestore.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    MaxRestore.BackgroundTransparency = 0.9990000128746033
-    MaxRestore.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    MaxRestore.BorderSizePixel = 0
-    MaxRestore.Position = UDim2.new(1, -42, 0.5, 0)
-    MaxRestore.Size = UDim2.new(0, 25, 0, 25)
-    MaxRestore.Name = "MaxRestore"
-    MaxRestore.Parent = Top
-
     ImageLabel.Image = "rbxassetid://9886659406"
     ImageLabel.AnchorPoint = Vector2.new(0.5, 0.5)
     ImageLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -644,7 +629,7 @@ function Chloex:Window(GuiConfig)
     Close.BackgroundTransparency = 0.9990000128746033
     Close.BorderColor3 = Color3.fromRGB(0, 0, 0)
     Close.BorderSizePixel = 0
-    Close.Position = UDim2.new(1, -8, 0.5, 0)
+    Close.Position = UDim2.new(1, -42, 0.5, 0)
     Close.Size = UDim2.new(0, 25, 0, 25)
     Close.Name = "Close"
     Close.Parent = Top
