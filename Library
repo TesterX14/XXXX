@@ -91,23 +91,6 @@ local Mouse = LocalPlayer:GetMouse()
 local CoreGui = game:GetService("CoreGui")
 local viewport = workspace.CurrentCamera.ViewportSize
 
-local Connections = {}
-
-local function AddConnection(signal, func)
-    local conn = signal:Connect(func)
-    table.insert(Connections, conn)
-    return conn
-end
-
-local function Cleanup()
-    for _, c in ipairs(Connections) do
-        if c.Connected then
-            c:Disconnect()
-        end
-    end
-    Connections = {}
-end
-
 local function isMobileDevice()
     return UserInputService.TouchEnabled
         and not UserInputService.KeyboardEnabled
@@ -144,13 +127,12 @@ local function MakeDraggable(topbarobject, object)
             Tween:Play()
         end
 
-        AddConnection(topbarobject.InputBegan, function(input)
+        topbarobject.InputBegan:Connect(function(input)
             if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
                 Dragging = true
                 DragStart = input.Position
                 StartPosition = object.Position
-
-                AddConnection(input.Changed, function()
+                input.Changed:Connect(function()
                     if input.UserInputState == Enum.UserInputState.End then
                         Dragging = false
                     end
@@ -158,13 +140,13 @@ local function MakeDraggable(topbarobject, object)
             end
         end)
 
-        AddConnection(topbarobject.InputChanged, function(input)
+        topbarobject.InputChanged:Connect(function(input)
             if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
                 DragInput = input
             end
         end)
 
-        AddConnection(UserInputService.InputChanged, function(input)
+        UserInputService.InputChanged:Connect(function(input)
             if input == DragInput and Dragging then
                 UpdatePos(input)
             end
@@ -207,13 +189,12 @@ local function MakeDraggable(topbarobject, object)
             Tween:Play()
         end
 
-        AddConnection(changesizeobject.InputBegan, function(input)
+        changesizeobject.InputBegan:Connect(function(input)
             if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
                 Dragging = true
                 DragStart = input.Position
                 StartSize = object.Size
-
-                AddConnection(input.Changed, function()
+                input.Changed:Connect(function()
                     if input.UserInputState == Enum.UserInputState.End then
                         Dragging = false
                     end
@@ -221,13 +202,13 @@ local function MakeDraggable(topbarobject, object)
             end
         end)
 
-        AddConnection(changesizeobject.InputChanged, function(input)
+        changesizeobject.InputChanged:Connect(function(input)
             if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
                 DragInput = input
             end
         end)
 
-        AddConnection(UserInputService.InputChanged, function(input)
+        UserInputService.InputChanged:Connect(function(input)
             if input == DragInput and Dragging then
                 UpdateSize(input)
             end
@@ -533,8 +514,6 @@ function Chloex:Window(GuiConfig)
     local LayersReal = Instance.new("Frame");
     local LayersFolder = Instance.new("Folder");
     local LayersPageLayout = Instance.new("UIPageLayout");
-
-    Chloeex.Destroying:Connect(Cleanup)
 
     Chloeex.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
     Chloeex.Name = "Chloeex"
@@ -976,47 +955,24 @@ function Chloex:Window(GuiConfig)
             )
         end
 
-        AddConnection(Button.MouseButton1Click:Connect(function()
-            if DropShadowHolder then
-                DropShadowHolder.Visible = not DropShadowHolder.Visible
-            end
-        end))
-
-        local dragging = false
-        local dragStart, startPos
-
-        local function update(input)
-            local delta = input.Position - dragStart
-            MainButton.Position = UDim2.new(
-                startPos.X.Scale,
-                startPos.X.Offset + delta.X,
-                startPos.Y.Scale,
-                startPos.Y.Offset + delta.Y
-            )
-        end
-
-        AddConnection(Button.InputBegan:Connect(function(input)
-            if input.UserInputType == Enum.UserInputType.MouseButton1
-                or input.UserInputType == Enum.UserInputType.Touch then
+        Button.InputBegan:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
                 dragging = true
                 dragStart = input.Position
                 startPos = MainButton.Position
+                input.Changed:Connect(function()
+                    if input.UserInputState == Enum.UserInputState.End then
+                        dragging = false
+                    end
+                end)
             end
-        end))
+        end)
 
-        AddConnection(Button.InputEnded:Connect(function(input)
-            if input.UserInputType == Enum.UserInputType.MouseButton1
-                or input.UserInputType == Enum.UserInputType.Touch then
-                dragging = false
-            end
-        end))
-
-        AddConnection(UserInputService.InputChanged:Connect(function(input)
-            if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement
-                    or input.UserInputType == Enum.UserInputType.Touch) then
+        game:GetService("UserInputService").InputChanged:Connect(function(input)
+            if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
                 update(input)
             end
-        end))
+        end)
     end
 
     GuiFunc:ToggleUI()
@@ -1504,6 +1460,7 @@ function Chloex:Window(GuiConfig)
 
             local Items = {}
             local CountItem = 0
+
             function Items:AddParagraph(ParagraphConfig)
                 local ParagraphConfig = ParagraphConfig or {}
                 ParagraphConfig.Title = ParagraphConfig.Title or "Title"
@@ -1615,7 +1572,7 @@ function Chloex:Window(GuiConfig)
                 return ParagraphFunc
             end
 
-            function Items:AddPanel(PanelConfig)
+                function Items:AddPanel(PanelConfig)
                 PanelConfig = PanelConfig or {}
                 PanelConfig.Title = PanelConfig.Title or "Title"
                 PanelConfig.Content = PanelConfig.Content or ""
