@@ -783,7 +783,7 @@ function Chloex:Window(GuiConfig)
         Dialog.Size = UDim2.new(0, 300, 0, 150)
         Dialog.Position = UDim2.new(0.5, -150, 0.5, -75)
         Dialog.Image = "rbxassetid://9542022979"
-        Dialog.ImageTransparency = 0.15
+        Dialog.ImageTransparency = 0.12
         Dialog.BorderSizePixel = 0
         Dialog.ZIndex = 51
         Dialog.Parent = Overlay
@@ -794,7 +794,7 @@ function Chloex:Window(GuiConfig)
         DialogGlow.Size = UDim2.new(0, 310, 0, 160)
         DialogGlow.Position = UDim2.new(0.5, -155, 0.5, -80)
         DialogGlow.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        DialogGlow.BackgroundTransparency = 0.15
+        DialogGlow.BackgroundTransparency = 0.65
         DialogGlow.BorderSizePixel = 0
         DialogGlow.ZIndex = 50
         DialogGlow.Parent = Overlay
