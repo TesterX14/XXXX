@@ -771,10 +771,10 @@ function Chloex:Window(GuiConfig)
     Close.Activated:Connect(function()
         CircleClick(Close, Mouse.X, Mouse.Y)
 
-        local Overlay = Instance.new("Frame")
+        local Overlay = Instance.new("ImageLabel")
         Overlay.Size = UDim2.new(1, 0, 1, 0)
-        Overlay.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-        Overlay.BackgroundTransparency = 0.3
+        Overlay.Image = "rbxassetid://9542022979"
+        Overlay.BackgroundTransparency = 0.5
         Overlay.ZIndex = 50
         Overlay.Parent = DropShadowHolder
 
