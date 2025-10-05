@@ -1537,7 +1537,7 @@ function Chloex:Window(GuiConfig)
                     ParagraphButton.BackgroundColor3 = Color3.fromRGB(0, 208, 255)
                     ParagraphButton.Font = Enum.Font.GothamBold
                     ParagraphButton.TextSize = 14
-                    ParagraphButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+                    ParagraphButton.TextColor3 = Color3.fromRGB(0, 0, 0)
                     ParagraphButton.Text = ParagraphConfig.ButtonText
                     ParagraphButton.Parent = Paragraph
 
@@ -1576,7 +1576,7 @@ function Chloex:Window(GuiConfig)
                 PanelConfig = PanelConfig or {}
                 PanelConfig.Title = PanelConfig.Title or "Title"
                 PanelConfig.Content = PanelConfig.Content or ""
-                PanelConfig.Placeholder = PanelConfig.Placeholder or "Input Here"
+                PanelConfig.Placeholder = PanelConfig.Placeholder or nil
                 PanelConfig.ButtonText = PanelConfig.ButtonText or "Confirm"
                 PanelConfig.SubButtonText = PanelConfig.SubButtonText or nil
                 PanelConfig.ButtonCallback = PanelConfig.ButtonCallback or function() end
@@ -1590,10 +1590,14 @@ function Chloex:Window(GuiConfig)
 
                 local PanelFunc = { Value = PanelConfig.Default }
 
+                local baseHeight = 50
+                if PanelConfig.Placeholder then baseHeight = baseHeight + 40 end
+                if PanelConfig.SubButtonText then baseHeight = baseHeight + 40 else baseHeight = baseHeight + 36 end
+
                 local Panel = Instance.new("Frame")
                 Panel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
                 Panel.BackgroundTransparency = 0.935
-                Panel.Size = UDim2.new(1, 0, 0, (PanelConfig.SubButtonText and 120 or 100))
+                Panel.Size = UDim2.new(1, 0, 0, baseHeight)
                 Panel.LayoutOrder = CountItem
                 Panel.Parent = SectionAdd
 
@@ -1617,36 +1621,42 @@ function Chloex:Window(GuiConfig)
                 Content.Text = PanelConfig.Content
                 Content.TextSize = 12
                 Content.TextColor3 = Color3.fromRGB(255, 255, 255)
-                Content.TextTransparency = 0
+                Content.TextTransparency = 0.6
                 Content.TextXAlignment = Enum.TextXAlignment.Left
                 Content.BackgroundTransparency = 1
                 Content.Position = UDim2.new(0, 10, 0, 28)
                 Content.Size = UDim2.new(1, -20, 0, 14)
                 Content.Parent = Panel
 
-                local InputFrame = Instance.new("Frame")
-                InputFrame.AnchorPoint = Vector2.new(0.5, 0)
-                InputFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-                InputFrame.BackgroundTransparency = 0.95
-                InputFrame.Position = UDim2.new(0.5, 0, 0, 48)
-                InputFrame.Size = UDim2.new(1, -20, 0, 30)
-                InputFrame.Parent = Panel
-                local inputCorner = Instance.new("UICorner")
-                inputCorner.CornerRadius = UDim.new(0, 4)
-                inputCorner.Parent = InputFrame
+                local InputBox
+                if PanelConfig.Placeholder then
+                    local InputFrame = Instance.new("Frame")
+                    InputFrame.AnchorPoint = Vector2.new(0.5, 0)
+                    InputFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                    InputFrame.BackgroundTransparency = 0.95
+                    InputFrame.Position = UDim2.new(0.5, 0, 0, 48)
+                    InputFrame.Size = UDim2.new(1, -20, 0, 30)
+                    InputFrame.Parent = Panel
+                    local inputCorner = Instance.new("UICorner")
+                    inputCorner.CornerRadius = UDim.new(0, 4)
+                    inputCorner.Parent = InputFrame
 
-                local InputBox = Instance.new("TextBox")
-                InputBox.Font = Enum.Font.GothamBold
-                InputBox.PlaceholderText = PanelConfig.Placeholder
-                InputBox.PlaceholderColor3 = Color3.fromRGB(120, 120, 120)
-                InputBox.Text = PanelConfig.Default
-                InputBox.TextSize = 12
-                InputBox.TextColor3 = Color3.fromRGB(255, 255, 255)
-                InputBox.BackgroundTransparency = 1
-                InputBox.TextXAlignment = Enum.TextXAlignment.Left
-                InputBox.Size = UDim2.new(1, -10, 1, -6)
-                InputBox.Position = UDim2.new(0, 5, 0, 3)
-                InputBox.Parent = InputFrame
+                    InputBox = Instance.new("TextBox")
+                    InputBox.Font = Enum.Font.GothamBold
+                    InputBox.PlaceholderText = PanelConfig.Placeholder
+                    InputBox.PlaceholderColor3 = Color3.fromRGB(120, 120, 120)
+                    InputBox.Text = PanelConfig.Default
+                    InputBox.TextSize = 12
+                    InputBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+                    InputBox.BackgroundTransparency = 1
+                    InputBox.TextXAlignment = Enum.TextXAlignment.Left
+                    InputBox.Size = UDim2.new(1, -10, 1, -6)
+                    InputBox.Position = UDim2.new(0, 5, 0, 3)
+                    InputBox.Parent = InputFrame
+                end
+
+                local yBtn = PanelConfig.Placeholder and (PanelConfig.SubButtonText and 90 or 88) or
+                (PanelConfig.SubButtonText and 68 or 66)
 
                 local ButtonMain = Instance.new("TextButton")
                 ButtonMain.Font = Enum.Font.GothamBold
@@ -1655,14 +1665,15 @@ function Chloex:Window(GuiConfig)
                 ButtonMain.TextSize = 14
                 ButtonMain.BackgroundColor3 = Color3.fromRGB(0, 208, 255)
                 ButtonMain.Size = PanelConfig.SubButtonText and UDim2.new(0.5, -12, 0, 30) or UDim2.new(1, -20, 0, 30)
-                ButtonMain.Position = PanelConfig.SubButtonText and UDim2.new(0, 10, 0, 82) or UDim2.new(0, 10, 0, 82)
+                ButtonMain.Position = PanelConfig.SubButtonText and UDim2.new(0, 10, 0, yBtn) or
+                UDim2.new(0, 10, 0, yBtn)
                 ButtonMain.Parent = Panel
                 local btnCorner = Instance.new("UICorner")
                 btnCorner.CornerRadius = UDim.new(0, 6)
                 btnCorner.Parent = ButtonMain
 
                 ButtonMain.MouseButton1Click:Connect(function()
-                    PanelConfig.ButtonCallback(InputBox.Text)
+                    PanelConfig.ButtonCallback(InputBox and InputBox.Text or "")
                 end)
 
                 if PanelConfig.SubButtonText then
@@ -1673,25 +1684,27 @@ function Chloex:Window(GuiConfig)
                     SubButton.TextSize = 14
                     SubButton.BackgroundColor3 = Color3.fromRGB(0, 208, 255)
                     SubButton.Size = UDim2.new(0.5, -12, 0, 30)
-                    SubButton.Position = UDim2.new(0.5, 2, 0, 82)
+                    SubButton.Position = UDim2.new(0.5, 2, 0, yBtn)
                     SubButton.Parent = Panel
                     local subCorner = Instance.new("UICorner")
                     subCorner.CornerRadius = UDim.new(0, 6)
                     subCorner.Parent = SubButton
 
                     SubButton.MouseButton1Click:Connect(function()
-                        PanelConfig.SubButtonCallback(InputBox.Text)
+                        PanelConfig.SubButtonCallback(InputBox and InputBox.Text or "")
                     end)
                 end
 
-                InputBox.FocusLost:Connect(function()
-                    PanelFunc.Value = InputBox.Text
-                    ConfigData[configKey] = InputBox.Text
-                    SaveConfig()
-                end)
+                if InputBox then
+                    InputBox.FocusLost:Connect(function()
+                        PanelFunc.Value = InputBox.Text
+                        ConfigData[configKey] = InputBox.Text
+                        SaveConfig()
+                    end)
+                end
 
                 function PanelFunc:GetInput()
-                    return InputBox.Text
+                    return InputBox and InputBox.Text or ""
                 end
 
                 CountItem = CountItem + 1
