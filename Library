@@ -1214,9 +1214,8 @@ function Chloex:Window(GuiConfig)
         local Sections = {}
         local CountSection = 0
 
-        function Sections:AddSection(Title, Mode)
+        function Sections:AddSection(Title, AlwaysOpen)
             Title = Title or "Title"
-            Mode = Mode or "default"
 
             local Section = Instance.new("Frame")
             Section.BackgroundTransparency = 1
@@ -1294,6 +1293,7 @@ function Chloex:Window(GuiConfig)
             }
             UIGradient.Parent = SectionDecideFrame
 
+
             local SectionAdd = Instance.new("Frame")
             SectionAdd.AnchorPoint = Vector2.new(0.5, 0)
             SectionAdd.BackgroundTransparency = 1
@@ -1310,6 +1310,7 @@ function Chloex:Window(GuiConfig)
             UIListLayout2.SortOrder = Enum.SortOrder.LayoutOrder
 
             local OpenSection = false
+            AlwaysOpen = (AlwaysOpen == true)
 
             local function UpdateSizeSection()
                 if OpenSection then
@@ -1323,28 +1324,20 @@ function Chloex:Window(GuiConfig)
                     TweenService:Create(Section, TweenInfo.new(0.3), { Size = UDim2.new(1, 0, 0, SectionSizeY) }):Play()
                     TweenService:Create(SectionAdd, TweenInfo.new(0.3), { Size = UDim2.new(1, 0, 0, SectionSizeY - 38) })
                         :Play()
-                    TweenService:Create(SectionDecideFrame, TweenInfo.new(0.3), { Size = UDim2.new(1, 0, 0, 2) }):Play()
                 end
             end
 
-            if Mode == "always" then
+            if AlwaysOpen then
                 SectionButton:Destroy()
                 FeatureFrame:Destroy()
                 OpenSection = true
                 UpdateSizeSection()
-            elseif Mode == "open" then
-                OpenSection = true
-                UpdateSizeSection()
-            end
-
-            if Mode ~= "always" then
+            else
                 SectionButton.MouseButton1Click:Connect(function()
                     if OpenSection then
                         TweenService:Create(FeatureImg, TweenInfo.new(0.3), { Rotation = -90 }):Play()
                         TweenService:Create(Section, TweenInfo.new(0.3), { Size = UDim2.new(1, 0, 0, 30) }):Play()
                         TweenService:Create(SectionAdd, TweenInfo.new(0.3), { Size = UDim2.new(1, 0, 0, 0) }):Play()
-                        TweenService:Create(SectionDecideFrame, TweenInfo.new(0.3), { Size = UDim2.new(0, 0, 0, 2) })
-                            :Play()
                         OpenSection = false
                     else
                         OpenSection = true
