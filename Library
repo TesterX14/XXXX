@@ -1332,6 +1332,7 @@ function Chloex:Window(GuiConfig)
                 UpdateSizeSection()
             elseif Mode == "open" then
                 OpenSection = true
+                TweenService:Create(FeatureImg, TweenInfo.new(0.3), { Rotation = 90 }):Play()
                 UpdateSizeSection()
             end
 
@@ -1348,8 +1349,6 @@ function Chloex:Window(GuiConfig)
                         TweenService:Create(FeatureImg, TweenInfo.new(0.3), { Rotation = 90 }):Play()
                     end
                 end)
-            else
-                FeatureImg:Destroy()
             end
 
             SectionAdd.ChildAdded:Connect(UpdateSizeSection)
