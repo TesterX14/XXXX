@@ -83,6 +83,8 @@ local Icons = {
     strom     = "rbxassetid://13321880293",
     water     = "rbxassetid://100076212630732",
     dcs       = "rbxassetid://15310731934",
+    start     = "rbxassetid://108886429866687",
+    next      = "rbxassetid://12662718374",
 }
 
 local UserInputService = game:GetService("UserInputService")
