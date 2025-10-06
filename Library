@@ -1687,164 +1687,139 @@ function Chloex:Window(GuiConfig)
                 DashConfig = DashConfig or {}
                 DashConfig.Title = DashConfig.Title or "Undetected"
 
-                local Players = game:GetService("Players")
-                local RunService = game:GetService("RunService")
-                local MarketplaceService = game:GetService("MarketplaceService")
-                local UserInputService = game:GetService("UserInputService")
-                local TeleportService = game:GetService("TeleportService")
-                local LocalPlayer = Players.LocalPlayer
+                local Dashboard = Instance.new("Frame")
+                Dashboard.Size = UDim2.new(1, -10, 0, 260)
+                Dashboard.BackgroundColor3 = Color3.fromRGB(20, 30, 60)
+                Dashboard.BackgroundTransparency = 0
+                Dashboard.Parent = SectionAdd
+                Instance.new("UICorner", Dashboard).CornerRadius = UDim.new(0, 8)
 
-                local ScreenGui = Instance.new("ScreenGui", game.CoreGui)
-                ScreenGui.Name = "ProfileDashboardUI"
-
-                local Card = Instance.new("Frame", ScreenGui)
-                Card.Size = UDim2.new(0, 510, 0, 220)
-                Card.Position = UDim2.new(0.5, -250, 0.5, -100)
-                Card.BackgroundColor3 = Color3.fromRGB(0, 38, 65)
-                Instance.new("UICorner", Card).CornerRadius = UDim.new(0, 12)
-
-                local Avatar = Instance.new("ImageLabel", Card)
-                Avatar.Size = UDim2.new(0, 100, 0, 100)
-                Avatar.Position = UDim2.new(0, 20, 0, 30)
-                Avatar.Image = "rbxthumb://type=AvatarHeadShot&id=" .. LocalPlayer.UserId .. "&w=150&h=150"
+                local Avatar = Instance.new("ImageLabel", Dashboard)
+                Avatar.Size = UDim2.new(0, 80, 0, 80)
+                Avatar.Position = UDim2.new(0, 10, 0, 10)
+                Avatar.Image = "rbxthumb://type=AvatarHeadShot&id=" .. game.Players.LocalPlayer.UserId .. "&w=150&h=150"
                 Avatar.BackgroundTransparency = 1
                 Instance.new("UICorner", Avatar).CornerRadius = UDim.new(1, 0)
-
                 local Stroke = Instance.new("UIStroke", Avatar)
                 Stroke.Thickness = 3
                 Stroke.Color = Color3.fromRGB(0, 19, 216)
-                Stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 
-                local NameLabel = Instance.new("TextLabel", Card)
-                NameLabel.Position = UDim2.new(0, 20, 0, 135)
-                NameLabel.Size = UDim2.new(0, 120, 0, 20)
-                NameLabel.Text = string.sub(LocalPlayer.Name, 1, 3) .. "*****"
+                local NameLabel = Instance.new("TextLabel", Dashboard)
+                NameLabel.Position = UDim2.new(0, 10, 0, 95)
+                NameLabel.Size = UDim2.new(0, 100, 0, 20)
+                NameLabel.Text = string.sub(game.Players.LocalPlayer.Name, 1, 3) .. "*****"
                 NameLabel.Font = Enum.Font.GothamBold
                 NameLabel.TextSize = 14
-                NameLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+                NameLabel.TextColor3 = Color3.new(1, 1, 1)
                 NameLabel.BackgroundTransparency = 1
 
-                local InfoPanel = Instance.new("Frame", Card)
-                InfoPanel.Size = UDim2.new(0, 330, 0, 130)
-                InfoPanel.Position = UDim2.new(0, 160, 0, 30)
+                local InfoPanel = Instance.new("Frame", Dashboard)
+                InfoPanel.Position = UDim2.new(0, 110, 0, 10)
+                InfoPanel.Size = UDim2.new(1, -120, 0, 120)
                 InfoPanel.BackgroundColor3 = Color3.fromRGB(67, 95, 161)
                 InfoPanel.BackgroundTransparency = 0.6
-                Instance.new("UICorner", InfoPanel).CornerRadius = UDim.new(0, 8)
+                Instance.new("UICorner", InfoPanel).CornerRadius = UDim.new(0, 6)
 
                 local VLayout = Instance.new("UIListLayout", InfoPanel)
                 VLayout.SortOrder = Enum.SortOrder.LayoutOrder
                 VLayout.Padding = UDim.new(0, 3)
-                VLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 
-                local function AddInfoLine(emoji, labelText, valueText)
+                local function AddInfoLine(icon, label, value)
                     local Row = Instance.new("TextLabel", InfoPanel)
-                    Row.Size = UDim2.new(1, -10, 0, 22)
+                    Row.Size = UDim2.new(1, -10, 0, 20)
                     Row.BackgroundTransparency = 1
                     Row.Font = Enum.Font.Gotham
-                    Row.TextSize = 14
-                    Row.TextColor3 = Color3.fromRGB(255, 255, 255)
+                    Row.TextSize = 13
+                    Row.TextColor3 = Color3.new(1, 1, 1)
                     Row.TextXAlignment = Enum.TextXAlignment.Left
                     Row.RichText = true
-                    Row.Text = emoji .. "  <b>" .. labelText .. "</b>: " .. valueText
+                    Row.Text = icon .. " <b>" .. label .. "</b>: " .. value
                     return Row
                 end
 
                 AddInfoLine("🌐", "JobId", game.JobId)
                 local StatusLabel = AddInfoLine("📄", "Status Script", DashConfig.Title)
-                AddInfoLine("📱", "Device User", (UserInputService:GetPlatform().Name or "Unknown"))
+                AddInfoLine("📱", "Device User", tostring(UserInputService:GetPlatform().Name))
                 local FpsLabel = AddInfoLine("⚡", "FPS", "0")
-                AddInfoLine("🎮", "Game", MarketplaceService:GetProductInfo(game.PlaceId).Name)
+                AddInfoLine("🎮", "Game", game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name)
 
                 local frames, lastTime, fps = 0, tick(), 0
-                RunService.RenderStepped:Connect(function()
+                game:GetService("RunService").RenderStepped:Connect(function()
                     frames += 1
                     local now = tick()
                     if now - lastTime >= 1 then
                         fps = frames
                         frames = 0
                         lastTime = now
-                        FpsLabel.RichText = true
-                        FpsLabel.Text = "⚡ <b>FPS</b>: " .. tostring(fps)
+                        FpsLabel.Text = "⚡ <b>FPS</b>: " .. fps
                     end
                 end)
 
-                local JobRow = Instance.new("Frame", Card)
-                JobRow.Size = UDim2.new(0, 320, 0, 22)
-                JobRow.Position = UDim2.new(0, 160, 0, 170)
-                JobRow.BackgroundTransparency = 1
+                local Footer = Instance.new("Frame", Dashboard)
+                Footer.Position = UDim2.new(0, 110, 0, 140)
+                Footer.Size = UDim2.new(1, -120, 0, 100)
+                Footer.BackgroundTransparency = 1
 
-                local HLayout = Instance.new("UIListLayout", JobRow)
-                HLayout.FillDirection = Enum.FillDirection.Horizontal
-                HLayout.Padding = UDim.new(0, 4)
+                local JobIdBox = Instance.new("TextBox", Footer)
+                JobIdBox.Size = UDim2.new(1, 0, 0, 30)
+                JobIdBox.PlaceholderText = "Input JobId"
+                JobIdBox.Text = ""
+                JobIdBox.BackgroundColor3 = Color3.fromRGB(67, 95, 161)
+                JobIdBox.TextColor3 = Color3.new(1, 1, 1)
+                JobIdBox.Font = Enum.Font.Gotham
+                JobIdBox.TextSize = 13
+                Instance.new("UICorner", JobIdBox).CornerRadius = UDim.new(0, 4)
 
-                local JobInput = Instance.new("TextBox", JobRow)
-                JobInput.Size = UDim2.new(0.55, 0, 1, 0)
-                JobInput.Text = ""
-                JobInput.PlaceholderText = "Input JobId"
-                JobInput.Font = Enum.Font.Gotham
-                JobInput.TextSize = 13
-                JobInput.TextColor3 = Color3.fromRGB(255, 255, 255)
-                JobInput.BackgroundColor3 = Color3.fromRGB(40, 60, 120)
-                JobInput.ClearTextOnFocus = false
-                JobInput.TextXAlignment = Enum.TextXAlignment.Center
-                JobInput.TextTruncate = Enum.TextTruncate.AtEnd
-                Instance.new("UICorner", JobInput).CornerRadius = UDim.new(0, 5)
-
-                local CopyBtn = Instance.new("TextButton", JobRow)
-                CopyBtn.Size = UDim2.new(0.2, 0, 1, 0)
+                local CopyBtn = Instance.new("TextButton", Footer)
+                CopyBtn.Position = UDim2.new(0, 0, 0, 40)
+                CopyBtn.Size = UDim2.new(0.5, -5, 0, 30)
                 CopyBtn.Text = "Copy"
+                CopyBtn.BackgroundColor3 = Color3.fromRGB(67, 95, 161)
+                CopyBtn.TextColor3 = Color3.new(1, 1, 1)
                 CopyBtn.Font = Enum.Font.GothamBold
                 CopyBtn.TextSize = 13
-                CopyBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-                CopyBtn.BackgroundColor3 = Color3.fromRGB(40, 60, 120)
-                Instance.new("UICorner", CopyBtn).CornerRadius = UDim.new(0, 5)
+                Instance.new("UICorner", CopyBtn).CornerRadius = UDim.new(0, 4)
 
-                local JoinBtn = Instance.new("TextButton", JobRow)
-                JoinBtn.Size = UDim2.new(0.25, 0, 1, 0)
+                local JoinBtn = Instance.new("TextButton", Footer)
+                JoinBtn.Position = UDim2.new(0.5, 5, 0, 40)
+                JoinBtn.Size = UDim2.new(0.5, -5, 0, 30)
                 JoinBtn.Text = "Join"
+                JoinBtn.BackgroundColor3 = Color3.fromRGB(67, 95, 161)
+                JoinBtn.TextColor3 = Color3.new(1, 1, 1)
                 JoinBtn.Font = Enum.Font.GothamBold
                 JoinBtn.TextSize = 13
-                JoinBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-                JoinBtn.BackgroundColor3 = Color3.fromRGB(40, 60, 120)
-                Instance.new("UICorner", JoinBtn).CornerRadius = UDim.new(0, 5)
+                Instance.new("UICorner", JoinBtn).CornerRadius = UDim.new(0, 4)
+
+                local DiscordLink = Instance.new("TextButton", Dashboard)
+                DiscordLink.Position = UDim2.new(0, 10, 1, -25)
+                DiscordLink.Size = UDim2.new(0, 200, 0, 20)
+                DiscordLink.Text = "Report Bug? Join Discord"
+                DiscordLink.TextColor3 = Color3.fromRGB(100, 150, 255)
+                DiscordLink.Font = Enum.Font.Gotham
+                DiscordLink.TextSize = 12
+                DiscordLink.BackgroundTransparency = 1
+                DiscordLink.TextXAlignment = Enum.TextXAlignment.Left
 
                 CopyBtn.MouseButton1Click:Connect(function()
-                    if setclipboard then
-                        setclipboard(game.JobId)
-                    end
+                    if setclipboard then setclipboard(game.JobId) end
                 end)
 
                 JoinBtn.MouseButton1Click:Connect(function()
-                    local text = JobInput.Text
-                    if text ~= "" then
-                        TeleportService:TeleportToPlaceInstance(game.PlaceId, text, LocalPlayer)
+                    if JobIdBox.Text ~= "" then
+                        game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, JobIdBox.Text,
+                            game.Players.LocalPlayer)
                     end
                 end)
 
-                local Footer = Instance.new("TextLabel", Card)
-                Footer.Size = UDim2.new(0, 160, 0, 20)
-                Footer.Position = UDim2.new(0, 30, 1, -25)
-                Footer.BackgroundTransparency = 1
-                Footer.Font = Enum.Font.Gotham
-                Footer.TextSize = 12
-                Footer.TextXAlignment = Enum.TextXAlignment.Left
-                Footer.RichText = true
-                Footer.TextColor3 = Color3.fromRGB(200, 200, 200)
-                Footer.Text = "Report Bug? <font color='#55aaff'><u>Join Discord</u></font>"
-
-                local JoinBtnLink = Instance.new("TextButton", Footer)
-                JoinBtnLink.Size = UDim2.new(0, 100, 1, 0)
-                JoinBtnLink.Position = UDim2.new(0, 90, 0, 0)
-                JoinBtnLink.BackgroundTransparency = 1
-                JoinBtnLink.Text = ""
-
-                JoinBtnLink.MouseButton1Click:Connect(function()
-                    if syn and syn.request then
-                        syn.request({ Url = "https://discord.gg/PaPvGUE8UC" })
-                    elseif setclipboard then
-                        setclipboard("https://discord.gg/PaPvGUE8UC")
-                    end
+                DiscordLink.MouseButton1Click:Connect(function()
+                    if setclipboard then setclipboard("https://discord.gg/PaPvGUE8UC") end
                 end)
+
+                return {
+                    SetStatus = function(newStatus)
+                        StatusLabel.Text = "📄 <b>Status Script</b>: " .. newStatus
+                    end
+                }
             end
 
             function Items:AddButton(ButtonConfig)
