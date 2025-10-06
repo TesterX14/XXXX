@@ -2343,7 +2343,7 @@ function Chloex:Window(GuiConfig)
                 DropdownConfig.Content = DropdownConfig.Content or ""
                 DropdownConfig.Multi = DropdownConfig.Multi or false
                 DropdownConfig.Options = DropdownConfig.Options or {}
-                DropdownConfig.Default = DropdownConfig.Default or {}
+                DropdownConfig.Default = DropdownConfig.Default or (DropdownConfig.Multi and {} or nil)
                 DropdownConfig.Callback = DropdownConfig.Callback or function() end
 
                 local configKey = "Dropdown_" .. DropdownConfig.Title
@@ -2506,7 +2506,7 @@ function Chloex:Window(GuiConfig)
                             DropFrame:Destroy()
                         end
                     end
-                    DropdownFunc.Value = {}
+                    DropdownFunc.Value = DropdownConfig.Multi and {} or nil
                     DropdownFunc.Options = {}
                     OptionSelecting.Text = DropdownConfig.Multi and "Select Options" or "Select Option"
                     DropCount = 0
@@ -2624,11 +2624,14 @@ function Chloex:Window(GuiConfig)
                     end
 
                     OptionSelecting.Text = (#texts == 0) and
-                        (DropdownConfig.Multi and "Select Options" or "Select Option")
-                        or table.concat(texts, ", ")
+                    (DropdownConfig.Multi and "Select Options" or "Select Option") or table.concat(texts, ", ")
 
                     if DropdownConfig.Callback then
-                        DropdownConfig.Callback(DropdownFunc.Value)
+                        if DropdownConfig.Multi then
+                            DropdownConfig.Callback(DropdownFunc.Value)
+                        else
+                            DropdownConfig.Callback(DropdownFunc.Value or "")
+                        end
                     end
                 end
 
@@ -2642,7 +2645,7 @@ function Chloex:Window(GuiConfig)
 
                 function DropdownFunc:SetValues(newList, selecting)
                     newList = newList or {}
-                    selecting = selecting or {}
+                    selecting = selecting or (DropdownConfig.Multi and {} or nil)
                     DropdownFunc:Clear()
                     for _, v in ipairs(newList) do
                         DropdownFunc:AddOption(v)
