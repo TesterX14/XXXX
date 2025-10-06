@@ -1688,11 +1688,11 @@ function Chloex:Window(GuiConfig)
                 DashConfig.Title = DashConfig.Title or "Undetected"
 
                 local Dashboard = Instance.new("Frame")
-                Dashboard.Size = UDim2.new(1, -10, 0, 150)
-                Dashboard.BackgroundColor3 = Color3.fromRGB(20, 30, 60)
-                Dashboard.BackgroundTransparency = 0
+                Dashboard.Size = UDim2.new(1, 0, 0, 150)
+                Dashboard.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                Dashboard.BackgroundTransparency = 0.935
                 Dashboard.Parent = SectionAdd
-                Instance.new("UICorner", Dashboard).CornerRadius = UDim.new(0, 8)
+                Instance.new("UICorner", Dashboard).CornerRadius = UDim.new(0, 4)
 
                 local Avatar = Instance.new("ImageLabel", Dashboard)
                 Avatar.Size = UDim2.new(0, 80, 0, 80)
@@ -1707,7 +1707,7 @@ function Chloex:Window(GuiConfig)
                 local NameLabel = Instance.new("TextLabel", Dashboard)
                 NameLabel.Position = UDim2.new(0, 10, 0, 95)
                 NameLabel.Size = UDim2.new(0, 100, 0, 20)
-                NameLabel.Text = string.sub(game.Players.LocalPlayer.Name, 1, 3) .. "*****"
+                NameLabel.Text = string.sub(game.Players.LocalPlayer.Name, 1, 3) .. "***"
                 NameLabel.Font = Enum.Font.GothamBold
                 NameLabel.TextSize = 14
                 NameLabel.TextColor3 = Color3.new(1, 1, 1)
@@ -1716,13 +1716,15 @@ function Chloex:Window(GuiConfig)
                 local InfoPanel = Instance.new("Frame", Dashboard)
                 InfoPanel.Position = UDim2.new(0, 110, 0, 10)
                 InfoPanel.Size = UDim2.new(1, -120, 0, 120)
-                InfoPanel.BackgroundColor3 = Color3.fromRGB(67, 95, 161)
-                InfoPanel.BackgroundTransparency = 0.6
-                Instance.new("UICorner", InfoPanel).CornerRadius = UDim.new(0, 6)
+                InfoPanel.BackgroundColor3 = Color3.fromRGB(9, 49, 215)
+                InfoPanel.BackgroundTransparency = 0.7
+                Instance.new("UICorner", InfoPanel).CornerRadius = UDim.new(0, 4)
 
                 local VLayout = Instance.new("UIListLayout", InfoPanel)
                 VLayout.SortOrder = Enum.SortOrder.LayoutOrder
-                VLayout.Padding = UDim.new(0, 3)
+                VLayout.Padding = UDim.new(0, 4)
+                VLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+                VLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 
                 local function AddInfoLine(icon, label, value)
                     local Row = Instance.new("TextLabel", InfoPanel)
