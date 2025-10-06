@@ -1790,16 +1790,6 @@ function Chloex:Window(GuiConfig)
                 JoinBtn.TextSize = 13
                 Instance.new("UICorner", JoinBtn).CornerRadius = UDim.new(0, 4)
 
-                local DiscordLink = Instance.new("TextButton", Dashboard)
-                DiscordLink.Position = UDim2.new(0, 10, 1, -25)
-                DiscordLink.Size = UDim2.new(0, 200, 0, 20)
-                DiscordLink.Text = "Report Bug? Join Discord"
-                DiscordLink.TextColor3 = Color3.fromRGB(100, 150, 255)
-                DiscordLink.Font = Enum.Font.Gotham
-                DiscordLink.TextSize = 12
-                DiscordLink.BackgroundTransparency = 1
-                DiscordLink.TextXAlignment = Enum.TextXAlignment.Left
-
                 CopyBtn.MouseButton1Click:Connect(function()
                     if setclipboard then setclipboard(game.JobId) end
                 end)
@@ -1809,10 +1799,6 @@ function Chloex:Window(GuiConfig)
                         game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, JobIdBox.Text,
                             game.Players.LocalPlayer)
                     end
-                end)
-
-                DiscordLink.MouseButton1Click:Connect(function()
-                    if setclipboard then setclipboard("https://discord.gg/PaPvGUE8UC") end
                 end)
 
                 return {
