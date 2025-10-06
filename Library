@@ -1688,7 +1688,7 @@ function Chloex:Window(GuiConfig)
                 DashConfig.Title = DashConfig.Title or "Undetected"
 
                 local Dashboard = Instance.new("Frame")
-                Dashboard.Size = UDim2.new(1, -10, 0, 260)
+                Dashboard.Size = UDim2.new(1, -10, 0, 150)
                 Dashboard.BackgroundColor3 = Color3.fromRGB(20, 30, 60)
                 Dashboard.BackgroundTransparency = 0
                 Dashboard.Parent = SectionAdd
@@ -1752,52 +1752,6 @@ function Chloex:Window(GuiConfig)
                         frames = 0
                         lastTime = now
                         FpsLabel.Text = "⚡ <b>FPS</b>: " .. fps
-                    end
-                end)
-
-                local Footer = Instance.new("Frame", Dashboard)
-                Footer.Position = UDim2.new(0, 110, 0, 140)
-                Footer.Size = UDim2.new(1, -120, 0, 100)
-                Footer.BackgroundTransparency = 1
-
-                local JobIdBox = Instance.new("TextBox", Footer)
-                JobIdBox.Size = UDim2.new(1, 0, 0, 30)
-                JobIdBox.PlaceholderText = "Input JobId"
-                JobIdBox.Text = ""
-                JobIdBox.BackgroundColor3 = Color3.fromRGB(67, 95, 161)
-                JobIdBox.TextColor3 = Color3.new(1, 1, 1)
-                JobIdBox.Font = Enum.Font.Gotham
-                JobIdBox.TextSize = 13
-                Instance.new("UICorner", JobIdBox).CornerRadius = UDim.new(0, 4)
-
-                local CopyBtn = Instance.new("TextButton", Footer)
-                CopyBtn.Position = UDim2.new(0, 0, 0, 40)
-                CopyBtn.Size = UDim2.new(0.5, -5, 0, 30)
-                CopyBtn.Text = "Copy"
-                CopyBtn.BackgroundColor3 = Color3.fromRGB(67, 95, 161)
-                CopyBtn.TextColor3 = Color3.new(1, 1, 1)
-                CopyBtn.Font = Enum.Font.GothamBold
-                CopyBtn.TextSize = 13
-                Instance.new("UICorner", CopyBtn).CornerRadius = UDim.new(0, 4)
-
-                local JoinBtn = Instance.new("TextButton", Footer)
-                JoinBtn.Position = UDim2.new(0.5, 5, 0, 40)
-                JoinBtn.Size = UDim2.new(0.5, -5, 0, 30)
-                JoinBtn.Text = "Join"
-                JoinBtn.BackgroundColor3 = Color3.fromRGB(67, 95, 161)
-                JoinBtn.TextColor3 = Color3.new(1, 1, 1)
-                JoinBtn.Font = Enum.Font.GothamBold
-                JoinBtn.TextSize = 13
-                Instance.new("UICorner", JoinBtn).CornerRadius = UDim.new(0, 4)
-
-                CopyBtn.MouseButton1Click:Connect(function()
-                    if setclipboard then setclipboard(game.JobId) end
-                end)
-
-                JoinBtn.MouseButton1Click:Connect(function()
-                    if JobIdBox.Text ~= "" then
-                        game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, JobIdBox.Text,
-                            game.Players.LocalPlayer)
                     end
                 end)
 
