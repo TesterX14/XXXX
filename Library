@@ -1214,8 +1214,9 @@ function Chloex:Window(GuiConfig)
         local Sections = {}
         local CountSection = 0
 
-        function Sections:AddSection(Title, AlwaysOpen)
+        function Sections:AddSection(Title, Mode)
             Title = Title or "Title"
+            Mode = Mode or "default"
 
             local Section = Instance.new("Frame")
             Section.BackgroundTransparency = 1
@@ -1293,7 +1294,6 @@ function Chloex:Window(GuiConfig)
             }
             UIGradient.Parent = SectionDecideFrame
 
-
             local SectionAdd = Instance.new("Frame")
             SectionAdd.AnchorPoint = Vector2.new(0.5, 0)
             SectionAdd.BackgroundTransparency = 1
@@ -1310,7 +1310,6 @@ function Chloex:Window(GuiConfig)
             UIListLayout2.SortOrder = Enum.SortOrder.LayoutOrder
 
             local OpenSection = false
-            AlwaysOpen = (AlwaysOpen == true)
 
             local function UpdateSizeSection()
                 if OpenSection then
@@ -1320,19 +1319,23 @@ function Chloex:Window(GuiConfig)
                             SectionSizeY += v.Size.Y.Offset + 3
                         end
                     end
-                    TweenService:Create(FeatureImg, TweenInfo.new(0.3), { Rotation = 90 }):Play()
                     TweenService:Create(Section, TweenInfo.new(0.3), { Size = UDim2.new(1, 0, 0, SectionSizeY) }):Play()
                     TweenService:Create(SectionAdd, TweenInfo.new(0.3), { Size = UDim2.new(1, 0, 0, SectionSizeY - 38) })
                         :Play()
                 end
             end
 
-            if AlwaysOpen then
+            if Mode == "always" then
                 SectionButton:Destroy()
                 FeatureFrame:Destroy()
                 OpenSection = true
                 UpdateSizeSection()
-            else
+            elseif Mode == "open" then
+                OpenSection = true
+                UpdateSizeSection()
+            end
+
+            if Mode ~= "always" then
                 SectionButton.MouseButton1Click:Connect(function()
                     if OpenSection then
                         TweenService:Create(FeatureImg, TweenInfo.new(0.3), { Rotation = -90 }):Play()
@@ -1342,8 +1345,11 @@ function Chloex:Window(GuiConfig)
                     else
                         OpenSection = true
                         UpdateSizeSection()
+                        TweenService:Create(FeatureImg, TweenInfo.new(0.3), { Rotation = 90 }):Play()
                     end
                 end)
+            else
+                FeatureImg:Destroy()
             end
 
             SectionAdd.ChildAdded:Connect(UpdateSizeSection)
