@@ -556,7 +556,7 @@ function Chloex:Window(GuiConfig)
     Main.Parent = DropShadow
 
     UICorner.Parent = Main
-
+    
     Top.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
     Top.BackgroundTransparency = 0.9990000128746033
     Top.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -978,6 +978,7 @@ function Chloex:Window(GuiConfig)
 
     local DropdownSelect = Instance.new("Frame");
     local UICorner36 = Instance.new("UICorner");
+    local UIStroke14 = Instance.new("UIStroke");
     local DropdownSelectReal = Instance.new("Frame");
     local DropdownFolder = Instance.new("Folder");
     local DropPageLayout = Instance.new("UIPageLayout");
@@ -1003,6 +1004,11 @@ function Chloex:Window(GuiConfig)
     end)
     UICorner36.CornerRadius = UDim.new(0, 3)
     UICorner36.Parent = DropdownSelect
+
+    UIStroke14.Color = Color3.fromRGB(12, 159, 255)
+    UIStroke14.Thickness = 2.5
+    UIStroke14.Transparency = 0.8
+    UIStroke14.Parent = DropdownSelect
 
     DropdownSelectReal.AnchorPoint = Vector2.new(0.5, 0.5)
     DropdownSelectReal.BackgroundColor3 = Color3.fromRGB(0, 27, 98)
@@ -1059,6 +1065,7 @@ function Chloex:Window(GuiConfig)
         local TabButton = Instance.new("TextButton");
         local TabName = Instance.new("TextLabel")
         local FeatureImg = Instance.new("ImageLabel");
+        local UIStroke2 = Instance.new("UIStroke");
         local UICorner4 = Instance.new("UICorner");
 
         Tab.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -1123,6 +1130,10 @@ function Chloex:Window(GuiConfig)
             ChooseFrame.Size = UDim2.new(0, 1, 0, 12)
             ChooseFrame.Name = "ChooseFrame"
             ChooseFrame.Parent = Tab
+
+            UIStroke2.Color = GuiConfig.Color
+            UIStroke2.Thickness = 1.600000023841858
+            UIStroke2.Parent = ChooseFrame
 
             UICorner4.Parent = ChooseFrame
         end
@@ -1205,6 +1216,7 @@ function Chloex:Window(GuiConfig)
 
             local SectionReal = Instance.new("Frame");
             local UICorner = Instance.new("UICorner");
+            local UIStroke = Instance.new("UIStroke");
             local SectionButton = Instance.new("TextButton");
             local FeatureFrame = Instance.new("Frame");
             local FeatureImg = Instance.new("ImageLabel");
@@ -1806,6 +1818,7 @@ function Chloex:Window(GuiConfig)
                 local ToggleButton = Instance.new("TextButton")
                 local FeatureFrame2 = Instance.new("Frame")
                 local UICorner22 = Instance.new("UICorner")
+                local UIStroke8 = Instance.new("UIStroke")
                 local ToggleCircle = Instance.new("Frame")
                 local UICorner23 = Instance.new("UICorner")
 
@@ -1905,6 +1918,11 @@ function Chloex:Window(GuiConfig)
 
                 UICorner22.Parent = FeatureFrame2
 
+                UIStroke8.Color = Color3.fromRGB(255, 255, 255)
+                UIStroke8.Thickness = 2
+                UIStroke8.Transparency = 0.9
+                UIStroke8.Parent = FeatureFrame2
+
                 ToggleCircle.BackgroundColor3 = Color3.fromRGB(230, 230, 230)
                 ToggleCircle.BorderSizePixel = 0
                 ToggleCircle.Size = UDim2.new(0, 14, 0, 14)
@@ -1932,7 +1950,7 @@ function Chloex:Window(GuiConfig)
                         TweenService:Create(ToggleTitle, TweenInfo.new(0.2), { TextColor3 = GuiConfig.Color }):Play()
                         TweenService:Create(ToggleCircle, TweenInfo.new(0.2), { Position = UDim2.new(0, 15, 0, 0) })
                             :Play()
-                        TweenService:Create(TweenInfo.new(0.2), { Color = GuiConfig.Color, Transparency = 0 })
+                        TweenService:Create(UIStroke8, TweenInfo.new(0.2), { Color = GuiConfig.Color, Transparency = 0 })
                             :Play()
                         TweenService:Create(FeatureFrame2, TweenInfo.new(0.2),
                             { BackgroundColor3 = GuiConfig.Color, BackgroundTransparency = 0 }):Play()
@@ -1940,7 +1958,7 @@ function Chloex:Window(GuiConfig)
                         TweenService:Create(ToggleTitle, TweenInfo.new(0.2),
                             { TextColor3 = Color3.fromRGB(230, 230, 230) }):Play()
                         TweenService:Create(ToggleCircle, TweenInfo.new(0.2), { Position = UDim2.new(0, 0, 0, 0) }):Play()
-                        TweenService:Create(TweenInfo.new(0.2),
+                        TweenService:Create(UIStroke8, TweenInfo.new(0.2),
                             { Color = Color3.fromRGB(255, 255, 255), Transparency = 0.9 }):Play()
                         TweenService:Create(FeatureFrame2, TweenInfo.new(0.2),
                             { BackgroundColor3 = Color3.fromRGB(255, 255, 255), BackgroundTransparency = 0.92 }):Play()
@@ -1981,8 +1999,11 @@ function Chloex:Window(GuiConfig)
                 local UICorner17 = Instance.new("UICorner");
                 local SliderDraggable = Instance.new("Frame");
                 local UICorner18 = Instance.new("UICorner");
+                local UIStroke5 = Instance.new("UIStroke");
                 local SliderCircle = Instance.new("Frame");
                 local UICorner19 = Instance.new("UICorner");
+                local UIStroke6 = Instance.new("UIStroke");
+                local UIStroke7 = Instance.new("UIStroke");
 
                 Slider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
                 Slider.BackgroundTransparency = 0.9350000023841858
@@ -2100,7 +2121,10 @@ function Chloex:Window(GuiConfig)
                 SliderCircle.Parent = SliderDraggable
 
                 UICorner19.Parent = SliderCircle
-                
+
+                UIStroke6.Color = GuiConfig.Color
+                UIStroke6.Parent = SliderCircle
+
                 local Dragging = false
                 local function Round(Number, Factor)
                     local Result = math.floor(Number / Factor + (math.sign(Number) * 0.5)) * Factor
@@ -2498,6 +2522,8 @@ function Chloex:Window(GuiConfig)
                     local OptionButton = Instance.new("TextButton")
                     local OptionText = Instance.new("TextLabel")
                     local ChooseFrame = Instance.new("Frame")
+                    local UIStroke15 = Instance.new("UIStroke")
+                    local UICorner38 = Instance.new("UICorner")
                     local UICorner37 = Instance.new("UICorner")
 
                     Option.BackgroundTransparency = 1
@@ -2533,6 +2559,12 @@ function Chloex:Window(GuiConfig)
                     ChooseFrame.Size = UDim2.new(0, 0, 0, 0)
                     ChooseFrame.Name = "ChooseFrame"
                     ChooseFrame.Parent = Option
+
+                    UIStroke15.Color = GuiConfig.Color
+                    UIStroke15.Thickness = 1.6
+                    UIStroke15.Transparency = 0.999
+                    UIStroke15.Parent = ChooseFrame
+                    UICorner38.Parent = ChooseFrame
 
                     OptionButton.Activated:Connect(function()
                         if DropdownConfig.Multi then
