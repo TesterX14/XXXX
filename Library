@@ -2623,14 +2623,16 @@ function Chloex:Window(GuiConfig)
                         end
                     end
 
-                    OptionSelecting.Text = (#texts == 0) and
-                    (DropdownConfig.Multi and "Select Options" or "Select Option") or table.concat(texts, ", ")
+                    OptionSelecting.Text = (#texts == 0)
+                        and (DropdownConfig.Multi and "Select Options" or "Select Option")
+                        or table.concat(texts, ", ")
 
                     if DropdownConfig.Callback then
                         if DropdownConfig.Multi then
                             DropdownConfig.Callback(DropdownFunc.Value)
                         else
-                            DropdownConfig.Callback(DropdownFunc.Value or "")
+                            local str = (DropdownFunc.Value ~= nil) and tostring(DropdownFunc.Value) or ""
+                            DropdownConfig.Callback(str)
                         end
                     end
                 end
