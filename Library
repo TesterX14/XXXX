@@ -1346,7 +1346,6 @@ function Chloex:Window(GuiConfig)
             UIListLayout2.Parent = SectionAdd
 
             local OpenSection = false
-            AlwaysOpen = (AlwaysOpen == true)
 
             local function UpdateSizeScroll()
                 local OffsetY = 0
@@ -1377,12 +1376,19 @@ function Chloex:Window(GuiConfig)
                 end
             end
 
-            if AlwaysOpen then
+            if AlwaysOpen == true then
                 SectionButton:Destroy()
                 FeatureFrame:Destroy()
                 OpenSection = true
                 UpdateSizeSection()
+            elseif AlwaysOpen == false then
+                OpenSection = true
+                UpdateSizeSection()
             else
+                OpenSection = false
+            end
+
+            if AlwaysOpen ~= true then
                 SectionButton.Activated:Connect(function()
                     CircleClick(SectionButton, Mouse.X, Mouse.Y)
                     if OpenSection then
@@ -1400,7 +1406,7 @@ function Chloex:Window(GuiConfig)
                 end)
             end
 
-            if AlwaysOpen then
+            if AlwaysOpen == true or AlwaysOpen == false then
                 OpenSection = true
                 local SectionSizeYWitdh = 38
                 for _, v in SectionAdd:GetChildren() do
@@ -1414,6 +1420,7 @@ function Chloex:Window(GuiConfig)
                 SectionDecideFrame.Size = UDim2.new(1, 0, 0, 2)
                 UpdateSizeScroll()
             end
+
             SectionAdd.ChildAdded:Connect(UpdateSizeSection)
             SectionAdd.ChildRemoved:Connect(UpdateSizeSection)
 
