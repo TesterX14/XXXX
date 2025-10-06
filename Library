@@ -2583,7 +2583,7 @@ function Chloex:Window(GuiConfig)
                                 end
                             end
                         else
-                            DropdownFunc.Value = { value }
+                            DropdownFunc.Value = value
                         end
                         DropdownFunc:Set(DropdownFunc.Value)
                     end)
@@ -2593,7 +2593,7 @@ function Chloex:Window(GuiConfig)
                     if DropdownConfig.Multi then
                         DropdownFunc.Value = type(Value) == "table" and Value or {}
                     else
-                        DropdownFunc.Value = { (type(Value) == "table" and Value[1]) or Value }
+                        DropdownFunc.Value = (type(Value) == "table" and Value[1]) or Value
                     end
 
                     ConfigData[configKey] = DropdownFunc.Value
@@ -2603,9 +2603,8 @@ function Chloex:Window(GuiConfig)
                     for _, Drop in ScrollSelect:GetChildren() do
                         if Drop.Name == "Option" and Drop:FindFirstChild("OptionText") then
                             local v = Drop:GetAttribute("RealValue")
-                            local selected = DropdownConfig.Multi
-                                and table.find(DropdownFunc.Value, v)
-                                or DropdownFunc.Value[1] == v
+                            local selected = DropdownConfig.Multi and table.find(DropdownFunc.Value, v) or
+                            DropdownFunc.Value == v
 
                             if selected then
                                 TweenService:Create(Drop.ChooseFrame, TweenInfo.new(0.2),
@@ -2629,11 +2628,7 @@ function Chloex:Window(GuiConfig)
                         or table.concat(texts, ", ")
 
                     if DropdownConfig.Callback then
-                        if DropdownConfig.Multi then
-                            DropdownConfig.Callback(DropdownFunc.Value)
-                        else
-                            DropdownConfig.Callback(DropdownFunc.Value[1])
-                        end
+                        DropdownConfig.Callback(DropdownFunc.Value)
                     end
                 end
 
@@ -2642,11 +2637,7 @@ function Chloex:Window(GuiConfig)
                 end
 
                 function DropdownFunc:GetValue()
-                    if DropdownConfig.Multi then
-                        return self.Value
-                    else
-                        return self.Value[1]
-                    end
+                    return self.Value
                 end
 
                 function DropdownFunc:SetValues(newList, selecting)
