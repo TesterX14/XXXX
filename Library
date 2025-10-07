@@ -1694,63 +1694,50 @@ function Chloex:Window(GuiConfig)
 
             function Items:AddButton(ButtonConfig)
                 local ButtonConfig = ButtonConfig or {}
-                ButtonConfig.Title = ButtonConfig.Title or "Title"
+                ButtonConfig.ButtonText = ButtonConfig.Button or ButtonConfig.ButtonText or "Confirm"
                 ButtonConfig.Callback = ButtonConfig.Callback or function() end
                 ButtonConfig.SubButtonText = ButtonConfig.SubButton or ButtonConfig.SubButtonText or nil
                 ButtonConfig.SubButtonCallback = ButtonConfig.SubCallback or ButtonConfig.SubButtonCallback or
                 function() end
 
-                local ButtonFunc = {}
                 local Button = Instance.new("Frame")
-                local UICorner = Instance.new("UICorner")
-                local ButtonTitle = Instance.new("TextLabel")
-                local ButtonMain = Instance.new("TextButton")
-
                 Button.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
                 Button.BackgroundTransparency = 0.935
                 Button.Size = UDim2.new(1, 0, 0, 40)
-                Button.Name = "Button"
                 Button.LayoutOrder = CountItem
                 Button.Parent = SectionAdd
 
+                local UICorner = Instance.new("UICorner")
                 UICorner.CornerRadius = UDim.new(0, 4)
                 UICorner.Parent = Button
 
-                ButtonTitle.Font = Enum.Font.GothamBold
-                ButtonTitle.Text = ButtonConfig.Title
-                ButtonTitle.TextColor3 = Color3.fromRGB(231, 231, 231)
-                ButtonTitle.TextSize = 13
-                ButtonTitle.TextXAlignment = Enum.TextXAlignment.Center
-                ButtonTitle.TextYAlignment = Enum.TextYAlignment.Center
-                ButtonTitle.BackgroundTransparency = 1
-                ButtonTitle.Size = UDim2.new(1, -80, 1, 0)
-                ButtonTitle.Position = UDim2.new(0, 10, 0, 0)
-                ButtonTitle.Name = "ButtonTitle"
-                ButtonTitle.Parent = Button
+                local MainButton = Instance.new("TextButton")
+                MainButton.Font = Enum.Font.GothamBold
+                MainButton.Text = ButtonConfig.ButtonText
+                MainButton.TextSize = 12
+                MainButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+                MainButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+                MainButton.Size = ButtonConfig.SubButtonText and UDim2.new(0.5, -6, 1, -10) or UDim2.new(1, -12, 1, -10)
+                MainButton.Position = UDim2.new(0, 6, 0, 5)
+                MainButton.Parent = Button
 
-                ButtonMain.Font = Enum.Font.SourceSans
-                ButtonMain.Text = ""
-                ButtonMain.BackgroundTransparency = 1
-                ButtonMain.Size = UDim2.new(1, 0, 1, 0)
-                ButtonMain.Name = "ButtonMain"
-                ButtonMain.Parent = Button
+                local mainCorner = Instance.new("UICorner")
+                mainCorner.CornerRadius = UDim.new(0, 4)
+                mainCorner.Parent = MainButton
 
-                ButtonMain.Activated:Connect(function()
-                    CircleClick(ButtonMain, Mouse.X, Mouse.Y)
+                MainButton.MouseButton1Click:Connect(function()
                     ButtonConfig.Callback()
                 end)
 
                 if ButtonConfig.SubButtonText then
                     local SubButton = Instance.new("TextButton")
-                    SubButton.AnchorPoint = Vector2.new(1, 0.5)
-                    SubButton.Position = UDim2.new(1, -10, 0.5, 0)
-                    SubButton.Size = UDim2.new(0, 70, 0, 24)
                     SubButton.Font = Enum.Font.GothamBold
                     SubButton.Text = ButtonConfig.SubButtonText
                     SubButton.TextSize = 12
                     SubButton.TextColor3 = Color3.fromRGB(255, 255, 255)
                     SubButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-                    SubButton.AutoButtonColor = true
+                    SubButton.Size = UDim2.new(0.5, -6, 1, -10)
+                    SubButton.Position = UDim2.new(0.5, 0, 0, 5)
                     SubButton.Parent = Button
 
                     local subCorner = Instance.new("UICorner")
@@ -1758,13 +1745,11 @@ function Chloex:Window(GuiConfig)
                     subCorner.Parent = SubButton
 
                     SubButton.MouseButton1Click:Connect(function()
-                        CircleClick(SubButton, Mouse.X, Mouse.Y)
                         ButtonConfig.SubButtonCallback()
                     end)
                 end
 
                 CountItem = CountItem + 1
-                return ButtonFunc
             end
 
             function Items:AddToggle(ToggleConfig)
