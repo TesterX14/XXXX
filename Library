@@ -1871,7 +1871,7 @@ function Chloex:Window(GuiConfig)
                 FeatureFrame2.AnchorPoint = Vector2.new(1, 0.5)
                 FeatureFrame2.BackgroundTransparency = 0.92
                 FeatureFrame2.BorderSizePixel = 0
-                FeatureFrame2.Position = UDim2.new(1, -30, 0.5, 0)
+                FeatureFrame2.Position = UDim2.new(1, -15, 0.5, 0)
                 FeatureFrame2.Size = UDim2.new(0, 30, 0, 15)
                 FeatureFrame2.Name = "FeatureFrame"
                 FeatureFrame2.Parent = Toggle
