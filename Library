@@ -826,24 +826,30 @@ function Chloex:Window(GuiConfig)
         local Yes = Instance.new("TextButton")
         Yes.Size = UDim2.new(0.45, -10, 0, 35)
         Yes.Position = UDim2.new(0.05, 0, 1, -55)
-        Yes.BackgroundColor3 = GuiConfig.Color
+        Yes.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Yes.BackgroundTransparency = 0.935
         Yes.Text = "Yes"
         Yes.Font = Enum.Font.GothamBold
-        Yes.TextSize = 16
+        Yes.TextSize = 15
         Yes.TextColor3 = Color3.fromRGB(255, 255, 255)
+        Yes.TextTransparency = 0.3
         Yes.ZIndex = 52
+        Yes.Name = "Yes"
         Yes.Parent = Dialog
         Instance.new("UICorner", Yes).CornerRadius = UDim.new(0, 6)
 
         local Cancel = Instance.new("TextButton")
         Cancel.Size = UDim2.new(0.45, -10, 0, 35)
         Cancel.Position = UDim2.new(0.5, 10, 1, -55)
-        Cancel.BackgroundColor3 = GuiConfig.Color
+        Cancel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Cancel.BackgroundTransparency = 0.935
         Cancel.Text = "Cancel"
         Cancel.Font = Enum.Font.GothamBold
-        Cancel.TextSize = 16
+        Cancel.TextSize = 15
         Cancel.TextColor3 = Color3.fromRGB(255, 255, 255)
+        Cancel.TextTransparency = 0.3
         Cancel.ZIndex = 52
+        Cancel.Name = "Cancel"
         Cancel.Parent = Dialog
         Instance.new("UICorner", Cancel).CornerRadius = UDim.new(0, 6)
 
