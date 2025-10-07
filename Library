@@ -1716,7 +1716,9 @@ function Chloex:Window(GuiConfig)
                 MainButton.Text = ButtonConfig.ButtonText
                 MainButton.TextSize = 12
                 MainButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-                MainButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+                MainButton.TextTransparency = 0.3
+                MainButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                MainButton.BackgroundTransparency = 0.935
                 MainButton.Size = ButtonConfig.SubButtonText and UDim2.new(0.5, -8, 1, -10) or UDim2.new(1, -12, 1, -10)
                 MainButton.Position = UDim2.new(0, 6, 0, 5)
                 MainButton.Parent = Button
@@ -1734,8 +1736,10 @@ function Chloex:Window(GuiConfig)
                     SubButton.Font = Enum.Font.GothamBold
                     SubButton.Text = ButtonConfig.SubButtonText
                     SubButton.TextSize = 12
+                    SubButton.TextTransparency = 0.3
                     SubButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-                    SubButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+                    SubButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                    SubButton.BackgroundTransparency = 0.935
                     SubButton.Size = UDim2.new(0.5, -8, 1, -10)
                     SubButton.Position = UDim2.new(0.5, 2, 0, 5)
                     SubButton.Parent = Button
