@@ -1446,7 +1446,7 @@ function Chloex:Window(GuiConfig)
                 local iconOffset = 10
                 if ParagraphConfig.Icon then
                     local IconImg = Instance.new("ImageLabel")
-                    IconImg.Size = UDim2.new(0, 18, 0, 18)
+                    IconImg.Size = UDim2.new(0, 20, 0, 20)
                     IconImg.Position = UDim2.new(0, 8, 0, 12)
                     IconImg.BackgroundTransparency = 1
                     IconImg.Name = "ParagraphIcon"
@@ -1494,9 +1494,11 @@ function Chloex:Window(GuiConfig)
                     ParagraphButton.Size = UDim2.new(1, -iconOffset - 10, 0, 28)
                     ParagraphButton.Position = UDim2.new(0, iconOffset, 0,
                         ParagraphContent.Position.Y.Offset + ParagraphContent.TextBounds.Y + 5)
-                    ParagraphButton.BackgroundColor3 = Color3.fromRGB(0, 208, 255)
+                    ParagraphButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                    ParagraphButton.BackgroundTransparency = 0.935
                     ParagraphButton.Font = Enum.Font.GothamBold
-                    ParagraphButton.TextSize = 14
+                    ParagraphButton.TextSize = 12
+                    ParagraphButton.TextTransparency = 0.3
                     ParagraphButton.TextColor3 = Color3.fromRGB(255, 255, 255)
                     ParagraphButton.Text = ParagraphConfig.ButtonText
                     ParagraphButton.Parent = Paragraph
@@ -1617,7 +1619,7 @@ function Chloex:Window(GuiConfig)
                     InputBox.PlaceholderText = PanelConfig.Placeholder
                     InputBox.PlaceholderColor3 = Color3.fromRGB(120, 120, 120)
                     InputBox.Text = PanelConfig.Default
-                    InputBox.TextSize = 12
+                    InputBox.TextSize = 11
                     InputBox.TextColor3 = Color3.fromRGB(255, 255, 255)
                     InputBox.BackgroundTransparency = 1
                     InputBox.TextXAlignment = Enum.TextXAlignment.Left
@@ -1637,8 +1639,10 @@ function Chloex:Window(GuiConfig)
                 ButtonMain.Font = Enum.Font.GothamBold
                 ButtonMain.Text = PanelConfig.ButtonText
                 ButtonMain.TextColor3 = Color3.fromRGB(255, 255, 255)
-                ButtonMain.TextSize = 14
-                ButtonMain.BackgroundColor3 = Color3.fromRGB(0, 208, 255)
+                ButtonMain.TextSize = 12
+                ButtonMain.TextTransparency = 0.3
+                ButtonMain.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                ButtonMain.BackgroundTransparency = 0.935
                 ButtonMain.Size = PanelConfig.SubButtonText and UDim2.new(0.5, -12, 0, 30) or UDim2.new(1, -20, 0, 30)
                 ButtonMain.Position = UDim2.new(0, 10, 0, yBtn)
                 ButtonMain.Parent = Panel
@@ -1656,8 +1660,10 @@ function Chloex:Window(GuiConfig)
                     SubButton.Font = Enum.Font.GothamBold
                     SubButton.Text = PanelConfig.SubButtonText
                     SubButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-                    SubButton.TextSize = 14
-                    SubButton.BackgroundColor3 = Color3.fromRGB(0, 208, 255)
+                    SubButton.TextSize = 12
+                    SubButton.TextTransparency = 0.3
+                    SubButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                    SubButton.BackgroundTransparency = 0.935
                     SubButton.Size = UDim2.new(0.5, -12, 0, 30)
                     SubButton.Position = UDim2.new(0.5, 2, 0, yBtn)
                     SubButton.Parent = Panel
