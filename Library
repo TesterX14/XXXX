@@ -1491,9 +1491,8 @@ function Chloex:Window(GuiConfig)
                 local ParagraphButton
                 if ParagraphConfig.ButtonText then
                     ParagraphButton = Instance.new("TextButton")
-                    ParagraphButton.Size = UDim2.new(1, -iconOffset - 10, 0, 28)
-                    ParagraphButton.Position = UDim2.new(0, iconOffset, 0,
-                        ParagraphContent.Position.Y.Offset + ParagraphContent.TextBounds.Y + 5)
+                    ParagraphButton.Position = UDim2.new(0, 10, 0, 42)
+                    ParagraphButton.Size = UDim2.new(1, -22, 0, 28)
                     ParagraphButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
                     ParagraphButton.BackgroundTransparency = 0.935
                     ParagraphButton.Font = Enum.Font.GothamBold
@@ -1697,22 +1696,19 @@ function Chloex:Window(GuiConfig)
                 local ButtonConfig = ButtonConfig or {}
                 ButtonConfig.Title = ButtonConfig.Title or "Title"
                 ButtonConfig.Content = ButtonConfig.Content or ""
-                ButtonConfig.Icon = ButtonConfig.Icon or "rbxassetid://17887130324"
                 ButtonConfig.Callback = ButtonConfig.Callback or function() end
+                ButtonConfig.SubButton = ButtonConfig.SubButton or nil
+                ButtonConfig.SubCallback = ButtonConfig.SubCallback or function() end
+
                 local ButtonFunc = {}
-                local Button = Instance.new("Frame");
-                local UICorner9 = Instance.new("UICorner");
-                local ButtonTitle = Instance.new("TextLabel");
-                local ButtonContent = Instance.new("TextLabel");
-                local ButtonButton = Instance.new("TextButton");
-                local FeatureFrame1 = Instance.new("Frame");
-                local FeatureImg3 = Instance.new("ImageLabel");
+                local Button = Instance.new("Frame")
+                local UICorner9 = Instance.new("UICorner")
+                local ButtonTitle = Instance.new("TextLabel")
+                local ButtonContent = Instance.new("TextLabel")
+                local ButtonButton = Instance.new("TextButton")
 
                 Button.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-                Button.BackgroundTransparency = 0.9350000023841858
-                Button.BorderColor3 = Color3.fromRGB(0, 0, 0)
-                Button.BorderSizePixel = 0
-                Button.LayoutOrder = CountItem
+                Button.BackgroundTransparency = 0.935
                 Button.Size = UDim2.new(1, 0, 0, 46)
                 Button.Name = "Button"
                 Button.Parent = SectionAdd
@@ -1722,86 +1718,61 @@ function Chloex:Window(GuiConfig)
 
                 ButtonTitle.Font = Enum.Font.GothamBold
                 ButtonTitle.Text = ButtonConfig.Title
-                ButtonTitle.TextColor3 = Color3.fromRGB(230.77499270439148, 230.77499270439148, 230.77499270439148)
+                ButtonTitle.TextColor3 = Color3.fromRGB(230, 230, 230)
                 ButtonTitle.TextSize = 13
-                ButtonTitle.TextXAlignment = Enum.TextXAlignment.Left
+                ButtonTitle.TextXAlignment = Enum.TextXAlignment.Center
                 ButtonTitle.TextYAlignment = Enum.TextYAlignment.Top
-                ButtonTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-                ButtonTitle.BackgroundTransparency = 0.9990000128746033
-                ButtonTitle.BorderColor3 = Color3.fromRGB(0, 0, 0)
-                ButtonTitle.BorderSizePixel = 0
-                ButtonTitle.Position = UDim2.new(0, 10, 0, 10)
-                ButtonTitle.Size = UDim2.new(1, -100, 0, 13)
+                ButtonTitle.BackgroundTransparency = 1
+                ButtonTitle.Position = UDim2.new(0, 0, 0, 8)
+                ButtonTitle.Size = UDim2.new(1, 0, 0, 13)
                 ButtonTitle.Name = "ButtonTitle"
                 ButtonTitle.Parent = Button
 
-                ButtonContent.Font = Enum.Font.GothamBold
+                ButtonContent.Font = Enum.Font.Gotham
                 ButtonContent.Text = ButtonConfig.Content
-                ButtonContent.TextColor3 = Color3.fromRGB(255, 255, 255)
+                ButtonContent.TextColor3 = Color3.fromRGB(200, 200, 200)
                 ButtonContent.TextSize = 12
-                ButtonContent.TextTransparency = 0.6000000238418579
-                ButtonContent.TextXAlignment = Enum.TextXAlignment.Left
+                ButtonContent.TextTransparency = 0.4
+                ButtonContent.TextXAlignment = Enum.TextXAlignment.Center
                 ButtonContent.TextYAlignment = Enum.TextYAlignment.Bottom
-                ButtonContent.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-                ButtonContent.BackgroundTransparency = 0.9990000128746033
-                ButtonContent.BorderColor3 = Color3.fromRGB(0, 0, 0)
-                ButtonContent.BorderSizePixel = 0
-                ButtonContent.Position = UDim2.new(0, 10, 0, 25)
+                ButtonContent.BackgroundTransparency = 1
+                ButtonContent.Position = UDim2.new(0, 0, 0, 25)
+                ButtonContent.Size = UDim2.new(1, 0, 0, 15)
                 ButtonContent.Name = "ButtonContent"
                 ButtonContent.Parent = Button
-                ButtonContent.Size = UDim2.new(1, -100, 0, 12)
-
-                ButtonContent.Size = UDim2.new(1, -100, 0,
-                    12 + (12 * (ButtonContent.TextBounds.X // ButtonContent.AbsoluteSize.X)))
-                ButtonContent.TextWrapped = true
-                Button.Size = UDim2.new(1, 0, 0, ButtonContent.AbsoluteSize.Y + 33)
-
-                ButtonContent:GetPropertyChangedSignal("AbsoluteSize"):Connect(function()
-                    ButtonContent.TextWrapped = false
-                    ButtonContent.Size = UDim2.new(1, -100, 0,
-                        12 + (12 * (ButtonContent.TextBounds.X // ButtonContent.AbsoluteSize.X)))
-                    Button.Size = UDim2.new(1, 0, 0, ButtonContent.AbsoluteSize.Y + 33)
-                    ButtonContent.TextWrapped = true
-                    UpdateSizeSection()
-                end)
 
                 ButtonButton.Font = Enum.Font.SourceSans
                 ButtonButton.Text = ""
-                ButtonButton.TextColor3 = Color3.fromRGB(0, 0, 0)
-                ButtonButton.TextSize = 14
-                ButtonButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-                ButtonButton.BackgroundTransparency = 0.9990000128746033
-                ButtonButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
-                ButtonButton.BorderSizePixel = 0
+                ButtonButton.BackgroundTransparency = 1
                 ButtonButton.Size = UDim2.new(1, 0, 1, 0)
                 ButtonButton.Name = "ButtonButton"
                 ButtonButton.Parent = Button
-
-                FeatureFrame1.AnchorPoint = Vector2.new(1, 0.5)
-                FeatureFrame1.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-                FeatureFrame1.BackgroundTransparency = 0.9990000128746033
-                FeatureFrame1.BorderColor3 = Color3.fromRGB(0, 0, 0)
-                FeatureFrame1.BorderSizePixel = 0
-                FeatureFrame1.Position = UDim2.new(1, -15, 0.5, 0)
-                FeatureFrame1.Size = UDim2.new(0, 25, 0, 25)
-                FeatureFrame1.Name = "FeatureFrame"
-                FeatureFrame1.Parent = Button
-
-                FeatureImg3.Image = ButtonConfig.Icon
-                FeatureImg3.AnchorPoint = Vector2.new(0.5, 0.5)
-                FeatureImg3.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-                FeatureImg3.BackgroundTransparency = 0.9990000128746033
-                FeatureImg3.BorderColor3 = Color3.fromRGB(0, 0, 0)
-                FeatureImg3.BorderSizePixel = 0
-                FeatureImg3.Position = UDim2.new(0.5, 0, 0.5, 0)
-                FeatureImg3.Size = UDim2.new(1, 0, 1, 0)
-                FeatureImg3.Name = "FeatureImg"
-                FeatureImg3.Parent = FeatureFrame1
 
                 ButtonButton.Activated:Connect(function()
                     CircleClick(ButtonButton, Mouse.X, Mouse.Y)
                     ButtonConfig.Callback()
                 end)
+
+                if ButtonConfig.SubButton then
+                    local Sub = Instance.new("TextButton")
+                    Sub.AnchorPoint = Vector2.new(1, 0.5)
+                    Sub.Position = UDim2.new(1, -10, 0.5, 0)
+                    Sub.Size = UDim2.new(0, 60, 0, 24)
+                    Sub.Font = Enum.Font.GothamBold
+                    Sub.Text = ButtonConfig.SubButton
+                    Sub.TextSize = 12
+                    Sub.TextColor3 = Color3.fromRGB(255, 255, 255)
+                    Sub.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+                    Sub.AutoButtonColor = true
+                    Sub.Parent = Button
+                    Instance.new("UICorner", Sub).CornerRadius = UDim.new(0, 4)
+
+                    Sub.MouseButton1Click:Connect(function()
+                        CircleClick(Sub, Mouse.X, Mouse.Y)
+                        ButtonConfig.SubCallback()
+                    end)
+                end
+
                 CountItem = CountItem + 1
                 return ButtonFunc
             end
