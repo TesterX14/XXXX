@@ -1695,81 +1695,71 @@ function Chloex:Window(GuiConfig)
             function Items:AddButton(ButtonConfig)
                 local ButtonConfig = ButtonConfig or {}
                 ButtonConfig.Title = ButtonConfig.Title or "Title"
-                ButtonConfig.Content = ButtonConfig.Content or ""
                 ButtonConfig.Callback = ButtonConfig.Callback or function() end
-                ButtonConfig.SubButton = ButtonConfig.SubButton or nil
-                ButtonConfig.SubCallback = ButtonConfig.SubCallback or function() end
+                ButtonConfig.SubButtonText = ButtonConfig.SubButton or ButtonConfig.SubButtonText or nil
+                ButtonConfig.SubButtonCallback = ButtonConfig.SubCallback or ButtonConfig.SubButtonCallback or
+                function() end
 
                 local ButtonFunc = {}
                 local Button = Instance.new("Frame")
-                local UICorner9 = Instance.new("UICorner")
+                local UICorner = Instance.new("UICorner")
                 local ButtonTitle = Instance.new("TextLabel")
-                local ButtonContent = Instance.new("TextLabel")
-                local ButtonButton = Instance.new("TextButton")
+                local ButtonMain = Instance.new("TextButton")
 
                 Button.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
                 Button.BackgroundTransparency = 0.935
-                Button.Size = UDim2.new(1, 0, 0, 46)
+                Button.Size = UDim2.new(1, 0, 0, 40)
                 Button.Name = "Button"
+                Button.LayoutOrder = CountItem
                 Button.Parent = SectionAdd
 
-                UICorner9.CornerRadius = UDim.new(0, 4)
-                UICorner9.Parent = Button
+                UICorner.CornerRadius = UDim.new(0, 4)
+                UICorner.Parent = Button
 
                 ButtonTitle.Font = Enum.Font.GothamBold
                 ButtonTitle.Text = ButtonConfig.Title
-                ButtonTitle.TextColor3 = Color3.fromRGB(230, 230, 230)
+                ButtonTitle.TextColor3 = Color3.fromRGB(231, 231, 231)
                 ButtonTitle.TextSize = 13
                 ButtonTitle.TextXAlignment = Enum.TextXAlignment.Center
-                ButtonTitle.TextYAlignment = Enum.TextYAlignment.Top
+                ButtonTitle.TextYAlignment = Enum.TextYAlignment.Center
                 ButtonTitle.BackgroundTransparency = 1
-                ButtonTitle.Position = UDim2.new(0, 0, 0, 8)
-                ButtonTitle.Size = UDim2.new(1, 0, 0, 13)
+                ButtonTitle.Size = UDim2.new(1, -80, 1, 0)
+                ButtonTitle.Position = UDim2.new(0, 10, 0, 0)
                 ButtonTitle.Name = "ButtonTitle"
                 ButtonTitle.Parent = Button
 
-                ButtonContent.Font = Enum.Font.Gotham
-                ButtonContent.Text = ButtonConfig.Content
-                ButtonContent.TextColor3 = Color3.fromRGB(200, 200, 200)
-                ButtonContent.TextSize = 12
-                ButtonContent.TextTransparency = 0.4
-                ButtonContent.TextXAlignment = Enum.TextXAlignment.Center
-                ButtonContent.TextYAlignment = Enum.TextYAlignment.Bottom
-                ButtonContent.BackgroundTransparency = 1
-                ButtonContent.Position = UDim2.new(0, 0, 0, 25)
-                ButtonContent.Size = UDim2.new(1, 0, 0, 15)
-                ButtonContent.Name = "ButtonContent"
-                ButtonContent.Parent = Button
+                ButtonMain.Font = Enum.Font.SourceSans
+                ButtonMain.Text = ""
+                ButtonMain.BackgroundTransparency = 1
+                ButtonMain.Size = UDim2.new(1, 0, 1, 0)
+                ButtonMain.Name = "ButtonMain"
+                ButtonMain.Parent = Button
 
-                ButtonButton.Font = Enum.Font.SourceSans
-                ButtonButton.Text = ""
-                ButtonButton.BackgroundTransparency = 1
-                ButtonButton.Size = UDim2.new(1, 0, 1, 0)
-                ButtonButton.Name = "ButtonButton"
-                ButtonButton.Parent = Button
-
-                ButtonButton.Activated:Connect(function()
-                    CircleClick(ButtonButton, Mouse.X, Mouse.Y)
+                ButtonMain.Activated:Connect(function()
+                    CircleClick(ButtonMain, Mouse.X, Mouse.Y)
                     ButtonConfig.Callback()
                 end)
 
-                if ButtonConfig.SubButton then
-                    local Sub = Instance.new("TextButton")
-                    Sub.AnchorPoint = Vector2.new(1, 0.5)
-                    Sub.Position = UDim2.new(1, -10, 0.5, 0)
-                    Sub.Size = UDim2.new(0, 60, 0, 24)
-                    Sub.Font = Enum.Font.GothamBold
-                    Sub.Text = ButtonConfig.SubButton
-                    Sub.TextSize = 12
-                    Sub.TextColor3 = Color3.fromRGB(255, 255, 255)
-                    Sub.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-                    Sub.AutoButtonColor = true
-                    Sub.Parent = Button
-                    Instance.new("UICorner", Sub).CornerRadius = UDim.new(0, 4)
+                if ButtonConfig.SubButtonText then
+                    local SubButton = Instance.new("TextButton")
+                    SubButton.AnchorPoint = Vector2.new(1, 0.5)
+                    SubButton.Position = UDim2.new(1, -10, 0.5, 0)
+                    SubButton.Size = UDim2.new(0, 70, 0, 24)
+                    SubButton.Font = Enum.Font.GothamBold
+                    SubButton.Text = ButtonConfig.SubButtonText
+                    SubButton.TextSize = 12
+                    SubButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+                    SubButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+                    SubButton.AutoButtonColor = true
+                    SubButton.Parent = Button
 
-                    Sub.MouseButton1Click:Connect(function()
-                        CircleClick(Sub, Mouse.X, Mouse.Y)
-                        ButtonConfig.SubCallback()
+                    local subCorner = Instance.new("UICorner")
+                    subCorner.CornerRadius = UDim.new(0, 4)
+                    subCorner.Parent = SubButton
+
+                    SubButton.MouseButton1Click:Connect(function()
+                        CircleClick(SubButton, Mouse.X, Mouse.Y)
+                        ButtonConfig.SubButtonCallback()
                     end)
                 end
 
