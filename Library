@@ -1821,7 +1821,7 @@ function Chloex:Window(GuiConfig)
                 ToggleContent.Font = Enum.Font.GothamBold
                 ToggleContent.Text = ToggleConfig.Content
                 ToggleContent.TextColor3 = Color3.fromRGB(255, 255, 255)
-                ToggleContent.TextSize = 11
+                ToggleContent.TextSize = 12
                 ToggleContent.TextTransparency = 0.6
                 ToggleContent.TextXAlignment = Enum.TextXAlignment.Left
                 ToggleContent.TextYAlignment = Enum.TextYAlignment.Bottom
@@ -1836,7 +1836,7 @@ function Chloex:Window(GuiConfig)
                     ToggleTitle2.Visible = true
                 else
                     Toggle.Size = UDim2.new(1, 0, 0, 46)
-                    ToggleContent.Position = UDim2.new(0, 10, 0, 26)
+                    ToggleContent.Position = UDim2.new(0, 10, 0, 23)
                     ToggleTitle2.Visible = false
                 end
 
