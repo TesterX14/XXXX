@@ -2656,21 +2656,29 @@ function Chloex:Window(GuiConfig)
                 SubSection.Name = "SubSection"
                 SubSection.Parent = SectionAdd
                 SubSection.BackgroundTransparency = 1
-                SubSection.Size = UDim2.new(1, 0, 0, 20)
+                SubSection.Size = UDim2.new(1, 0, 0, 26)
                 SubSection.LayoutOrder = CountItem
 
+                local Background = Instance.new("Frame")
+                Background.Parent = SubSection
+                Background.Size = UDim2.new(1, 0, 1, 0)
+                Background.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+                Background.BackgroundTransparency = 0.935
+                Background.BorderSizePixel = 0
+                Instance.new("UICorner", Background).CornerRadius = UDim.new(0, 6)
+
                 local Label = Instance.new("TextLabel")
+                Label.Parent = Background
                 Label.Font = Enum.Font.GothamBold
                 Label.Text = title
-                Label.TextColor3 = GuiConfig.Color
+                Label.TextColor3 = Color3.fromRGB(255, 255, 255)
                 Label.TextSize = 13
                 Label.TextXAlignment = Enum.TextXAlignment.Left
                 Label.BackgroundTransparency = 1
                 Label.Position = UDim2.new(0, 10, 0, 0)
                 Label.Size = UDim2.new(1, -20, 1, 0)
-                Label.Parent = SubSection
 
-                CountItem = CountItem + 1
+                CountItem += 1
                 return SubSection
             end
 
