@@ -2649,6 +2649,31 @@ function Chloex:Window(GuiConfig)
                 return Divider
             end
 
+            function Items:AddSubSection(title)
+                title = title or "Sub Section"
+
+                local SubSection = Instance.new("Frame")
+                SubSection.Name = "SubSection"
+                SubSection.Parent = SectionAdd
+                SubSection.BackgroundTransparency = 1
+                SubSection.Size = UDim2.new(1, 0, 0, 20)
+                SubSection.LayoutOrder = CountItem
+
+                local Label = Instance.new("TextLabel")
+                Label.Font = Enum.Font.GothamBold
+                Label.Text = title
+                Label.TextColor3 = GuiConfig.Color
+                Label.TextSize = 13
+                Label.TextXAlignment = Enum.TextXAlignment.Left
+                Label.BackgroundTransparency = 1
+                Label.Position = UDim2.new(0, 10, 0, 0)
+                Label.Size = UDim2.new(1, -20, 1, 0)
+                Label.Parent = SubSection
+
+                CountItem = CountItem + 1
+                return SubSection
+            end
+
             CountSection = CountSection + 1
             return Items
         end
