@@ -2683,44 +2683,6 @@ function Chloex:Window(GuiConfig)
                 return SubSection
             end
 
-            function Items:AddSubParagraph(text)
-                text = text or "Sub Paragraph"
-
-                local SubParagraph = Instance.new("Frame")
-                SubParagraph.Name = "SubParagraph"
-                SubParagraph.Parent = SectionAdd
-                SubParagraph.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-                SubParagraph.BackgroundTransparency = 0.935
-                SubParagraph.BorderSizePixel = 0
-                SubParagraph.Size = UDim2.new(1, 0, 0, 24)
-                SubParagraph.LayoutOrder = CountItem
-
-                local UICorner = Instance.new("UICorner")
-                UICorner.CornerRadius = UDim.new(0, 4)
-                UICorner.Parent = SubParagraph
-
-                local Label = Instance.new("TextLabel")
-                Label.Parent = SubParagraph
-                Label.BackgroundTransparency = 1
-                Label.Position = UDim2.new(0, 10, 0, 0)
-                Label.Size = UDim2.new(1, -20, 1, 0)
-                Label.Font = Enum.Font.Gotham
-                Label.Text = text
-                Label.TextColor3 = Color3.fromRGB(235, 235, 235)
-                Label.TextSize = 12
-                Label.TextXAlignment = Enum.TextXAlignment.Left
-                Label.RichText = true
-
-                local SubFunc = {}
-
-                function SubFunc:Set(newText)
-                    Label.Text = tostring(newText or "")
-                end
-
-                CountItem = CountItem + 1
-                return SubFunc
-            end
-
             CountSection = CountSection + 1
             return Items
         end
