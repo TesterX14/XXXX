@@ -2656,7 +2656,7 @@ function Chloex:Window(GuiConfig)
                 SubSection.Name = "SubSection"
                 SubSection.Parent = SectionAdd
                 SubSection.BackgroundTransparency = 1
-                SubSection.Size = UDim2.new(1, 0, 0, 20)
+                SubSection.Size = UDim2.new(1, 0, 0, 22)
                 SubSection.LayoutOrder = CountItem
 
                 local Background = Instance.new("Frame")
@@ -2667,35 +2667,17 @@ function Chloex:Window(GuiConfig)
                 Background.BorderSizePixel = 0
                 Instance.new("UICorner", Background).CornerRadius = UDim.new(0, 6)
 
-                local LineLeft = Instance.new("Frame")
-                LineLeft.Parent = SubSection
-                LineLeft.AnchorPoint = Vector2.new(1, 0.5)
-                LineLeft.Position = UDim2.new(0.5, -60, 0.5, 0)
-                LineLeft.Size = UDim2.new(0.5, -70, 0, 1)
-                LineLeft.BackgroundColor3 = Color3.fromRGB(180, 180, 180)
-                LineLeft.BackgroundTransparency = 0.3
-                LineLeft.BorderSizePixel = 0
-
-                local LineRight = Instance.new("Frame")
-                LineRight.Parent = SubSection
-                LineRight.AnchorPoint = Vector2.new(0, 0.5)
-                LineRight.Position = UDim2.new(0.5, 60, 0.5, 0)
-                LineRight.Size = UDim2.new(0.5, -70, 0, 1)
-                LineRight.BackgroundColor3 = Color3.fromRGB(180, 180, 180)
-                LineRight.BackgroundTransparency = 0.3
-                LineRight.BorderSizePixel = 0
-
                 local Label = Instance.new("TextLabel")
                 Label.Parent = SubSection
-                Label.AnchorPoint = Vector2.new(0.5, 0.5)
-                Label.Position = UDim2.new(0.5, 0, 0.5, 0)
-                Label.Size = UDim2.new(0, 200, 1, 0)
+                Label.AnchorPoint = Vector2.new(0, 0.5)
+                Label.Position = UDim2.new(0, 10, 0.5, 0)
+                Label.Size = UDim2.new(1, -20, 1, 0)
                 Label.BackgroundTransparency = 1
                 Label.Font = Enum.Font.GothamBold
                 Label.Text = "── [ " .. title .. " ] ──"
                 Label.TextColor3 = Color3.fromRGB(230, 230, 230)
-                Label.TextSize = 13
-                Label.TextXAlignment = Enum.TextXAlignment.Center
+                Label.TextSize = 12
+                Label.TextXAlignment = Enum.TextXAlignment.Left
 
                 CountItem = CountItem + 1
                 return SubSection
