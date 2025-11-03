@@ -1161,9 +1161,10 @@ function Chloex:Window(GuiConfig)
             CircleClick(TabButton, Mouse.X, Mouse.Y)
             for _, TabFrame in ScrollTab:GetChildren() do
                 if TabFrame.Name == "Tab" then
-                    local oldChoose = TabFrame:FindFirstChild("ChooseFrame")
-                    if oldChoose then
-                        oldChoose:Destroy()
+                    for _, v in ipairs(TabFrame:GetChildren()) do
+                        if v.Name == "ChooseFrame" then
+                            v:Destroy()
+                        end
                     end
                     TweenService:Create(
                         TabFrame,
@@ -1175,7 +1176,7 @@ function Chloex:Window(GuiConfig)
             local ChooseFrame = Instance.new("Frame")
             ChooseFrame.BackgroundColor3 = GuiConfig.Color
             ChooseFrame.BorderSizePixel = 0
-            ChooseFrame.Position = UDim2.new(0, 2, 0, 9 + (33 * Tab.LayoutOrder))
+            ChooseFrame.Position = UDim2.new(0, 2, 0, 9)
             ChooseFrame.Size = UDim2.new(0, 1, 0, 12)
             ChooseFrame.Name = "ChooseFrame"
             ChooseFrame.Parent = Tab
