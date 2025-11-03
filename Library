@@ -1131,7 +1131,7 @@ function Chloex:Window(GuiConfig)
         FeatureImg.Parent = Tab
         if CountTab == 0 then
             LayersPageLayout:JumpToIndex(0)
-            NameTab.Text = "| " .. tostring(TabConfig.Name)
+            NameTab.Text = TabConfig.Name
             local ChooseFrame = Instance.new("Frame");
             ChooseFrame.BackgroundColor3 = GuiConfig.Color
             ChooseFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
