@@ -1168,6 +1168,16 @@ function Chloex:Window(GuiConfig)
                     end
                 end
             end
+
+            for _, TabFrame in ScrollTab:GetChildren() do
+                if TabFrame.Name == "Tab" then
+                    local oldChoose = TabFrame:FindFirstChild("ChooseFrame")
+                    if oldChoose then
+                        oldChoose:Destroy()
+                    end
+                end
+            end
+
             if FrameChoose ~= nil and Tab.LayoutOrder ~= LayersPageLayout.CurrentPage.LayoutOrder then
                 for _, TabFrame in ScrollTab:GetChildren() do
                     if TabFrame.Name == "Tab" then
