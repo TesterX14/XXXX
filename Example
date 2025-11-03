@@ -11,160 +11,299 @@ local Window = Chloex:Window({
 
 if Window then
     chloex("Window loaded!")
-end
 
--- Tab
-local ExampleTab = Window:AddTab({
-    Name = "Example",
-    Icon = "scan"
-})
+    local Players = game:GetService("Players")
+    local TeleportService = game:GetService("TeleportService")
+    local RunService = game:GetService("RunService")
+    local Lighting = game:GetService("Lighting")
+    local LocalPlayer = Players.LocalPlayer
+    local UserInputService = game:GetService("UserInputService")
 
--- Section
-local Example = ExampleTab:AddSection("Section Example", true)
+    -- ====== CREATE TABS ======
+    local InfoTab = Window:AddTab({ Name = "Info", Icon = "water" })
+    local MiscTab = Window:AddTab({ Name = "Misc", Icon = "gamepad" })
 
--- Paragraph
-Example:AddParagraph({
-    Title = "Chloe X Alert!",
-    Content = [[
+    -- ====== INFO SECTION ======
+    local InfoSection = InfoTab:AddSection("Chloe X Information", true)
+
+    InfoSection:AddParagraph({
+        Title = "Chloe X Alert!",
+        Content = [[
 This script is still under development!
 There is a possibility it may get detected if used in public servers!
 If you have suggestions or found bugs, please report them to <font color="rgb(0,170,255)">Discord Chloe X</font>!<br/>
 <b>Use at your own risk!</b>
 ]],
-    Icon = "water"
-})
+        Icon = "water"
+    })
 
-
-Example:AddParagraph({
-    Title = "CHLOE X Discord",
-    Content = "Official link discord Chloe X!",
-    Icon = "discord",
-    ButtonText = "COPY LINK DISCORD",
-    ButtonCallback = function()
-        if setclipboard then
-            setclipboard("https://discord.gg/J5KdfSHD")
-            chloex("Succesfully copied link!")
+    InfoSection:AddParagraph({
+        Title = "CHLOE X Discord",
+        Content = "Official link discord Chloe X!",
+        Icon = "dcs",
+        ButtonText = "COPY LINK DISCORD",
+        ButtonCallback = function()
+            if setclipboard then
+                setclipboard("https://discord.com/invite/PaPvGUE8UC")
+                chloex("Succesfully copied link!")
+            end
         end
-    end
-})
+    })
 
-Example:AddDivider()
+    InfoSection:AddDivider()
 
-local Players = game:GetService("Players")
-local TeleportService = game:GetService("TeleportService")
-local LocalPlayer = Players.LocalPlayer
-
-local thumb, _ = Players:GetUserThumbnailAsync(
-    LocalPlayer.UserId,
-    Enum.ThumbnailType.HeadShot,
-    Enum.ThumbnailSize.Size100x100
-)
-
-local currentJobId = "CHX-" .. tostring(game.JobId)
-
-Example:AddParagraph({
-    Title = "JobID Server",
-    Content = currentJobId,
-    Icon = thumb,
-    ButtonText = "Copy JobID",
-    ButtonCallback = function()
-        if setclipboard then
-            setclipboard(currentJobId)
-            chloex("Succesfully Copied!")
+    local currentJobId = "CHX-" .. tostring(game.JobId)
+    InfoSection:AddPanel({
+        Title = "Server Info",
+        Content = string.format(
+            "<b><font color=\"rgb(0,200,255)\">Player</font></b> : <font color=\"rgb(255,255,255)\">%d/%d Active</font>\n<b><font color=\"rgb(255,255,0)\">JobID</font></b> : <font color=\"rgb(200,200,200)\">%s</font>",
+            #Players:GetPlayers(), Players.MaxPlayers, currentJobId
+        ),
+        Placeholder = "Input JobID",
+        Button = "Copy JobID",
+        Callback = function()
+            if setclipboard then
+                setclipboard(currentJobId)
+                chloex("Succesfully copied!")
+            end
+        end,
+        SubButton = "Join JobID",
+        SubCallback = function(text)
+            if text and text ~= "" then
+                local cleaned = text:gsub("^CHX%-", "")
+                TeleportService:TeleportToPlaceInstance(game.PlaceId, cleaned, LocalPlayer)
+            end
         end
-    end
-})
+    })
 
-local InputJobId = ""
-Example:AddInput({
-    Title = "Input JobID",
-    Default = "",
-    Callback = function(value)
-        InputJobId = value
-    end
-})
+    InfoSection:AddDivider()
 
-Example:AddButton({
-    Title = "Join JobID",
-    Callback = function()
-        if InputJobId ~= "" then
-            local realJobId = InputJobId:gsub("^CHX%-", "")
-            TeleportService:TeleportToPlaceInstance(game.PlaceId, realJobId, LocalPlayer)
-        else
-            chloex("Input Job Id!")
+    InfoSection:AddButton({
+        Title = "ServerHop Lowest",
+        Callback = function()
+            task.spawn(function()
+                local HttpService = game:GetService("HttpService")
+                local PlaceId = game.PlaceId
+                local Cursor
+                local LowestServer, LowestPlayers = nil, math.huge
+                repeat
+                    local url = "https://games.roblox.com/v1/games/" ..
+                        PlaceId .. "/servers/Public?sortOrder=Asc&limit=100" ..
+                        (Cursor and "&cursor=" .. Cursor or "")
+                    local success, response = pcall(game.HttpGet, game, url)
+                    if success and response then
+                        local data = HttpService:JSONDecode(response)
+                        for _, server in ipairs(data.data) do
+                            if server.playing < server.maxPlayers and server.id ~= game.JobId then
+                                if server.playing < LowestPlayers then
+                                    LowestPlayers = server.playing
+                                    LowestServer = server.id
+                                end
+                            end
+                        end
+                        Cursor = data.nextPageCursor
+                    else
+                        break
+                    end
+                    task.wait(0.2)
+                until not Cursor
+
+                if LowestServer then
+                    TeleportService:TeleportToPlaceInstance(PlaceId, LowestServer, LocalPlayer)
+                else
+                    chloex("Tidak ada server lain ditemukan.")
+                end
+            end)
+        end,
+
+        SubTitle = "ServerHop Random",
+        SubCallback = function()
+            task.spawn(function()
+                local HttpService = game:GetService("HttpService")
+                local PlaceId = game.PlaceId
+                local Cursor
+                local Servers = {}
+                repeat
+                    local url = "https://games.roblox.com/v1/games/" ..
+                        PlaceId .. "/servers/Public?sortOrder=Asc&limit=100" ..
+                        (Cursor and "&cursor=" .. Cursor or "")
+                    local success, response = pcall(game.HttpGet, game, url)
+                    if success and response then
+                        local data = HttpService:JSONDecode(response)
+                        for _, server in ipairs(data.data) do
+                            if server.playing < server.maxPlayers and server.id ~= game.JobId then
+                                table.insert(Servers, server.id)
+                            end
+                        end
+                        Cursor = data.nextPageCursor
+                    else
+                        break
+                    end
+                    task.wait(0.2)
+                until not Cursor
+
+                if #Servers > 0 then
+                    local randomServer = Servers[math.random(1, #Servers)]
+                    TeleportService:TeleportToPlaceInstance(PlaceId, randomServer, LocalPlayer)
+                else
+                    chloex("Tidak ada server lain ditemukan.")
+                end
+            end)
         end
-    end
-})
+    })
 
--- 1. Lengkap (Input + 2 Button)
-Example:AddPanel({
-    Title = "JobID Server",
-    Content = "Masukkan JobID target",
-    Placeholder = "Input JobID",
-    Button = "Copy JobID", -- tombol kiri
-    Callback = function(text)
-        if setclipboard then
-            setclipboard(text)
-            print("JobID dicopy:", text)
-        else
-            warn("Clipboard tidak tersedia")
+    InfoSection:AddButton({
+        Title = "Rejoin Server",
+        Callback = function()
+            TeleportService:TeleportToPlaceInstance(game.PlaceId, game.JobId, LocalPlayer)
         end
-    end,
-    SubButton = "Join JobID", -- tombol kanan
-    SubCallback = function(text)
-        if text and text ~= "" then
-            local TeleportService = game:GetService("TeleportService")
-            local Players = game:GetService("Players")
-            local PlaceId = game.PlaceId
+    })
 
-            print("Mencoba join ke JobID:", text)
-            TeleportService:TeleportToPlaceInstance(PlaceId, text, Players.LocalPlayer)
-        else
-            warn("JobID kosong, tidak bisa join")
+    -- ====== MISC SECTION ======
+    local MiscSection = MiscTab:AddSection("Booster FPS")
+    MiscSection:AddToggle({
+        Title = "Disable 3D Render",
+        Content = "No Render Map",
+        Default = false,
+        Callback = function(state)
+            if typeof(RunService.Set3dRenderingEnabled) == "function" then
+                RunService:Set3dRenderingEnabled(not state)
+            end
         end
-    end
-})
+    })
 
+    MiscSection:AddToggle({
+        Title = "Reduce Map",
+        Content = "Fps Booster!",
+        Default = false,
+        Callback = function(value)
+            for _, obj in ipairs(workspace:GetDescendants()) do
+                if obj:IsA("BasePart") then
+                    if value then
+                        obj.Material = Enum.Material.Plastic
+                        obj.Color = Color3.new(1, 1, 1)
+                    end
+                elseif obj:IsA("ParticleEmitter") or obj:IsA("Trail") then
+                    obj.Enabled = not value
+                elseif obj:IsA("Shirt") or obj:IsA("Pants") or obj:IsA("ShirtGraphic") or obj:IsA("Accessory") then
+                    if value then obj:Destroy() end
+                end
+            end
+            if workspace:FindFirstChild("Terrain") then
+                workspace.Terrain.WaterWaveSize = value and 0 or 0.15
+                workspace.Terrain.WaterWaveSpeed = value and 0 or 10
+                workspace.Terrain.WaterReflectance = value and 0 or 1
+                workspace.Terrain.WaterTransparency = value and 0 or 0.3
+            end
+        end
+    })
 
--- 2. Input + 1 Button
-Example:AddPanel({
-    Title = "Change Name",
-    Content = "Masukkan nama baru",
-    Placeholder = "Input nama",
-    ButtonText = "Save",
-    ButtonCallback = function(text)
-        print("Nama diganti jadi:", text)
-    end
-})
+    MiscSection:AddToggle({
+        Title = "Black Screen",
+        Content = "Create your screen fully black",
+        Default = false,
+        Callback = function(value)
+            if value then
+                if not game.CoreGui:FindFirstChild("BlackScreen") then
+                    local frame = Instance.new("ScreenGui")
+                    frame.Name = "BlackScreen"
+                    frame.IgnoreGuiInset = true
+                    frame.ResetOnSpawn = false
+                    frame.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+                    frame.DisplayOrder = 1
+                    frame.Parent = game.CoreGui
+                    local bg = Instance.new("Frame")
+                    bg.Size = UDim2.new(1, 0, 1, 0)
+                    bg.BackgroundColor3 = Color3.new(0, 0, 0)
+                    bg.Parent = frame
+                end
+                RunService:Set3dRenderingEnabled(false)
+            else
+                local bs = game.CoreGui:FindFirstChild("BlackScreen")
+                if bs then bs:Destroy() end
+                RunService:Set3dRenderingEnabled(true)
+            end
+        end
+    })
 
--- 3. 2 Button aja (tanpa input)
-Example:AddPanel({
-    Title = "Server Control",
-    Content = "Pilih aksi server",
-    ButtonText = "Restart",
-    ButtonCallback = function()
-        print("Server di-restart")
-    end,
-    SubButtonText = "Shutdown",
-    SubButtonCallback = function()
-        print("Server dimatikan")
-    end
-})
+    -- ====== UTILITY SECTION ======
+    local UtilitySection = MiscTab:AddSection("Utility")
+    local NoclipEnabled, WalkspeedEnabled, FullBrightEnabled, InfJumpEnabled = false, false, false, false
+    local WalkspeedValue = 16
 
--- 4. 1 Button aja (tanpa input)
-Example:AddPanel({
-    Title = "Teleport",
-    Content = "Klik untuk teleport ke Lobby",
-    ButtonText = "Teleport",
-    ButtonCallback = function()
-        print("Teleport ke Lobby")
-    end
-})
+    UtilitySection:AddToggle({
+        Title = "Noclip",
+        Content = "Make cant touch any",
+        Default = false,
+        Callback = function(v)
+            NoclipEnabled = v
+        end
+    })
 
--- 5. Input aja (tanpa button)
-Example:AddPanel({
-    Title = "Note",
-    Content = "Catatan pribadi",
-    Placeholder = "Tulis sesuatu...",
-    Default = ""
-})
+    RunService.Stepped:Connect(function()
+        if NoclipEnabled and LocalPlayer.Character then
+            for _, v in pairs(LocalPlayer.Character:GetDescendants()) do
+                if v:IsA("BasePart") and v.CanCollide then
+                    v.CanCollide = false
+                end
+            end
+        end
+    end)
+
+    UtilitySection:AddSlider({
+        Title = "Walkspeed",
+        Min = 16, Max = 200, Default = 16,
+        Callback = function(val)
+            WalkspeedValue = val
+            if WalkspeedEnabled and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
+                LocalPlayer.Character.Humanoid.WalkSpeed = val
+            end
+        end
+    })
+
+    UtilitySection:AddToggle({
+        Title = "Enable Walkspeed",
+        Content = "Added more speed!",
+        Default = false,
+        Callback = function(v)
+            WalkspeedEnabled = v
+            if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
+                LocalPlayer.Character.Humanoid.WalkSpeed = v and WalkspeedValue or 16
+            end
+        end
+    })
+
+    UtilitySection:AddToggle({
+        Title = "Fullbright",
+        Default = false,
+        Callback = function(v)
+            FullBrightEnabled = v
+            if v then
+                Lighting.Ambient = Color3.new(1, 1, 1)
+                Lighting.Brightness = 2
+                Lighting.FogEnd = 100000
+                Lighting.GlobalShadows = false
+            else
+                Lighting.Ambient = Color3.new(0, 0, 0)
+                Lighting.Brightness = 1
+                Lighting.FogEnd = 1000
+                Lighting.GlobalShadows = true
+            end
+        end
+    })
+
+    UtilitySection:AddToggle({
+        Title = "Infinite Jump",
+        Content = "Make you jump forever",
+        Default = false,
+        Callback = function(v)
+            InfJumpEnabled = v
+        end
+    })
+
+    UserInputService.JumpRequest:Connect(function()
+        if InfJumpEnabled and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
+            LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+        end
+    end)
+end
