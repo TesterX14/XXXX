@@ -1162,9 +1162,8 @@ function Chloex:Window(GuiConfig)
         TabButton.Activated:Connect(function()
             CircleClick(TabButton, Mouse.X, Mouse.Y)
 
-            if _activeFrame then
+            if _activeFrame and _activeFrame.Parent then
                 _activeFrame:Destroy()
-                _activeFrame = nil
             end
 
             for _, TabFrame in ScrollTab:GetChildren() do
@@ -1204,6 +1203,7 @@ function Chloex:Window(GuiConfig)
             LayersPageLayout:JumpToIndex(Tab.LayoutOrder)
             NameTab.Text = "| " .. tostring(TabConfig.Name)
         end)
+
 
         --// Section
         local Sections = {}
