@@ -1157,15 +1157,18 @@ function Chloex:Window(GuiConfig)
             end
         end
 
+        local _activeFrame = nil
+
         TabButton.Activated:Connect(function()
             CircleClick(TabButton, Mouse.X, Mouse.Y)
 
+            if _activeFrame then
+                _activeFrame:Destroy()
+                _activeFrame = nil
+            end
+
             for _, TabFrame in ScrollTab:GetChildren() do
                 if TabFrame.Name == "Tab" then
-                    local oldChoose = TabFrame:FindFirstChild("ChooseFrame")
-                    if oldChoose then
-                        oldChoose:Destroy()
-                    end
                     TweenService:Create(
                         TabFrame,
                         TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),
@@ -1190,9 +1193,11 @@ function Chloex:Window(GuiConfig)
             local Corner = Instance.new("UICorner")
             Corner.Parent = ChooseFrame
 
+            _activeFrame = ChooseFrame
+
             TweenService:Create(
                 Tab,
-                TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),
+                TweenInfo.new(0.35, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),
                 { BackgroundTransparency = 0.92 }
             ):Play()
 
