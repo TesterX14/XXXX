@@ -1088,8 +1088,7 @@ function Chloex:Window(GuiConfig)
         Tab.BorderSizePixel = 0
         Tab.LayoutOrder = CountTab
         Tab.Size = UDim2.new(1, 0, 0, 30)
-        TabName.Text = "| " .. tostring(TabConfig.Name)
-        TabConfig.DisplayName = TabName.Text
+        Tab.Name = "Tab"
         Tab.Parent = ScrollTab
 
         UICorner3.CornerRadius = UDim.new(0, 4)
@@ -1109,7 +1108,7 @@ function Chloex:Window(GuiConfig)
         TabButton.Parent = Tab
 
         TabName.Font = Enum.Font.GothamBold
-        TabName.Text = "| " .. tostring(TabConfig.Name)
+        TabName.Text = "│ " .. tostring(TabConfig.Name)
         TabName.TextColor3 = Color3.fromRGB(255, 255, 255)
         TabName.TextSize = 13
         TabName.TextXAlignment = Enum.TextXAlignment.Left
@@ -1132,7 +1131,7 @@ function Chloex:Window(GuiConfig)
         FeatureImg.Parent = Tab
         if CountTab == 0 then
             LayersPageLayout:JumpToIndex(0)
-            NameTab.Text = "| " .. tostring(TabConfig.Name)
+            NameTab.Text = "│ " .. tostring(TabConfig.Name)
             local ChooseFrame = Instance.new("Frame");
             ChooseFrame.BackgroundColor3 = GuiConfig.Color
             ChooseFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -1157,54 +1156,53 @@ function Chloex:Window(GuiConfig)
             end
         end
 
-        local _activeFrame = nil
-
         TabButton.Activated:Connect(function()
             CircleClick(TabButton, Mouse.X, Mouse.Y)
-
-            if _activeFrame and _activeFrame.Parent then
-                _activeFrame:Destroy()
-            end
-
-            for _, TabFrame in ScrollTab:GetChildren() do
-                if TabFrame.Name == "Tab" then
-                    TweenService:Create(
-                        TabFrame,
-                        TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),
-                        { BackgroundTransparency = 0.999 }
-                    ):Play()
+            local FrameChoose
+            for a, s in ScrollTab:GetChildren() do
+                for i, v in s:GetChildren() do
+                    if v.Name == "ChooseFrame" then
+                        FrameChoose = v
+                        break
+                    end
                 end
             end
-
-            local ChooseFrame = Instance.new("Frame")
-            ChooseFrame.Name = "ChooseFrame"
-            ChooseFrame.BackgroundColor3 = GuiConfig.Color
-            ChooseFrame.BorderSizePixel = 0
-            ChooseFrame.Position = UDim2.new(0, 2, 0, 9)
-            ChooseFrame.Size = UDim2.new(0, 1, 0, 12)
-            ChooseFrame.Parent = Tab
-
-            local Stroke = Instance.new("UIStroke")
-            Stroke.Color = GuiConfig.Color
-            Stroke.Thickness = 1.6
-            Stroke.Parent = ChooseFrame
-
-            local Corner = Instance.new("UICorner")
-            Corner.Parent = ChooseFrame
-
-            _activeFrame = ChooseFrame
-
-            TweenService:Create(
-                Tab,
-                TweenInfo.new(0.35, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),
-                { BackgroundTransparency = 0.92 }
-            ):Play()
-
-            LayersPageLayout:JumpToIndex(Tab.LayoutOrder)
-            NameTab.Text = "| " .. tostring(TabConfig.Name)
+            if FrameChoose ~= nil and Tab.LayoutOrder ~= LayersPageLayout.CurrentPage.LayoutOrder then
+                for _, TabFrame in ScrollTab:GetChildren() do
+                    if TabFrame.Name == "Tab" then
+                        TweenService:Create(
+                            TabFrame,
+                            TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.InOut),
+                            { BackgroundTransparency = 0.9990000128746033 }
+                        ):Play()
+                    end
+                end
+                TweenService:Create(
+                    Tab,
+                    TweenInfo.new(0.6, Enum.EasingStyle.Back, Enum.EasingDirection.InOut),
+                    { BackgroundTransparency = 0.9200000166893005 }
+                ):Play()
+                TweenService:Create(
+                    FrameChoose,
+                    TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),
+                    { Position = UDim2.new(0, 2, 0, 9 + (33 * Tab.LayoutOrder)) }
+                ):Play()
+                LayersPageLayout:JumpToIndex(Tab.LayoutOrder)
+                task.wait(0.05)
+                NameTab.Text = TabConfig.Name
+                TweenService:Create(
+                    FrameChoose,
+                    TweenInfo.new(0.35, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),
+                    { Size = UDim2.new(0, 1, 0, 20) }
+                ):Play()
+                task.wait(0.2)
+                TweenService:Create(
+                    FrameChoose,
+                    TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),
+                    { Size = UDim2.new(0, 1, 0, 12) }
+                ):Play()
+            end
         end)
-
-
         --// Section
         local Sections = {}
         local CountSection = 0
