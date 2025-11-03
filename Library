@@ -1089,6 +1089,7 @@ function Chloex:Window(GuiConfig)
         Tab.LayoutOrder = CountTab
         Tab.Size = UDim2.new(1, 0, 0, 30)
         TabName.Text = "| " .. tostring(TabConfig.Name)
+        TabConfig.DisplayName = TabName.Text
         Tab.Parent = ScrollTab
 
         UICorner3.CornerRadius = UDim.new(0, 4)
@@ -1108,7 +1109,6 @@ function Chloex:Window(GuiConfig)
         TabButton.Parent = Tab
 
         TabName.Font = Enum.Font.GothamBold
-        TabName.Text = TabConfig.Name
         TabName.TextColor3 = Color3.fromRGB(255, 255, 255)
         TabName.TextSize = 13
         TabName.TextXAlignment = Enum.TextXAlignment.Left
@@ -1131,7 +1131,7 @@ function Chloex:Window(GuiConfig)
         FeatureImg.Parent = Tab
         if CountTab == 0 then
             LayersPageLayout:JumpToIndex(0)
-            NameTab.Text = TabConfig.Name
+            NameTab.Text = "| " .. tostring(TabConfig.Name)
             local ChooseFrame = Instance.new("Frame");
             ChooseFrame.BackgroundColor3 = GuiConfig.Color
             ChooseFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -1189,7 +1189,7 @@ function Chloex:Window(GuiConfig)
                 ):Play()
                 LayersPageLayout:JumpToIndex(Tab.LayoutOrder)
                 task.wait(0.05)
-                NameTab.Text = TabConfig.Name
+                NameTab.Text = "| " .. tostring(TabConfig.Name)
                 TweenService:Create(
                     FrameChoose,
                     TweenInfo.new(0.35, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),
