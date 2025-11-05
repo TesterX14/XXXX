@@ -1,55 +1,62 @@
 local HttpService = game:GetService("HttpService")
 
-if not isfolder("Chloe X") then
-    makefolder("Chloe X")
+if not isfolder("Chloe X") then makefolder("Chloe X") end
+if not isfolder("Chloe X/Config") then makefolder("Chloe X/Config") end
+
+local gameName = tostring(game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name)
+gameName = gameName:gsub("[^%w_ ]", ""):gsub("%s+", "_")
+
+local ConfigFolder = "Chloe X/Config"
+local DefaultFile = "Chloe_" .. gameName .. ".json"
+local AutoLoadFile = ConfigFolder .. "/_autoload.json"
+local ConfigFile = ConfigFolder .. "/" .. DefaultFile
+
+ConfigData = {}
+Elements = {}
+CURRENT_VERSION = nil
+
+local function getAutoLoadName()
+	if isfile(AutoLoadFile) then
+		local ok, data = pcall(function() return HttpService:JSONDecode(readfile(AutoLoadFile)) end)
+		if ok and data and data.name then
+			return data.name
+		end
+	end
+	return DefaultFile
 end
-if not isfolder("Chloe X/Config") then
-    makefolder("Chloe X/Config")
+
+local function setAutoLoadName(name)
+	writefile(AutoLoadFile, HttpService:JSONEncode({ name = name }))
 end
 
-local gameName   = tostring(game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name)
-gameName         = gameName:gsub("[^%w_ ]", "")
-gameName         = gameName:gsub("%s+", "_")
-
-local ConfigFile = "Chloe X/Config/Chloe_" .. gameName .. ".json"
-
-ConfigData       = {}
-Elements         = {}
-CURRENT_VERSION  = nil
-
-function SaveConfig()
-    if writefile then
-        ConfigData._version = CURRENT_VERSION
-        writefile(ConfigFile, HttpService:JSONEncode(ConfigData))
-    end
+function SaveConfig(name)
+	local file = name and (ConfigFolder .. "/" .. name) or ConfigFile
+	ConfigData._version = CURRENT_VERSION
+	writefile(file, HttpService:JSONEncode(ConfigData))
 end
 
 function LoadConfigFromFile()
-    if not CURRENT_VERSION then return end
-    if isfile and isfile(ConfigFile) then
-        local success, result = pcall(function()
-            return HttpService:JSONDecode(readfile(ConfigFile))
-        end)
-        if success and type(result) == "table" then
-            if result._version == CURRENT_VERSION then
-                ConfigData = result
-            else
-                ConfigData = { _version = CURRENT_VERSION }
-            end
-        else
-            ConfigData = { _version = CURRENT_VERSION }
-        end
-    else
-        ConfigData = { _version = CURRENT_VERSION }
-    end
+	if not CURRENT_VERSION then return end
+	local auto = getAutoLoadName()
+	local path = ConfigFolder .. "/" .. auto
+	if isfile(path) then
+		local s, r = pcall(function() return HttpService:JSONDecode(readfile(path)) end)
+		if s and type(r) == "table" and r._version == CURRENT_VERSION then
+			ConfigData = r
+		else
+			ConfigData = { _version = CURRENT_VERSION }
+		end
+	else
+		ConfigData = { _version = CURRENT_VERSION }
+	end
 end
 
 function LoadConfigElements()
-    for key, element in pairs(Elements) do
-        if ConfigData[key] ~= nil and element.Set then
-            element:Set(ConfigData[key], true)
-        end
-    end
+	for key, element in pairs(Elements) do
+		if ConfigData[key] ~= nil and element.Set then
+			element:Set(ConfigData[key], true)
+		end
+	end
 end
 
 local Icons = {
