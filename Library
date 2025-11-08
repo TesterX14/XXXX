@@ -2173,11 +2173,12 @@ function Chloex:Window(GuiConfig)
                 InputConfig.NoSave = InputConfig.NoSave or false
 
                 local configKey = "Input_" .. InputConfig.Title
-                if ConfigData[configKey] ~= nil and not InputConfig.NoSave then
+                if ConfigData[configKey] ~= nil then
                     InputConfig.Default = ConfigData[configKey]
                 end
 
                 local InputFunc = { Value = InputConfig.Default, NoSave = InputConfig.NoSave }
+
                 local Input = Instance.new("Frame")
                 local UICorner12 = Instance.new("UICorner")
                 local InputTitle = Instance.new("TextLabel")
@@ -2198,8 +2199,8 @@ function Chloex:Window(GuiConfig)
                 UICorner12.Parent = Input
 
                 InputTitle.Font = Enum.Font.GothamBold
-                InputTitle.Text = InputConfig.Title or "TextBox"
-                InputTitle.TextColor3 = Color3.fromRGB(231, 231, 231)
+                InputTitle.Text = InputConfig.Title
+                InputTitle.TextColor3 = Color3.fromRGB(230, 230, 230)
                 InputTitle.TextSize = 13
                 InputTitle.TextXAlignment = Enum.TextXAlignment.Left
                 InputTitle.BackgroundTransparency = 1
@@ -2208,7 +2209,7 @@ function Chloex:Window(GuiConfig)
                 InputTitle.Parent = Input
 
                 InputContent.Font = Enum.Font.GothamBold
-                InputContent.Text = InputConfig.Content or "This is a TextBox"
+                InputContent.Text = InputConfig.Content
                 InputContent.TextColor3 = Color3.fromRGB(255, 255, 255)
                 InputContent.TextSize = 12
                 InputContent.TextTransparency = 0.6
@@ -2219,19 +2220,6 @@ function Chloex:Window(GuiConfig)
                 InputContent.Position = UDim2.new(0, 10, 0, 25)
                 InputContent.Size = UDim2.new(1, -180, 0, 12)
                 InputContent.Parent = Input
-
-                InputContent.Size = UDim2.new(1, -180, 0,
-                    12 + (12 * (InputContent.TextBounds.X // InputContent.AbsoluteSize.X)))
-                Input.Size = UDim2.new(1, 0, 0, InputContent.AbsoluteSize.Y + 33)
-
-                InputContent:GetPropertyChangedSignal("AbsoluteSize"):Connect(function()
-                    InputContent.TextWrapped = false
-                    InputContent.Size = UDim2.new(1, -180, 0,
-                        12 + (12 * (InputContent.TextBounds.X // InputContent.AbsoluteSize.X)))
-                    Input.Size = UDim2.new(1, 0, 0, InputContent.AbsoluteSize.Y + 33)
-                    InputContent.TextWrapped = true
-                    UpdateSizeSection()
-                end)
 
                 InputFrame.AnchorPoint = Vector2.new(1, 0.5)
                 InputFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -2261,11 +2249,18 @@ function Chloex:Window(GuiConfig)
                     InputTextBox.Text = Value
                     InputFunc.Value = Value
                     InputConfig.Callback(Value)
-                    if not InputConfig.NoSave then
+                    if InputConfig.NoSave then
+                        if Value ~= "" then
+                            ConfigData[configKey] = Value
+                        else
+                            ConfigData[configKey] = nil
+                        end
+                    else
                         ConfigData[configKey] = Value
-                        SaveConfig()
                     end
+                    SaveConfig()
                 end
+
                 InputFunc:Set(InputFunc.Value)
 
                 InputTextBox.FocusLost:Connect(function()
