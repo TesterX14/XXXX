@@ -1237,46 +1237,51 @@ function Chloex:Window(GuiConfig)
 
         TabButton.Activated:Connect(function()
             CircleClick(TabButton, Mouse.X, Mouse.Y)
-            for _, TabFrame in ScrollTab:GetChildren() do
-                if TabFrame:IsA("Frame") then
-                    TweenService:Create(
-                        TabFrame,
-                        TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.InOut),
-                        { BackgroundTransparency = 0.999 }
-                    ):Play()
+            local FrameChoose
+            for a, s in ScrollTab:GetChildren() do
+                for i, v in s:GetChildren() do
+                    if v.Name == "ChooseFrame" then
+                        FrameChoose = v
+                        break
+                    end
                 end
             end
-            TweenService:Create(
-                Tab,
-                TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.InOut),
-                { BackgroundTransparency = 0.92 }
-            ):Play()
-
-            local pages = LayersFolder:GetChildren()
-            local index
-            for i, p in ipairs(pages) do
-                if p == ScrolLayers then
-                    index = i - 1
-                    break
+            if FrameChoose ~= nil and Tab.LayoutOrder ~= LayersPageLayout.CurrentPage.LayoutOrder then
+                for _, TabFrame in ScrollTab:GetChildren() do
+                    if TabFrame.Name == "Tab" then
+                        TweenService:Create(
+                            TabFrame,
+                            TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.InOut),
+                            { BackgroundTransparency = 0.9990000128746033 }
+                        ):Play()
+                    end
                 end
-            end
-            if index then
                 TweenService:Create(
-                    LayersReal,
-                    TweenInfo.new(0.15, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),
-                    { Transparency = 1 }
+                    Tab,
+                    TweenInfo.new(0.6, Enum.EasingStyle.Back, Enum.EasingDirection.InOut),
+                    { BackgroundTransparency = 0.9200000166893005 }
                 ):Play()
-                task.wait(0.1)
-                LayersPageLayout:JumpTo(pages[index + 1])
+                TweenService:Create(
+                    FrameChoose,
+                    TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),
+                    { Position = UDim2.new(0, 2, 0, 9 + (33 * Tab.LayoutOrder)) }
+                ):Play()
+                LayersPageLayout:JumpToIndex(Tab.LayoutOrder)
+                task.wait(0.05)
                 NameTab.Text = TabConfig.Name
                 TweenService:Create(
-                    LayersReal,
-                    TweenInfo.new(0.15, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),
-                    { Transparency = 0 }
+                    FrameChoose,
+                    TweenInfo.new(0.35, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),
+                    { Size = UDim2.new(0, 1, 0, 20) }
+                ):Play()
+                task.wait(0.2)
+                TweenService:Create(
+                    FrameChoose,
+                    TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),
+                    { Size = UDim2.new(0, 1, 0, 12) }
                 ):Play()
             end
         end)
-
         --// Section
         local Sections = {}
         local CountSection = 0
@@ -2238,6 +2243,7 @@ function Chloex:Window(GuiConfig)
                 return SliderFunc
             end
 
+            
             function Items:AddInput(InputConfig)
                 local InputConfig = InputConfig or {}
                 InputConfig.Title = InputConfig.Title or "Title"
@@ -2353,7 +2359,7 @@ function Chloex:Window(GuiConfig)
                 Elements[configKey] = InputFunc
                 return InputFunc
             end
-
+            
             function Items:AddDropdown(DropdownConfig)
                 local DropdownConfig = DropdownConfig or {}
                 DropdownConfig.Title = DropdownConfig.Title or "Title"
