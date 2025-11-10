@@ -2258,7 +2258,7 @@ function Chloex:Window(GuiConfig)
                 end
 
                 local InputFunc = {
-                    Value = ConfigData[configKey] or "",
+                    Value = ConfigData[configKey] or InputConfig.Default,
                     NoSave = InputConfig.NoSave,
                     Default = InputConfig.Default
                 }
@@ -2318,7 +2318,7 @@ function Chloex:Window(GuiConfig)
                 UICorner13.Parent = InputFrame
 
                 InputTextBox.Font = Enum.Font.GothamBold
-                InputTextBox.Text = ""
+                InputTextBox.Text = InputFunc.Value
                 InputTextBox.PlaceholderText = "Input Here"
                 InputTextBox.PlaceholderColor3 = Color3.fromRGB(120, 120, 120)
                 InputTextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -2336,7 +2336,9 @@ function Chloex:Window(GuiConfig)
 
                     if Value ~= "" and Value ~= InputFunc.Default then
                         ConfigData[configKey] = Value
-                        SaveConfig()
+                        if _G.AutoSaveEnabled then
+                            SaveConfig()
+                        end
                     else
                         ConfigData[configKey] = nil
                     end
