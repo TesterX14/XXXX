@@ -2318,7 +2318,7 @@ function Chloex:Window(GuiConfig)
                 UICorner13.Parent = InputFrame
 
                 InputTextBox.Font = Enum.Font.GothamBold
-                InputTextBox.Text = tostring(InputFunc.Value or "")
+                InputTextBox.Text = ""
                 InputTextBox.PlaceholderText = "Input Here"
                 InputTextBox.PlaceholderColor3 = Color3.fromRGB(120, 120, 120)
                 InputTextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -2329,11 +2329,14 @@ function Chloex:Window(GuiConfig)
                 InputTextBox.Size = UDim2.new(1, -10, 1, -8)
                 InputTextBox.Parent = InputFrame
 
+                task.defer(function()
+                    InputTextBox.Text = tostring(InputFunc.Value or "")
+                end)
+
                 function InputFunc:Set(Value)
                     InputTextBox.Text = Value
                     InputFunc.Value = Value
                     InputConfig.Callback(Value)
-
                     if Value ~= "" and Value ~= InputFunc.Default then
                         ConfigData[configKey] = Value
                         if _G.AutoSaveEnabled then
