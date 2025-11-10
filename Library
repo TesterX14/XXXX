@@ -14,7 +14,7 @@ ConfigData = {}
 Elements = {}
 CURRENT_VERSION = CURRENT_VERSION or 1
 _G.CurrentConfig = gameName
-_G.AutoSaveEnabled = _G.AutoSaveEnabled or false
+_G.AutoSaveEnabled = _G.AutoSaveEnabled or true
 
 local function GetConfigPath(name)
     return ConfigFolder .. "/Chloe_" .. (name or gameName) .. ".json"
