@@ -2252,17 +2252,14 @@ function Chloex:Window(GuiConfig)
 
                 local configKey = "Input_" .. InputConfig.Title
 
-                if ConfigData[configKey] == nil then
-                    ConfigData[configKey] = nil
-                else
+                if ConfigData[configKey] ~= nil then
                     InputConfig.Default = ConfigData[configKey]
                 end
 
                 local InputFunc = {
-                    Value = InputConfig.Default,
+                    Value = ConfigData[configKey] or "",
                     NoSave = InputConfig.NoSave,
-                    Default = InputConfig
-                        .Default
+                    Default = InputConfig.Default
                 }
 
                 local Input = Instance.new("Frame")
@@ -2320,9 +2317,9 @@ function Chloex:Window(GuiConfig)
                 UICorner13.Parent = InputFrame
 
                 InputTextBox.Font = Enum.Font.GothamBold
-                InputTextBox.PlaceholderColor3 = Color3.fromRGB(120, 120, 120)
-                InputTextBox.PlaceholderText = InputConfig.Default ~= "" and InputConfig.Default or "Input Here"
                 InputTextBox.Text = ""
+                InputTextBox.PlaceholderText = InputConfig.Default ~= "" and InputConfig.Default or "Input Here"
+                InputTextBox.PlaceholderColor3 = Color3.fromRGB(120, 120, 120)
                 InputTextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
                 InputTextBox.TextSize = 12
                 InputTextBox.TextXAlignment = Enum.TextXAlignment.Left
@@ -2344,10 +2341,11 @@ function Chloex:Window(GuiConfig)
                     end
                 end
 
-                InputFunc:Set(InputFunc.Value)
-
                 InputTextBox.FocusLost:Connect(function()
-                    InputFunc:Set(InputTextBox.Text)
+                    local val = InputTextBox.Text
+                    if val and val ~= "" then
+                        InputFunc:Set(val)
+                    end
                 end)
 
                 CountItem += 1
