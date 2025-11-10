@@ -2258,8 +2258,12 @@ function Chloex:Window(GuiConfig)
                     InputConfig.Default = ConfigData[configKey]
                 end
 
-                local InputFunc = { Value = InputConfig.Default, NoSave = InputConfig.NoSave, Default = InputConfig
-                .Default }
+                local InputFunc = {
+                    Value = InputConfig.Default,
+                    NoSave = InputConfig.NoSave,
+                    Default = InputConfig
+                        .Default
+                }
 
                 local Input = Instance.new("Frame")
                 local UICorner12 = Instance.new("UICorner")
@@ -2317,8 +2321,8 @@ function Chloex:Window(GuiConfig)
 
                 InputTextBox.Font = Enum.Font.GothamBold
                 InputTextBox.PlaceholderColor3 = Color3.fromRGB(120, 120, 120)
-                InputTextBox.PlaceholderText = "Input Here"
-                InputTextBox.Text = InputConfig.Default
+                InputTextBox.PlaceholderText = InputConfig.Default ~= "" and InputConfig.Default or "Input Here"
+                InputTextBox.Text = ""
                 InputTextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
                 InputTextBox.TextSize = 12
                 InputTextBox.TextXAlignment = Enum.TextXAlignment.Left
