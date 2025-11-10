@@ -2318,7 +2318,7 @@ function Chloex:Window(GuiConfig)
                 UICorner13.Parent = InputFrame
 
                 InputTextBox.Font = Enum.Font.GothamBold
-                InputTextBox.Text = InputFunc.Value
+                InputTextBox.Text = tostring(InputFunc.Value or "")
                 InputTextBox.PlaceholderText = "Input Here"
                 InputTextBox.PlaceholderColor3 = Color3.fromRGB(120, 120, 120)
                 InputTextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
