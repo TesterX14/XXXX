@@ -2329,32 +2329,11 @@ function Chloex:Window(GuiConfig)
                     InputFunc.Value = Value
                     InputConfig.Callback(Value)
 
-                    if typeof(InputConfig.NoSave) == "string" then
-                        local success, target = pcall(function()
-                            return loadstring("return " .. InputConfig.NoSave)()
-                        end)
-                        if success and target ~= nil then
-                            local parts = string.split(InputConfig.NoSave, ".")
-                            local last = table.remove(parts)
-                            local ref = _G
-                            for _, part in ipairs(parts) do
-                                part = part:gsub("^_G%.?", "")
-                                if ref[part] then
-                                    ref = ref[part]
-                                end
-                            end
-                            ref[last] = Value
-                        end
-                        return
-                    end
-
-                    if not InputConfig.NoSave then
-                        if Value ~= "" and Value ~= InputFunc.Default then
-                            ConfigData[configKey] = Value
-                            SaveConfig()
-                        else
-                            ConfigData[configKey] = nil
-                        end
+                    if Value ~= "" and Value ~= InputFunc.Default then
+                        ConfigData[configKey] = Value
+                        SaveConfig()
+                    else
+                        ConfigData[configKey] = nil
                     end
                 end
 
