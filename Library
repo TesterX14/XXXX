@@ -1269,10 +1269,13 @@ function Chloex:Window(GuiConfig)
                 task.defer(function()
                     if LayersPageLayout then
                         LayersPageLayout:JumpToIndex(Tab.LayoutOrder)
-                        LayersPageLayout:JumpTo(LayersPageLayout.CurrentPage)
+                        task.wait()
+                        local parent = LayersPageLayout.Parent
+                        LayersPageLayout.Parent = nil
+                        task.wait()
+                        LayersPageLayout.Parent = parent
                     end
                 end)
-                task.wait(0.05)
                 NameTab.Text = TabConfig.Name
                 TweenService:Create(
                     FrameChoose,
