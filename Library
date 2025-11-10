@@ -1251,30 +1251,32 @@ function Chloex:Window(GuiConfig)
                 TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.InOut),
                 { BackgroundTransparency = 0.92 }
             ):Play()
-            local allPages = LayersFolder:GetChildren()
+
+            local pages = LayersFolder:GetChildren()
             local index
-            for i, page in ipairs(allPages) do
-                if page == ScrolLayers then
+            for i, p in ipairs(pages) do
+                if p == ScrolLayers then
                     index = i - 1
                     break
                 end
             end
             if index then
                 TweenService:Create(
-                    Layers,
-                    TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),
-                    { BackgroundTransparency = 1 }
+                    LayersReal,
+                    TweenInfo.new(0.15, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),
+                    { Transparency = 1 }
                 ):Play()
-                task.wait(0.15)
-                LayersPageLayout:JumpToIndex(index)
+                task.wait(0.1)
+                LayersPageLayout:JumpTo(pages[index + 1])
                 NameTab.Text = TabConfig.Name
                 TweenService:Create(
-                    Layers,
-                    TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),
-                    { BackgroundTransparency = 0.999 }
+                    LayersReal,
+                    TweenInfo.new(0.15, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),
+                    { Transparency = 0 }
                 ):Play()
             end
         end)
+
         --// Section
         local Sections = {}
         local CountSection = 0
