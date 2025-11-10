@@ -2251,7 +2251,10 @@ function Chloex:Window(GuiConfig)
                 InputConfig.NoSave = InputConfig.NoSave or false
 
                 local configKey = "Input_" .. InputConfig.Title
-                if ConfigData[configKey] ~= nil then
+
+                if ConfigData[configKey] == nil then
+                    ConfigData[configKey] = nil
+                else
                     InputConfig.Default = ConfigData[configKey]
                 end
 
