@@ -2318,7 +2318,7 @@ function Chloex:Window(GuiConfig)
 
                 InputTextBox.Font = Enum.Font.GothamBold
                 InputTextBox.Text = ""
-                InputTextBox.PlaceholderText = InputConfig.Default ~= "" and InputConfig.Default or "Input Here"
+                InputTextBox.PlaceholderText = "Input Here"
                 InputTextBox.PlaceholderColor3 = Color3.fromRGB(120, 120, 120)
                 InputTextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
                 InputTextBox.TextSize = 12
