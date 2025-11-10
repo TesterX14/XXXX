@@ -1266,7 +1266,12 @@ function Chloex:Window(GuiConfig)
                     TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),
                     { Position = UDim2.new(0, 2, 0, 9 + (33 * Tab.LayoutOrder)) }
                 ):Play()
-                LayersPageLayout:JumpToIndex(Tab.LayoutOrder)
+                task.defer(function()
+                    if LayersPageLayout then
+                        LayersPageLayout:JumpToIndex(Tab.LayoutOrder)
+                        LayersPageLayout:JumpTo(LayersPageLayout.CurrentPage)
+                    end
+                end)
                 task.wait(0.05)
                 NameTab.Text = TabConfig.Name
                 TweenService:Create(
@@ -2243,7 +2248,6 @@ function Chloex:Window(GuiConfig)
                 return SliderFunc
             end
 
-            
             function Items:AddInput(InputConfig)
                 local InputConfig = InputConfig or {}
                 InputConfig.Title = InputConfig.Title or "Title"
@@ -2359,7 +2363,7 @@ function Chloex:Window(GuiConfig)
                 Elements[configKey] = InputFunc
                 return InputFunc
             end
-            
+
             function Items:AddDropdown(DropdownConfig)
                 local DropdownConfig = DropdownConfig or {}
                 DropdownConfig.Title = DropdownConfig.Title or "Title"
