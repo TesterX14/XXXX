@@ -14,7 +14,6 @@ ConfigData = {}
 Elements = {}
 CURRENT_VERSION = CURRENT_VERSION or 1
 _G.CurrentConfig = gameName
-_G.AutoSaveEnabled = _G.AutoSaveEnabled or true
 
 local function GetConfigPath(name)
     return ConfigFolder .. "/Chloe_" .. (name or gameName) .. ".json"
@@ -119,6 +118,8 @@ if last and isfile(GetConfigPath(last)) then
 else
     LoadConfigAs(_G.CurrentConfig)
 end
+
+_G.AutoSaveEnabled = (_G.AutoSaveEnabled == nil) and true or _G.AutoSaveEnabled
 
 local Icons = {
     player    = "rbxassetid://12120698352",
