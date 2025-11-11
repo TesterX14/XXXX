@@ -777,12 +777,12 @@ function Chloex:Window(GuiConfig)
     LayersFolder.Name = "LayersFolder"
     LayersFolder.Parent = LayersReal
 
-    local Pages = {}
-    local function ShowPage(index)
-        for i, frame in ipairs(Pages) do
-            frame.Visible = (i == index)
-        end
-    end
+    LayersPageLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    LayersPageLayout.Name = "LayersPageLayout"
+    LayersPageLayout.Parent = LayersFolder
+    LayersPageLayout.TweenTime = 0.5
+    LayersPageLayout.EasingDirection = Enum.EasingDirection.InOut
+    LayersPageLayout.EasingStyle = Enum.EasingStyle.Quad
 
     local ScrollTab = Instance.new("ScrollingFrame");
     local UIListLayout = Instance.new("UIListLayout");
@@ -1145,13 +1145,6 @@ function Chloex:Window(GuiConfig)
         ScrolLayers.Name = "ScrolLayers"
         ScrolLayers.Parent = LayersFolder
 
-        table.insert(Pages, ScrolLayers)
-        if CountTab == 0 then
-            ScrolLayers.Visible = true
-        else
-            ScrolLayers.Visible = false
-        end
-
         UIListLayout1.Padding = UDim.new(0, 3)
         UIListLayout1.SortOrder = Enum.SortOrder.LayoutOrder
         UIListLayout1.Parent = ScrolLayers
@@ -1273,7 +1266,8 @@ function Chloex:Window(GuiConfig)
                     TweenInfo.new(0.5, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut),
                     { Position = UDim2.new(0, 2, 0, 9 + (33 * Tab.LayoutOrder)) }
                 ):Play()
-                ShowPage(Tab.LayoutOrder + 1)
+                LayersPageLayout:JumpToIndex(Tab.LayoutOrder)
+                task.wait(0.05)
                 NameTab.Text = TabConfig.Name
                 TweenService:Create(
                     FrameChoose,
@@ -2249,6 +2243,7 @@ function Chloex:Window(GuiConfig)
                 return SliderFunc
             end
 
+            
             function Items:AddInput(InputConfig)
                 local InputConfig = InputConfig or {}
                 InputConfig.Title = InputConfig.Title or "Title"
@@ -2364,7 +2359,6 @@ function Chloex:Window(GuiConfig)
                 Elements[configKey] = InputFunc
                 return InputFunc
             end
-
             function Items:AddDropdown(DropdownConfig)
                 local DropdownConfig = DropdownConfig or {}
                 DropdownConfig.Title = DropdownConfig.Title or "Title"
