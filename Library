@@ -1,47 +1,43 @@
 local HttpService = game:GetService("HttpService")
 
-if not isfolder("Chloe X") then makefolder("Chloe X") end
-if not isfolder("Chloe X/Config") then makefolder("Chloe X/Config") end
-
-local gameName = tostring(game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name)
-gameName = gameName:gsub("[^%w_ ]", ""):gsub("%s+", "_")
-
-local ConfigFolder = "Chloe X/Config"
-local DefaultFile = ConfigFolder .. "/Chloe_" .. gameName .. ".json"
-local AutoLoadFile = ConfigFolder .. "/_lastconfig.json"
-
-ConfigData = {}
-Elements = {}
-CURRENT_VERSION = CURRENT_VERSION or 1
-_G.CurrentConfig = gameName
-
-local function GetConfigPath(name)
-    return ConfigFolder .. "/Chloe_" .. (name or gameName) .. ".json"
+if not isfolder("Chloe X") then
+    makefolder("Chloe X")
+end
+if not isfolder("Chloe X/Config") then
+    makefolder("Chloe X/Config")
 end
 
-function SaveConfig(force)
-    if not _G.AutoSaveEnabled and not force then return end
+local gameName   = tostring(game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name)
+gameName         = gameName:gsub("[^%w_ ]", "")
+gameName         = gameName:gsub("%s+", "_")
+
+local ConfigFile = "Chloe X/Config/Chloe_" .. gameName .. ".json"
+
+ConfigData       = {}
+Elements         = {}
+CURRENT_VERSION  = nil
+
+function SaveConfig()
     if writefile then
         ConfigData._version = CURRENT_VERSION
-        ConfigData.AutoSave = _G.AutoSaveEnabled
-        local path = GetConfigPath(_G.CurrentConfig)
-        writefile(path, HttpService:JSONEncode(ConfigData))
+        writefile(ConfigFile, HttpService:JSONEncode(ConfigData))
     end
 end
 
-function LoadConfigFromFile(name)
-    local path = GetConfigPath(name or _G.CurrentConfig)
-    if not isfile(path) then
-        ConfigData = { _version = CURRENT_VERSION }
-        return
-    end
-    local ok, result = pcall(function()
-        return HttpService:JSONDecode(readfile(path))
-    end)
-    if ok and type(result) == "table" and result._version == CURRENT_VERSION then
-        ConfigData = result
-        if result.AutoSave ~= nil and _G.AutoSaveEnabled == nil then
-            _G.AutoSaveEnabled = result.AutoSave
+function LoadConfigFromFile()
+    if not CURRENT_VERSION then return end
+    if isfile and isfile(ConfigFile) then
+        local success, result = pcall(function()
+            return HttpService:JSONDecode(readfile(ConfigFile))
+        end)
+        if success and type(result) == "table" then
+            if result._version == CURRENT_VERSION then
+                ConfigData = result
+            else
+                ConfigData = { _version = CURRENT_VERSION }
+            end
+        else
+            ConfigData = { _version = CURRENT_VERSION }
         end
     else
         ConfigData = { _version = CURRENT_VERSION }
@@ -55,71 +51,6 @@ function LoadConfigElements()
         end
     end
 end
-
-function ListConfigs()
-    local list = {}
-    for _, file in ipairs(listfiles(ConfigFolder)) do
-        if file:match("%.json$") then
-            local name = file:match("Chloe_(.+)%.json$")
-            if name then table.insert(list, name) end
-        end
-    end
-    return list
-end
-
-function SaveConfigAs(name)
-    name = name or _G.CurrentConfig
-    _G.CurrentConfig = name
-    SaveConfig(true)
-    if ConfigDropdown and ConfigDropdown.SetValues then
-        ConfigDropdown:SetValues(ListConfigs())
-    end
-end
-
-local function SetLastConfig(name)
-    if not name or name == "" then return end
-    writefile(AutoLoadFile, HttpService:JSONEncode({ last = name }))
-end
-
-local function GetLastConfig()
-    if isfile(AutoLoadFile) then
-        local ok, data = pcall(function()
-            return HttpService:JSONDecode(readfile(AutoLoadFile))
-        end)
-        if ok and data and data.last then
-            return data.last
-        end
-    end
-    return nil
-end
-
-function LoadConfigAs(name)
-    if not name then return end
-    LoadConfigFromFile(name)
-    LoadConfigElements()
-    _G.CurrentConfig = name
-    SetLastConfig(name)
-end
-
-function DeleteConfig(name)
-    if not name then return end
-    local path = GetConfigPath(name)
-    if isfile(path) then
-        delfile(path)
-        if ConfigDropdown and ConfigDropdown.SetValues then
-            ConfigDropdown:SetValues(ListConfigs())
-        end
-    end
-end
-
-local last = GetLastConfig()
-if last and isfile(GetConfigPath(last)) then
-    LoadConfigAs(last)
-else
-    LoadConfigAs(_G.CurrentConfig)
-end
-
-_G.AutoSaveEnabled = (_G.AutoSaveEnabled == nil) and true or _G.AutoSaveEnabled
 
 local Icons = {
     player    = "rbxassetid://12120698352",
@@ -2243,7 +2174,6 @@ function Chloex:Window(GuiConfig)
                 return SliderFunc
             end
 
-            
             function Items:AddInput(InputConfig)
                 local InputConfig = InputConfig or {}
                 InputConfig.Title = InputConfig.Title or "Title"
@@ -2331,13 +2261,19 @@ function Chloex:Window(GuiConfig)
                 InputTextBox.Parent = InputFrame
 
                 task.defer(function()
-                    InputTextBox.Text = tostring(InputFunc.Value or "")
+                    if ConfigData[configKey] and ConfigData[configKey] ~= "" then
+                        InputTextBox.Text = tostring(ConfigData[configKey])
+                    else
+                        InputTextBox.Text = ""
+                    end
                 end)
 
                 function InputFunc:Set(Value)
-                    InputTextBox.Text = Value
+                    Value = tostring(Value or "")
                     InputFunc.Value = Value
+                    InputTextBox.Text = Value
                     InputConfig.Callback(Value)
+
                     if Value ~= "" and Value ~= InputFunc.Default then
                         ConfigData[configKey] = Value
                         if _G.AutoSaveEnabled then
@@ -2359,6 +2295,7 @@ function Chloex:Window(GuiConfig)
                 Elements[configKey] = InputFunc
                 return InputFunc
             end
+
             function Items:AddDropdown(DropdownConfig)
                 local DropdownConfig = DropdownConfig or {}
                 DropdownConfig.Title = DropdownConfig.Title or "Title"
