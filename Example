@@ -319,4 +319,4 @@ task.spawn(function()
 end)
 
 -- [[ Config ]]
--- This library is auto save / load all element without any if u got bug in saved in you ui use : SaveConfig()
+-- This library is auto save / load all element without any if u got bug in saved in you ui use SaveConfig()
